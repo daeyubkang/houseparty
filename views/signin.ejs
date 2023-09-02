@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <form onsubmit="login(event)">
+      <input type="text" id="userid" placeholder="ID" /><br />
+      <input type="password" id="pw" placeholder="PW" /><br />
+      <button type="submit">로그인</button>
+    </form>
+
+    <script>
+      function login(e) {
+        e.preventDefault(); //기본 제출 멈춤
+
+        axios({
+          method: "POST",
+          url: "/signin",
+          data: {
+            userid: document.querySelector("#userid").value,
+            pw: document.querySelector("#pw").value,
+          },
+        }).then((res) => {
+          if (res.data.result) {
+            localStorage.setItem("token", res.data.token);
+            console.log(res);
+            alert(`${res.data.data.name}님 로그인 성공`);
+            document.location.href = `/profile/${res.data.data.id}`;
+          } else {
+            alert(`${res.data.message}`);
+            document.location.reload();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
