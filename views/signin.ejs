@@ -25,13 +25,11 @@
             pw: document.querySelector("#pw").value,
           },
         }).then((res) => {
+          console.log(res);
           if (res.data.result) {
-            localStorage.setItem("token", res.data.token);
-            console.log(res);
-            alert(`${res.data.data.name}님 로그인 성공`);
-            document.location.href = `/profile/${res.data.data.id}`;
+            alert(`로그인 성공`);
           } else {
-            alert(`${res.data.message}`);
+            alert(`로그인 실패`);
             document.location.reload();
           }
         });
