@@ -1,4 +1,4 @@
-const { DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 const Model = (sequelize) => {
   return sequelize.define("users", {
@@ -22,7 +22,7 @@ const Model = (sequelize) => {
       allowNull: false,
     },
     gender: {
-      type: DataTypes.CHAR(1),
+      type: DataTypes.STRING(10),
       allowNull: false,
     },
     phone_number: {
