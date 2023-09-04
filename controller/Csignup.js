@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 const saltNumber = 10;
 const SECRET = "secretKey";
@@ -18,7 +18,7 @@ exports.signupPost = async (req, res) => {
     console.log(req.body);
     const { id, pw, name, gender, phone_number, location, hobby } = req.body;
     let secretPw = bcryptPassword(pw);
-    const user = await User.create({
+    const user = await Users.create({
       id,
       pw: secretPw,
       name,

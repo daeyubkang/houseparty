@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
 
 const Model = (sequelize) => {
-  return sequelize.define("Board", {
+  return sequelize.define("parties", {
     //컬럼 정의
-    board_num: {
+    party_num: {
       type: DataTypes.INTEGER,
       allowNull: false, //NOT NULL
       primaryKey: true,
@@ -21,11 +21,11 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    content: {
+    description: {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    field: {
+    date: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -33,7 +33,7 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
-    count: {
+    head_count: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
@@ -41,7 +41,7 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
-    host_time: {
+    start_time: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },

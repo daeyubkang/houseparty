@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 const saltNumber = 10;
 const SECRET = "secretKey";
@@ -24,7 +24,7 @@ exports.index = (req, res) => {
 };
 
 exports.signinPost = (req, res) => {
-  User.findOne({
+  Users.findOne({
     where: { id: req.body.id },
   }).then((result) => {
     console.log("123", result);

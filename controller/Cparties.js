@@ -1,12 +1,12 @@
-const { User, Board } = require("../models");
+const { Users, Parties } = require("../models");
 
 exports.index = async (req, res) => {
   try {
-    const boards = await Board.findAll({
-      attributes: ["title", "id"],
+    const Partiess = await Parties.findAll({
+      attributes: ["title", "id", "party_num"],
     });
-    console.log(boards);
-    res.render("parties", { board: boards });
+    console.log(Partiess);
+    res.render("parties", { parties: Partiess });
   } catch (error) {
     console.log(error);
   }
@@ -22,27 +22,27 @@ exports.writePost = async (req, res) => {
     const {
       id,
       title,
-      content,
-      count,
-      field,
+      description,
+      head_count,
+      date,
       image,
       tag,
-      host_time,
+      start_time,
       party_location,
     } = req.body;
-    const board = await Board.create({
+    const Partiess = await Parties.create({
       id,
       title,
-      content,
-      field,
-      count,
+      description,
+      date,
+      head_count,
       image,
       tag,
-      host_time,
+      start_time,
       party_location,
     });
-    console.log(board);
-    res.send(board);
+    console.log(Partiess);
+    res.send(Partiess);
   } catch (error) {
     console.log(error);
   }

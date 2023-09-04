@@ -13,8 +13,8 @@ const sequelize = new Sequelize(
 
 //모델
 //db에 User생성
-db.User = require("./User")(sequelize);
-db.Board = require("./Board")(sequelize);
+db.Users = require("./Users")(sequelize);
+db.Parties = require("./Parties")(sequelize);
 db.Chat = require("./Chat")(sequelize);
 db.ChatMessage = require("./ChatMessage")(sequelize);
 // const model = require('./User');
@@ -22,11 +22,11 @@ db.ChatMessage = require("./ChatMessage")(sequelize);
 // db.User = temp;
 
 //1:다
-db.User.hasMany(db.Board);
-db.Board.belongsTo(db.User);
+db.Users.hasMany(db.Parties);
+db.Parties.belongsTo(db.Users);
 
-db.Board.hasMany(db.Chat);
-db.Chat.belongsTo(db.Board);
+db.Parties.hasMany(db.Chat);
+db.Chat.belongsTo(db.Parties);
 
 db.Chat.hasMany(db.ChatMessage);
 db.ChatMessage.belongsTo(db.Chat);
