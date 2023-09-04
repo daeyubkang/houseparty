@@ -43,13 +43,7 @@
         margin-top: 60px; /* 상단 여백 추가 */
         padding: 0 15px; /* 왼쪽 오른쪽 여백 추가 */
       }
-      .container1 {
-        display: flex;
-        justify-content: space-evenly;
-        width: 400px;
-        padding: 0 15px;
-        margin-top: 5px;
-      }
+
       .icon {
         display: flex;
         width: 53px;
@@ -62,10 +56,15 @@
       }
       .select {
         width: 75px;
-        border: 0;
+        border: none;
         background-color: white;
         font-size: 15px;
         text-align: center;
+        cursor: pointer;
+        outline: none;
+      }
+      .select.active .icon {
+        background-color: #bf2c47;
       }
       .nextButton {
         width: 270px;
@@ -81,6 +80,10 @@
         width: 40px;
         height: 40px;
       }
+      .choose {
+        background-color: #ffffff00;
+        border-color: #ffffff00;
+      }
     </style>
   </head>
   <body>
@@ -88,57 +91,77 @@
       <a class="howsParty" href="/main"> How's Party </a>
     </div>
     <div class="container">
-      <div class="icon travel">
-        <img src="/public/img/travel.svg" />
+      <div class="select travel" id="travelSelect">
+        <div class="icon travel">
+          <img src="/public/img/travel.svg" />
+        </div>
+        <button class="choose">여행</button>
       </div>
-      <div class="icon alchol">
-        <img src="/public/img/alchol.svg" />
+      <div class="select alchol" id="alcholSelect">
+        <div class="icon alchol">
+          <img src="/public/img/alchol.svg" />
+        </div>
+        <button class="choose">술</button>
       </div>
-      <div class="icon pajamas">
-        <img src="/public/img/pajamas.svg" />
+      <div class="select pajamas" id="pajamasSelect">
+        <div class="icon pajamas">
+          <img src="/public/img/pajamas.svg" />
+        </div>
+        <button class="choose">파자마</button>
       </div>
     </div>
 
-    <div class="container1">
-      <button class="select travel">여행</button>
-      <button class="select alchol">술</button>
-      <button class="select pajamas">파자마</button>
-    </div>
-
     <div class="container">
-      <div class="icon game">
-        <img src="/public/img/game.svg" />
+      <div class="select game" id="gameSelect">
+        <div class="icon game">
+          <img src="/public/img/game.svg" />
+        </div>
+        <button class="choose">게임</button>
       </div>
-      <div class="icon pet">
-        <img src="/public/img/pet.svg" />
+      <div class="select pet" id="petSelect">
+        <div class="icon pet">
+          <img src="/public/img/pet.svg" />
+        </div>
+        <button class="choose">애완동물</button>
       </div>
-      <div class="icon sports">
-        <img src="/public/img/sports.svg" />
+      <div class="select sports" id="sportsSelect">
+        <div class="icon sports">
+          <img src="/public/img/sports.svg" />
+        </div>
+        <button class="choose">운동</button>
       </div>
-    </div>
-    <div class="container1">
-      <button class="select game">게임</button>
-      <button class="select pet">애완동물</button>
-      <button class="select sports">운동</button>
     </div>
     <div class="container">
-      <div class="icon music">
-        <img src="/public/img/music.svg" />
+      <div class="select music" id="musicSelect">
+        <div class="icon music">
+          <img src="/public/img/music.svg" />
+        </div>
+        <button class="choose">음악</button>
       </div>
-      <div class="icon cook">
-        <img src="/public/img/cook.svg" />
+      <div class="select cook" id="cookSelect">
+        <div class="icon cook">
+          <img src="/public/img/cook.svg" />
+        </div>
+        <button class="choose">요리</button>
       </div>
-      <div class="icon photo">
-        <img src="/public/img/photo.svg" />
+      <div class="select photo" id="photoSelect">
+        <div class="icon photo">
+          <img src="/public/img/photo.svg" />
+        </div>
+        <button class="choose">사진</button>
       </div>
-    </div>
-    <div class="container1">
-      <button class="select music">음악</button>
-      <button class="select cook">요리</button>
-      <button class="select photo">사진</button>
     </div>
     <button type="button" id="nextButton" class="nextButton">다음</button>
     <script>
+      // 모든 select 요소에 대한 이벤트 리스너를 추가.
+      const selectElements = document.querySelectorAll(".select");
+
+      selectElements.forEach((select) => {
+        select.addEventListener("click", () => {
+          select.classList.toggle("active");
+        });
+      });
+
       document
         .getElementById("nextButton")
         .addEventListener("click", function () {
