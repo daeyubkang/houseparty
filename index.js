@@ -42,6 +42,18 @@ app.use("/chat", chatRouter);
 const profileRouter = require("./routes/profile");
 app.use("/profile", profileRouter);
 
+const loginRouter = require("./routes/login");
+app.use("/login", loginRouter);
+
+//
+const signup1Router = require("./routes/signup1");
+app.use("/signup1", signup1Router);
+
+const signup2Router = require("./routes/signup2");
+app.use("/signup2", signup2Router);
+
+app.use("/public", express.static(__dirname + "/public"));
+
 app.use("/", (req, res) => {
   res.render("index");
 });
