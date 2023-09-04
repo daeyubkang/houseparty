@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <h3>아이디 찾기</h3>
+      <img src="/public/img/user.svg" alt="" height="50" width="50" /><input
+        type="text"
+        placeholder="이름"
+      />
+      <br />
+      <input type="text" placeholder="생년월일" /> <br />
+      <input type="text" placeholder="휴대전화번호" /> <br />
+      <button type="button" onclick="searchID()">찾기</button> <br />
+      <div class="result ID"></div>
+    </form>
+    <form>
+      <h3>비밀번호 찾기</h3>
+      <input type="text" placeholder="아이디" /> <br />
+      <input type="text" placeholder="생년월일" /> <br />
+      <input type="text" placeholder="이름" /> <br />
+      <input type="text" placeholder="휴대전화번호" /> <br />
+      <button type="button" onclick="searchPW()">찾기</button> <br />
+      <div class="result PW"></div>
+    </form>
+  </body>
+</html>

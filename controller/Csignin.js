@@ -42,3 +42,7 @@ exports.signin = (req, res) => {
     }
   });
 };
+
+exports.searchID = (req, res) => {
+  res.render("search");
+};
