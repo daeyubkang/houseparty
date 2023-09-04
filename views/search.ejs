@@ -4,29 +4,101 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="/public/css/search.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <form>
-      <h3>아이디 찾기</h3>
-      <img src="/public/img/user.svg" alt="" height="50" width="50" /><input
-        type="text"
-        placeholder="이름"
-      />
-      <br />
-      <input type="text" placeholder="생년월일" /> <br />
-      <input type="text" placeholder="휴대전화번호" /> <br />
-      <button type="button" onclick="searchID()">찾기</button> <br />
-      <div class="result ID"></div>
-    </form>
+    <div class="container">
+      <div class="topBar">
+        <a class="howsParty" href="/main"> How's Party </a
+        ><a class="signin" href="/signin">login</a>
+      </div>
 
-    <form>
-      <h3>비밀번호 찾기</h3>
-      <input type="text" placeholder="아이디" /> <br />
-      <input type="text" placeholder="생년월일" /> <br />
-      <input type="text" placeholder="이름" /> <br />
-      <input type="text" placeholder="휴대전화번호" /> <br />
-      <button type="button" onclick="searchPW()">찾기</button> <br />
-      <div class="result PW"></div>
-    </form>
+      <div class="searchID">
+        <form>
+          <h3>아이디 찾기</h3>
+          <div>
+            <div class="p1">
+              <img src="/public/img/user.svg" alt="" height="50" width="50" />
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="name"
+                placeholder="이름"
+              />
+            </div>
+            <p class="p2">
+              <img src="/public/img/user.svg" alt="" height="50" width="50" />
+              <input
+                type="date"
+                name="birth"
+                id="birth"
+                class="birth"
+                placeholder="생년월일"
+              />
+            </p>
+            <p class="p3">
+              <img src="/public/img/user.svg" alt="" height="50" width="50" />
+              <input
+                type="text"
+                name="phoneNumber"
+                id="phoneNumber"
+                class="phoneNumber"
+                placeholder="휴대전화 번호"
+              />
+            </p>
+          </div>
+          <button type="button" onclick="searchID()">찾기</button> <br />
+
+          <br />
+          <div class="result ID"></div>
+        </form>
+      </div>
+      <div class="searchPW">
+        <form>
+          <h3>비밀번호 찾기</h3>
+          <input
+            type="text"
+            name="id"
+            id="id"
+            class="id"
+            placeholder="아이디"
+          />
+
+          <input
+            type="date"
+            name="birth"
+            id="birth"
+            class="birth"
+            placeholder="생년월일"
+          />
+
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="name"
+            placeholder="이름"
+          />
+
+          <input
+            type="text"
+            name="phoneNumber"
+            id="phoneNumber"
+            class="phoneNumber"
+            placeholder="휴대전화 번호"
+          />
+
+          <button type="button" onclick="searchPW()">찾기</button> <br />
+          <div class="result PW"></div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

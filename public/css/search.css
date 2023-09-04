@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+}
+body {
+  width: 100%;
+  margin: 0;
+  background-color: #fff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topBar {
+  width: 360px;
+  padding: 14px 0 0;
+  background-color: #fff;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+}
+
+.topBar .howsParty {
+  width: 85px;
+  height: 27px;
+  margin: 0 165px 12px 15px;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #bf2c47;
+  text-decoration: none;
+}
+.topBar .signin {
+  width: 85px;
+  height: 27px;
+  position: absolute;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+
+h3 {
+  height: 24px;
+  margin: 80px 143px 26px;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+
+.searchID {
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.searchID form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.searchID form > div {
+  border-radius: 10px;
+  background-color: rgba(217, 217, 217, 0.5);
+}
+
+.searchID form p {
+  /* width: 200px; */
+  margin: 0;
+}
+
+.searchID form .p1 {
+  border-radius: 10px 10px 0 0;
+  border: solid 1px black;
+}
+.searchID form .p2 {
+  border: solid 1px black;
+  border-top: none;
+  margin: 0;
+}
+.searchID form .p3 {
+  border-radius: 0 0 10px 10px;
+  border: solid 1px black;
+  border-top: none;
+}
+
+.searchID form p > input {
+  /* width: 200px; */
+  border: none;
+  outline: none;
+}
+
+.searchID form button {
+  background-color: #bf2c47;
+  border-radius: 10px;
+  border: none;
+  width: 200px;
+}
+
+.searchID img {
+  margin: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.searchID input {
+  margin: 10px;
+  border: none;
+  outline: none;
+}
+
+.searchPW form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
