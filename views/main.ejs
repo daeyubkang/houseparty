@@ -56,12 +56,13 @@
       .mainHome {
         width: 360px;
         height: 437px;
-        margin: 49px 0 18px;
+        margin: 49px 0 -45px;
         object-fit: contain;
       }
       .bottombar {
         display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 flex 사용 */
         width: 360px; /* 부모 요소의 너비에 따라 자식 요소들을 가로로 나란히 정렬 */
+        justify-content: center;
       }
 
       .leftBottomBar,
@@ -78,7 +79,7 @@
 
       .leftBottomBar {
         border-radius: 0 45px 0 0;
-        width: 112px;
+        width: 70px;
       }
 
       .rightBottomBar {
@@ -86,18 +87,30 @@
       }
 
       .logo {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         background-color: #bf2c47;
         border-radius: 50%;
         position: absolute;
-        left: calc(50% - 30px);
         z-index: 1;
-        border-color: white;
+        border-color: #ffffff00;
         color: white;
       }
       .a {
         text-decoration: none;
+      }
+      .bottom {
+        font-size: 10px;
+      }
+      .select {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .selectimg {
+        width: 20px;
+        height: 20px;
       }
     </style>
   </head>
@@ -115,30 +128,32 @@
     <div class="bottombar">
       <div class="leftBottomBar">
         <a href="/parties" class="a">
-          <div class="parties">
-            <img src="/public/img/parties.svg" /><br />
-            <span class="partiesName"> 목록 </span>
+          <div class="select">
+            <img src="/public/img/parties.svg" class="selectimg" />
+            <span class="bottom partiesName"> 목록 </span>
           </div></a
         >
         <a href="/location" class="a">
-          <div class="location">
-            <!-- <img src="./houseparty/image/location.png" /> -->
-            <span class="locationName"> 지도 </span>
+          <div class="select">
+            <img src="/public/img/map.svg" class="selectimg" />
+            <span class="bottom locationName"> 지도 </span>
           </div></a
         >
       </div>
-      <button class="logo">H</button>
+      <a href="/main" class="logo">
+        <button class="logo">H</button>
+      </a>
       <div class="rightBottomBar">
         <a href="/chat" class="a">
-          <div class="chat">
-            <!-- <img src="../houseparty/image/list.png" /> -->
-            <span class="chatName"> 채팅 </span>
+          <div class="select">
+            <img src="/public/img/chat.svg" class="selectimg" />
+            <span class="bottom chatName"> 채팅 </span>
           </div></a
         >
         <a href="/profile" class="a">
-          <div class="profile">
-            <!-- <img src="./houseparty/image/location.png" /> -->
-            <span class="profileName"> 마이페이지 </span>
+          <div class="select">
+            <img src="/public/img/profile.svg" class="selectimg" />
+            <span class="bottom profileName"> 마이페이지 </span>
           </div></a
         >
       </div>
