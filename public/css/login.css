@@ -1,0 +1,111 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수직 가운데 정렬 */
+  justify-content: center; /* 수평 가운데 정렬 */
+  background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
+}
+
+.topBar {
+  width: 360px;
+  padding: 14px 0 0;
+  background-color: #fff;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+}
+.howsParty {
+  width: 85px;
+  height: 27px;
+  margin: 0 165px 12px 15px;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #bf2c47;
+  text-decoration: none;
+}
+.signin {
+  width: 85px;
+  height: 27px;
+  position: absolute;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+.logo {
+  width: 212px;
+  height: 40px;
+  margin: 34px 74px 18px;
+  font-family: "Covered By Your Grace", cursive;
+  font-size: 45px;
+  color: #bf2c47;
+  text-align: center;
+}
+.id {
+  width: 270px;
+  flex-grow: 0;
+  margin: 30px 39px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+}
+.pw {
+  width: 270px;
+  flex-grow: 0;
+  margin: 0 39px 10px 39px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+}
+.loginButton {
+  width: 270px;
+  flex-grow: 0;
+  margin: 35px 39px 10px 48px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px;
+  border: solid 1px #fff;
+  background-color: #bf2c47;
+  color: white;
+}
+.signup {
+  width: 70px;
+  height: 16px;
+  margin: 34px 262px 0 50px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+.find {
+  margin: 10px 190px 0 50px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
