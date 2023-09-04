@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
 
 const Model = (sequelize) => {
-  return sequelize.define("users", {
+  return sequelize.define("Board", {
     //컬럼 정의
-    user_num: {
+    board_num: {
       type: DataTypes.INTEGER,
       allowNull: false, //NOT NULL
       primaryKey: true,
@@ -13,27 +13,35 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    pw: {
+    party_location: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    name: {
+    title: {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    gender: {
+    content: {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    phone_number: {
-      type: DataTypes.INTEGER,
+    field: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    location: {
+    image: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
-    hobby: {
+    count: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    tag: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    host_time: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },

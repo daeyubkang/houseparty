@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <h1>글쓰기</h1>
+    <form name="register">
+      <label for="">제목</label>
+      <input type="text" id="title" placeholder="제목" /><br />
+      <label for="">내용</label>
+      <input type="text" id="content" placeholder="내용" /><br />
+      <label for="">날짜</label>
+      <input type="date" id="field" placeholder="날짜" /><br />
+      <label for="">참여자 수</label>
+      <input type="number" id="count" placeholder="참여자 수" /><br />
+      <label for="">사진</label>
+      <input type="text" id="image" placeholder="사진" /><br />
+      <label for="">태그</label>
+      <input type="text" id="tag" placeholder="태그" /><br />
+      <label for="">파티 위치</label>
+      <input type="text" placeholder="파티위치" id="party_location" /> <br />
+      <label for="">시간</label>
+      <input type="text" id="host_time" /> <br />
+      <br />
+      <button type="button" onclick="registerFunc()">글쓰기</button>
+    </form>
+
+    <script>
+      let userid = "";
+      (function () {
+        let result1 = "";
+        const local = sessionStorage.getItem("token");
+        console.log(local);
+        const currentUrl = window.location.href;
+        console.log(currentUrl);
+        if (local != null) {
+          axios({
+            method: "post",
+            url: `/verify`,
+            data: {
+              token: local,
+            },
+          }).then((result) => {
+            result1 = result;
+            console.log(result1.data.user.id);
+            userid = result1.data.user.id;
+          });
+        } else {
+          console.log("로그인 실패");
+        }
+      })();
+
+      async function registerFunc() {
+        const form = document.forms["register"];
+        try {
+          const res = await axios({
+            method: "POST",
+            url: "/parties/write",
+            data: {
+              id: userid,
+              title: form.title.value,
+              content: form.content.value,
+              count: form.count.value,
+              field: form.field.value,
+              image: form.image.value,
+              tag: form.tag.value,
+              party_location: form.party_location.value,
+              host_time: form.host_time.value,
+            },
+          });
+          console.log(res);
+          if (res.data) {
+            alert("글쓰기 완료");
+            document.location.href = "/parties";
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    </script>
+  </body>
+</html>

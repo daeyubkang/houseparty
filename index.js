@@ -42,6 +42,9 @@ app.use("/chat", chatRouter);
 const profileRouter = require("./routes/profile");
 app.use("/profile", profileRouter);
 
+const verifyRouter = require("./routes/verify");
+app.use("/verify", verifyRouter);
+
 app.use("/", (req, res) => {
   res.render("index");
 });

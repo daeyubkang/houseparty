@@ -21,13 +21,16 @@
           method: "POST",
           url: "/signin",
           data: {
-            userid: document.querySelector("#userid").value,
+            id: document.querySelector("#userid").value,
             pw: document.querySelector("#pw").value,
           },
         }).then((res) => {
           console.log(res);
           if (res.data.result) {
+            // console.log(session.name);
             alert(`로그인 성공`);
+            sessionStorage.setItem("token", res.data.token);
+            location.href = "/parties";
           } else {
             alert(`로그인 실패`);
             document.location.reload();

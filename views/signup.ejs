@@ -43,13 +43,13 @@
             method: "POST",
             url: "/signup",
             data: {
-              userid: form.userid.value,
+              id: form.userid.value,
               pw: form.pw.value,
               name: form.name.value,
               gender: form.gender.value,
-              phoneNum: form.phoneNum.value,
-              region: form.region.value,
-              favorite: form.favorite.value,
+              phone_number: form.phoneNum.value,
+              locaion: form.region.value,
+              hobby: form.favorite.value,
             },
           });
           console.log(res);
