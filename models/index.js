@@ -14,6 +14,7 @@ const sequelize = new Sequelize(
 //모델
 //db에 User생성
 db.Users = require("./Users")(sequelize);
+db.Parties = require("./Parties")(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
 // db.User = temp;
