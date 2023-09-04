@@ -4,203 +4,103 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* 수직 가운데 정렬 */
-        justify-content: center; /* 수평 가운데 정렬 */
-        margin: 0;
-        background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
-      }
-
-      .topBar {
-        width: 360px;
-        padding: 14px 0 0;
-        background-color: #fff;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-      }
-      .howsParty {
-        width: 85px;
-        height: 27px;
-        margin: 0 165px 12px 15px;
-        font-family: Inter;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        text-align: center;
-        color: #bf2c47;
-        text-decoration: none;
-      }
-      .signin {
-        width: 85px;
-        height: 27px;
-        position: absolute;
-        font-family: Inter;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        text-align: center;
-        color: #000;
-        text-decoration: none;
-      }
-      span {
-        width: 80px;
-        height: 24px;
-        margin: 31px 143px 26px;
-        font-family: Inter;
-        font-size: 20px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        text-align: center;
-        color: #000;
-      }
-      .id {
-        background: url("/houseparty/image/name.png") no-repeat;
-        padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
-        width: 270px;
-        margin: 30px 39px 0 39px;
-        padding: 15px 15px 15px 15px;
-        border-radius: 10px 10px 0 0;
-        border: solid 1px #000;
-        background-color: rgba(217, 217, 217, 0.5);
-      }
-      .pw {
-        background: url("/houseparty/image/password.png") no-repeat;
-        padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
-        width: 270px;
-        margin: 0 39px 0 39px;
-        padding: 15px 15px 15px 15px;
-        border: solid 1px #000;
-        background-color: rgba(217, 217, 217, 0.5);
-      }
-      .pwCheck {
-        background: url("/houseparty/image/password.png") no-repeat;
-        padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
-        width: 270px;
-        margin: 0 39px 10px 39px;
-        padding: 15px 15px 15px 15px;
-        border-radius: 0 0 10px 10px;
-        border: solid 1px #000;
-        background-color: rgba(217, 217, 217, 0.5);
-      }
-
-      .name {
-        background: url("/houseparty/image/name.png") no-repeat;
-        padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
-        width: 270px;
-        margin: 30px 39px 0 39px;
-        padding: 15px 15px 15px 15px;
-        border-radius: 10px 10px 0 0;
-        border: solid 1px #000;
-        background-color: rgba(217, 217, 217, 0.5);
-      }
-      .birth {
-        background: url("/houseparty/image/birth.png") no-repeat;
-        padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
-        width: 270px;
-        margin: 0 39px 0 39px;
-        padding: 15px 15px 15px 15px;
-        border: solid 1px #000;
-        background-color: rgba(217, 217, 217, 0.5);
-      }
-      .gender {
-        width: 270px;
-        margin: 0 39px 0 39px;
-        padding: 15px 15px 15px 15px;
-        border: solid 1px #000;
-        background-color: rgba(217, 217, 217, 0.5);
-      }
-      .man {
-        width: 100px;
-        margin: 0 0 0 30px;
-        border-radius: 10px 0 0 10px;
-      }
-      .woman {
-        width: 100px;
-        margin: 0 0 0 -8px;
-        border-radius: 0 10px 10px 0;
-      }
-      .phoneNumber {
-        background: url("/houseparty/image/password.png") no-repeat;
-        padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
-        width: 270px;
-        margin: 0 39px 10px 39px;
-        padding: 15px 15px 15px 15px;
-        border-radius: 0 0 10px 10px;
-        border: solid 1px #000;
-        background-color: rgba(217, 217, 217, 0.5);
-      }
-      .nextButton {
-        width: 270px;
-        flex-grow: 0;
-        margin: 35px 39px 10px 48px;
-        padding: 15px 15px 15px 15px;
-        border-radius: 10px;
-        border: solid 1px #fff;
-        background-color: #bf2c47;
-        color: white;
-      }
-    </style>
+    <link rel="stylesheet" href="/public/css/signup1.css" />
   </head>
 
   <body>
-    <div class="topBar">
-      <a class="howsParty" href="/main"> How's Party </a
-      ><a class="signin" href="/signin">login</a>
-    </div>
-    <span> 회원가입 </span>
+    <div class="container">
+      <div class="topBar">
+        <a class="howsParty" href="/main"> How's Party </a
+        ><a class="signin" href="/signin">login</a>
+      </div>
 
-    <input type="text" name="id" id="id" class="id" placeholder="아이디" />
-    <input
-      type="password"
-      name="pw"
-      id="pw"
-      class="pw"
-      placeholder="비밀번호"
-    />
-    <input
-      type="password"
-      name="pwCheck"
-      id="pwCheck"
-      class="pwCheck"
-      placeholder="비밀번호 확인"
-    />
-    <br />
-    <input type="text" name="name" id="name" class="name" placeholder="이름" />
-    <input
-      type="date"
-      name="birth"
-      id="birth"
-      class="birth"
-      placeholder="생년월일"
-    />
-    <div class="gender">
-      <input type="button" name="man" id="man" class="man" value="남자" />
-      <input type="button" name="woman" id="woman" class="woman" value="여자" />
-    </div>
-    <input
-      type="number"
-      name="phoneNumber"
-      id="phoneNumber"
-      class="phoneNumber"
-      placeholder="휴대전화 번호"
-    />
+      <span id="signup1_title"> 회원가입 </span>
 
-    <button type="button" id="nextButton" class="nextButton">다음</button>
+      <div class="top">
+        <input type="text" name="id" id="id" class="id" placeholder="아이디" />
+        <input
+          type="password"
+          name="pw"
+          id="pw"
+          class="pw"
+          placeholder="비밀번호"
+        />
+        <input
+          type="password"
+          name="pwCheck"
+          id="pwCheck"
+          class="pwCheck"
+          placeholder="비밀번호 확인"
+        />
+        <br />
+      </div>
+
+      <div class="bottom">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          class="name"
+          placeholder="이름"
+        />
+        <input
+          type="date"
+          name="birth"
+          id="birth"
+          class="birth"
+          placeholder="생년월일"
+        />
+        <div class="gender">
+          <input type="radio" name="gender" id="man" class="man" value="남자" />
+          <label for="man" id="manLabel">남자</label>
+          <input
+            type="radio"
+            name="gender"
+            id="woman"
+            class="woman"
+            value="여자"
+          />
+          <label for="woman" id="womanLabel">여자</label>
+        </div>
+        <input
+          type="number"
+          name="phoneNumber"
+          id="phoneNumber"
+          class="phoneNumber"
+          placeholder="휴대전화 번호"
+        />
+      </div>
+
+      <button type="button" id="nextButton" class="nextButton">다음</button>
+    </div>
   </body>
   <script>
+    // 성별 라디오
+    const manRadio = document.getElementById("man");
+    const womanRadio = document.getElementById("woman");
+    const manLabel = document.querySelector('label[for="man"]');
+    const womanLabel = document.querySelector('label[for="woman"]');
+
+    manRadio.addEventListener("change", function () {
+      if (manRadio.checked) {
+        manLabel.classList.add("man-selected");
+        womanLabel.classList.remove("woman-selected");
+        console.log("man checked");
+      } else {
+        manLabel.classList.remove("man-selected");
+      }
+    });
+
+    womanRadio.addEventListener("change", function () {
+      if (womanRadio.checked) {
+        womanLabel.classList.add("woman-selected");
+        manLabel.classList.remove("man-selected");
+        console.log("woman checked");
+      } else {
+        womanLabel.classList.remove("woman-selected");
+      }
+    });
+    // 다음 버튼
     document
       .getElementById("nextButton")
       .addEventListener("click", function () {
