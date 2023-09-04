@@ -1,7 +1,15 @@
 const { User, Board } = require("../models");
 
-exports.index = (req, res) => {
-  res.render("parties");
+exports.index = async (req, res) => {
+  try {
+    const boards = await Board.findAll({
+      attributes: ["title", "id"],
+    });
+    console.log(boards);
+    res.render("parties", { board: boards });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.write = (req, res) => {

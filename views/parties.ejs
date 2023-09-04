@@ -9,6 +9,14 @@
   <body>
     <h1>Parties</h1>
     <button onclick="write1()">글쓰기</button>
+    <ul>
+      <% for (let i = 0; i < board.length; i++) { %>
+      <li>
+        <b><%= board[i].id %></b> -
+        <a><%= board[i].title %></a>
+      </li>
+      <% } %>
+    </ul>
 
     <script>
       (function () {
