@@ -7,8 +7,8 @@ router.post("/verify", verifyController.verify);
 
 router.get("/", controller.index);
 
-router.get("/write", controller.write);
+router.get("/host", controller.hostParty);
 
-router.post("/write", controller.writePost);
+router.post("/host", controller.hostPartyPost);
 
 module.exports = router;

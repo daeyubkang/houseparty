@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>Parties</h1>
-    <button onclick="write1()">글쓰기</button>
+    <button onclick="newParty()">글쓰기</button>
 
     <script>
       (function () {
@@ -26,15 +26,15 @@
             },
           }).then((result) => {
             result1 = result;
-            console.log(result1.data.user.id);
+            console.log("유저아이디: ", result1.data.user.id);
           });
         } else {
           console.log("로그인 실패");
         }
       })();
 
-      function write1() {
-        location.href = `/parties/write`;
+      function newParty() {
+        location.href = `/parties/host`;
       }
     </script>
   </body>

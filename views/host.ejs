@@ -12,25 +12,25 @@
       <label for="">제목</label>
       <input type="text" id="title" placeholder="제목" /><br />
       <label for="">내용</label>
-      <input type="text" id="content" placeholder="내용" /><br />
+      <input type="text" id="description" placeholder="내용" /><br />
       <label for="">날짜</label>
-      <input type="date" id="field" placeholder="날짜" /><br />
+      <input type="date" id="date" placeholder="날짜" /><br />
       <label for="">참여자 수</label>
-      <input type="number" id="count" placeholder="참여자 수" /><br />
+      <input type="number" id="headCount" placeholder="참여자 수" /><br />
       <label for="">사진</label>
       <input type="text" id="image" placeholder="사진" /><br />
       <label for="">태그</label>
       <input type="text" id="tag" placeholder="태그" /><br />
       <label for="">파티 위치</label>
-      <input type="text" placeholder="파티위치" id="party_location" /> <br />
+      <input type="text" placeholder="파티위치" id="partyLocation" /> <br />
       <label for="">시간</label>
-      <input type="text" id="host_time" /> <br />
+      <input type="text" id="startTime" /> <br />
       <br />
       <button type="button" onclick="registerFunc()">글쓰기</button>
     </form>
 
     <script>
-      let userid = "";
+      let id = "";
       (function () {
         let result1 = "";
         const local = sessionStorage.getItem("token");
@@ -47,7 +47,7 @@
           }).then((result) => {
             result1 = result;
             console.log(result1.data.user.id);
-            userid = result1.data.user.id;
+            id = result1.data.user.id;
           });
         } else {
           console.log("로그인 실패");
@@ -59,17 +59,17 @@
         try {
           const res = await axios({
             method: "POST",
-            url: "/parties/write",
+            url: "/parties/host",
             data: {
-              id: userid,
+              id: id,
               title: form.title.value,
-              content: form.content.value,
-              count: form.count.value,
-              field: form.field.value,
+              description: form.description.value,
+              head_count: form.headCount.value,
+              date: form.date.value,
               image: form.image.value,
               tag: form.tag.value,
-              party_location: form.party_location.value,
-              host_time: form.host_time.value,
+              party_location: form.partyLocation.value,
+              start_time: form.startTime.value,
             },
           });
           console.log(res);

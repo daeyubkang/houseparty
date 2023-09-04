@@ -24,7 +24,7 @@ exports.index = (req, res) => {
 };
 
 exports.signinPost = (req, res) => {
-  User.findOne({
+  Users.findOne({
     where: { id: req.body.id },
   }).then((result) => {
     console.log("123", result);
