@@ -4,8 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <h1>Parties</h1>
+    <button onclick="write1()">글쓰기</button>
+
+    <script>
+      (function () {
+        let result1 = "";
+        const local = sessionStorage.getItem("token");
+        console.log(local);
+        const currentUrl = window.location.href;
+        console.log(currentUrl);
+        if (local != null) {
+          axios({
+            method: "post",
+            url: `${currentUrl}/verify`,
+            data: {
+              token: local,
+            },
+          }).then((result) => {
+            result1 = result;
+            console.log(result1.data.user.id);
+          });
+        } else {
+          console.log("로그인 실패");
+        }
+      })();
+
+      function write1() {
+        location.href = `/parties/write`;
+      }
+    </script>
   </body>
 </html>

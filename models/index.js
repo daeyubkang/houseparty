@@ -13,11 +13,15 @@ const sequelize = new Sequelize(
 
 //모델
 //db에 User생성
-db.Users = require("./Users")(sequelize);
-db.Parties = require("./Parties")(sequelize);
+db.User = require("./User")(sequelize);
+db.Board = require("./Board")(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
 // db.User = temp;
+
+//1:다
+db.User.hasMany(db.Board);
+db.Board.belongsTo(db.User);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

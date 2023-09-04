@@ -16,16 +16,16 @@ exports.index = (req, res) => {
 exports.signupPost = async (req, res) => {
   try {
     console.log(req.body);
-    const { id, pw, name, gender, phone_number, region, favorite } = req.body;
+    const { id, pw, name, gender, phone_number, location, hobby } = req.body;
     let secretPw = bcryptPassword(pw);
-    const user = await Users.create({
+    const user = await User.create({
       id,
       pw: secretPw,
       name,
       gender,
       phone_number,
-      region,
-      favorite,
+      location,
+      hobby,
     });
     console.log(user);
     res.send(user);

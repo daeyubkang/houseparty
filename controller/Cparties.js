@@ -1,28 +1,40 @@
-const { Parties } = require("../models");
+const { User, Board } = require("../models");
 
 exports.index = (req, res) => {
   res.render("parties");
 };
 
-exports.hostParty = (req, res) => {
-  res.render("host");
+exports.write = (req, res) => {
+  res.render("write");
 };
 
-exports.hostPartyPost = async (req, res) => {
+exports.writePost = async (req, res) => {
   try {
-    console.log("reqbody: ", req.body);
-    const { party_num, title, description, date, startTime, endTime } =
-      req.body;
-    const party = await Parties.create({
-      party_num,
+    console.log(req.body);
+    const {
+      id,
       title,
-      description,
-      date,
-      startTime,
-      endTime,
+      content,
+      count,
+      field,
+      image,
+      tag,
+      host_time,
+      party_location,
+    } = req.body;
+    const board = await Board.create({
+      id,
+      title,
+      content,
+      field,
+      count,
+      image,
+      tag,
+      host_time,
+      party_location,
     });
-    console.log(party);
-    res.send(party);
+    console.log(board);
+    res.send(board);
   } catch (error) {
     console.log(error);
   }
