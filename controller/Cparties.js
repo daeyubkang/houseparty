@@ -1,7 +1,11 @@
-const { Users, Parties } = require("../models");
+const { Users, Parties, Amenities } = require("../models");
 
-exports.index = (req, res) => {
-  res.render("parties");
+exports.index = async (req, res) => {
+  const allPartyTitles = await Parties.findAll({
+    attributes: ["title"],
+  });
+  console.log(allPartyTitles);
+  res.render("parties", { allPartyTitles });
 };
 
 exports.hostParty = (req, res) => {
@@ -15,25 +19,36 @@ exports.hostPartyPost = async (req, res) => {
       id,
       title,
       description,
-      head_count,
       date,
+      start_time,
+      end_time,
+      head_count,
       image,
       tag,
-      start_time,
       party_location,
+      amenities,
     } = req.body;
     const party = await Parties.create({
       id,
       title,
       description,
-      head_count,
       date,
+      start_time,
+      end_time,
+      head_count,
       image,
       tag,
-      start_time,
       party_location,
     });
-    console.log(party);
+
+    const selectedAmenityIds = amenities;
+    if (selectedAmenityIds.length > 0) {
+      const selectedAmenities = await Amenities.findAll({
+        where: { amen_num: selectedAmenityIds },
+      });
+      await party.addAmenities(selectedAmenities);
+    }
+    console.log("amenities: ", amenities);
     res.send(party);
   } catch (error) {
     console.log(error);

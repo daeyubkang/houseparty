@@ -8,10 +8,17 @@
   </head>
   <body>
     <h1>Parties</h1>
+    <ul>
+      파티 목록 <% for(let i = 0; i < allPartyTitles.length; i++){ %>
+      <li>파티명: <%= allPartyTitles[i].title %></li>
+      <% } %>
+    </ul>
     <button onclick="newParty()">글쓰기</button>
 
     <script>
       (function () {
+        console.log("<%= allPartyTitles[0].title %>");
+
         let result1 = "";
         const local = sessionStorage.getItem("token");
         console.log(local);
@@ -26,7 +33,7 @@
             },
           }).then((result) => {
             result1 = result;
-            console.log("유저아이디: ", result1.data.user.id);
+            console.log("유저정보: ", result1.data.user);
           });
         } else {
           console.log("로그인 실패");
