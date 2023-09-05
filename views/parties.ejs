@@ -10,7 +10,13 @@
     <h1>Parties</h1>
     <ul>
       파티 목록 <% for(let i = 0; i < allPartyTitles.length; i++){ %>
-      <li>파티명: <%= allPartyTitles[i].title %></li>
+      <li>
+        파티명:
+        <a href="/parties/<%=allPartyTitles[i].party_num%>"
+          ><%= allPartyTitles[i].title %></a
+        >
+      </li>
+
       <% } %>
     </ul>
     <button onclick="newParty()">글쓰기</button>

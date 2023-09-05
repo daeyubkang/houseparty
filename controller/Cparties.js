@@ -2,7 +2,7 @@ const { Users, Parties, Amenities } = require("../models");
 
 exports.index = async (req, res) => {
   const allPartyTitles = await Parties.findAll({
-    attributes: ["title"],
+    attributes: ["party_num", "title"],
   });
   console.log(allPartyTitles);
   res.render("parties", { allPartyTitles });
@@ -53,4 +53,14 @@ exports.hostPartyPost = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.partyDetail = async (req, res) => {
+  const party_num = req.params.partyId;
+  const party = await Parties.findByPk(party_num, {
+    include: Amenities,
+  });
+  console.log("clicked Party: ", party);
+  
+  res.render("partyDetail", { party });
 };

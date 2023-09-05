@@ -11,4 +11,5 @@ router.get("/host", controller.hostParty);
 
 router.post("/host", controller.hostPartyPost);
 
+router.get("/:partyId", controller.partyDetail);
 module.exports = router;
