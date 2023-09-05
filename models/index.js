@@ -25,8 +25,8 @@ db.ChatMessage = require("./ChatMessage")(sequelize);
 db.Users.hasMany(db.Parties);
 db.Parties.belongsTo(db.Users);
 
-db.Parties.hasMany(db.Chat);
-db.Chat.belongsTo(db.Parties);
+// db.Parties.hasMany(db.Chat);
+// db.Chat.belongsTo(db.Parties);
 
 db.Chat.hasMany(db.ChatMessage);
 db.ChatMessage.belongsTo(db.Chat);

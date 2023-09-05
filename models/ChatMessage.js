@@ -10,10 +10,14 @@ const Model = (sequelize) => {
       autoIncrement: true,
     },
     chat_key: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     send_id: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    send_message: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },

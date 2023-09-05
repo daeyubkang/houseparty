@@ -4,6 +4,14 @@ const app = express();
 const PORT = 8000;
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const http = require("http");
+const SocketIO = require("socket.io");
+
+//소켓
+const server = http.createServer(app);
+const io = SocketIO(server);
+const socketRouter = require("./routes/socket");
+socketRouter(io);
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -58,7 +66,7 @@ app.use("*", (req, res) => {
 //force:true 항상 테이블을 삭제 후 재생성
 //force:false(default) 테이블이 존재하면 패쓰, 없으면 생성
 db.sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
   });
 });
