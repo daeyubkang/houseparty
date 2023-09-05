@@ -3,7 +3,8 @@ const router = express.Router();
 const controller = require("../controller/Csignin");
 
 router.get("/", controller.index);
-router.post("/", controller.signin);
+
+router.post("/", controller.signinPost);
 
 router.get("/search", controller.searchID);
 

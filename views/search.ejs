@@ -19,86 +19,51 @@
         ><a class="signin" href="/signin">login</a>
       </div>
 
-      <div class="searchID">
-        <form>
-          <h3>아이디 찾기</h3>
+      <form>
+        <h3>아이디 찾기</h3>
+        <div class="findID">
           <div>
-            <div class="p1">
-              <img src="/public/img/user.svg" alt="" height="50" width="50" />
-              <input
-                type="text"
-                name="name"
-                id="name"
-                class="name"
-                placeholder="이름"
-              />
-            </div>
-            <p class="p2">
-              <img src="/public/img/user.svg" alt="" height="50" width="50" />
-              <input
-                type="date"
-                name="birth"
-                id="birth"
-                class="birth"
-                placeholder="생년월일"
-              />
-            </p>
-            <p class="p3">
-              <img src="/public/img/user.svg" alt="" height="50" width="50" />
-              <input
-                type="text"
-                name="phoneNumber"
-                id="phoneNumber"
-                class="phoneNumber"
-                placeholder="휴대전화 번호"
-              />
-            </p>
+            <img src="/public/img/user.svg" alt="" />
+            <input type="text" placeholder="이름" />
           </div>
-          <button type="button" onclick="searchID()">찾기</button> <br />
+          <div>
+            <img src="/public/img/birth.svg" alt="" />
+            <input type="text" placeholder="생년월일" />
+          </div>
+          <div class="lastDiv">
+            <img src="/public/img/phone.svg" alt="" />
+            <input type="text" placeholder="휴대전화번호" />
+          </div>
+        </div>
+        <button type="button" onclick="searchID()">찾기</button>
+        <div class="result ID"></div>
+      </form>
 
-          <br />
-          <div class="result ID"></div>
-        </form>
-      </div>
-      <div class="searchPW">
-        <form>
-          <h3>비밀번호 찾기</h3>
-          <input
-            type="text"
-            name="id"
-            id="id"
-            class="id"
-            placeholder="아이디"
-          />
+      <form>
+        <h3>비밀번호 찾기</h3>
+        <div class="findPW">
+          <div>
+            <img src="/public/img/user.svg" alt="" />
+            <input type="text" placeholder="아이디" />
+          </div>
+          <div>
+            <img src="/public/img/birth.svg" alt="" />
+            <input type="text" placeholder="생년월일" />
+          </div>
+          <div>
+            <img src="/public/img/user.svg" alt="" />
 
-          <input
-            type="date"
-            name="birth"
-            id="birth"
-            class="birth"
-            placeholder="생년월일"
-          />
+            <input type="text" placeholder="이름" />
+          </div>
+          <div class="lastDiv">
+            <img src="/public/img/phone.svg" alt="" />
 
-          <input
-            type="text"
-            name="name"
-            id="name"
-            class="name"
-            placeholder="이름"
-          />
-
-          <input
-            type="text"
-            name="phoneNumber"
-            id="phoneNumber"
-            class="phoneNumber"
-            placeholder="휴대전화 번호"
-          />
-
-          <button type="button" onclick="searchPW()">찾기</button> <br />
-          <div class="result PW"></div>
-        </form>
-      </div>
+            <input type="text" placeholder="휴대전화번호" />
+          </div>
+        </div>
+        <button type="button" onclick="searchPW()">찾기</button>
+        <div class="result PW"></div>
+      </form>
     </div>
   </body>
 </html>

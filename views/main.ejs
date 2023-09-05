@@ -5,126 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* 수직 가운데 정렬 */
-        justify-content: center; /* 수평 가운데 정렬 */
-        margin: 0;
-        background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
-      }
-
-      .topBar {
-        width: 360px;
-        padding: 14px 0 0;
-        background-color: #fff;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-      }
-      .howsParty {
-        width: 85px;
-        height: 27px;
-        margin: 0 165px 12px 15px;
-        font-family: Inter;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        text-align: center;
-        color: #bf2c47;
-        text-decoration: none;
-      }
-      .signin {
-        width: 85px;
-        height: 27px;
-        position: absolute;
-        font-family: Inter;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        text-align: center;
-        color: #000;
-        text-decoration: none;
-      }
-      .mainHome {
-        width: 360px;
-        height: 437px;
-        margin: 49px 0 -45px;
-        object-fit: contain;
-      }
-      .bottombar {
-        display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 flex 사용 */
-        width: 360px; /* 부모 요소의 너비에 따라 자식 요소들을 가로로 나란히 정렬 */
-        justify-content: center;
-      }
-
-      .leftBottomBar,
-      .rightBottomBar {
-        flex-grow: 1; /* 각 요소를 동일한 너비로 확장합니다. */
-        height: 44px;
-        backdrop-filter: blur(4px);
-        border: solid 1px #000;
-        background-color: #fff;
-        display: flex;
-        align-items: center; /* 내부 내용을 세로로 가운데 정렬합니다. */
-        justify-content: space-evenly;
-      }
-
-      .leftBottomBar {
-        border-radius: 0 45px 0 0;
-        width: 70px;
-      }
-
-      .rightBottomBar {
-        border-radius: 45px 0 0 0;
-      }
-
-      .logo {
-        width: 40px;
-        height: 40px;
-        background-color: #bf2c47;
-        border-radius: 50%;
-        position: absolute;
-        z-index: 1;
-        border-color: #ffffff00;
-        color: white;
-      }
-      .a {
-        text-decoration: none;
-      }
-      .bottom {
-        font-size: 10px;
-      }
-      .select {
-        text-align: center;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-      }
-      .selectimg {
-        width: 20px;
-        height: 20px;
-      }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/public/css/main.css" />
   </head>
   <body>
     <div class="topBar">
       <a class="howsParty" href="/main"> How's Party </a
       ><a class="signin" href="/login">login</a>
     </div>
-    <img
-      src="/public/img/mainhome.png"
-      alt="home image"
-      class="mainHome"
-      onerror="alert('에러 발생')"
-    />
+    <img src="/public/img/mainhome.png" alt="home image" class="mainHome" />
     <div class="bottombar">
       <div class="leftBottomBar">
         <a href="/parties" class="a">
@@ -161,5 +50,29 @@
     <h1>MVC</h1>
     <a href="/signin">로그인페이지</a>
     <a href="/signup">회원가입페이지</a>
+
+    <script>
+      (function () {
+        let result1 = "";
+        const local = sessionStorage.getItem("token");
+        console.log(local);
+        const currentUrl = window.location.href;
+        console.log(currentUrl);
+        if (local != null) {
+          axios({
+            method: "post",
+            url: `${currentUrl}/verify`,
+            data: {
+              token: local,
+            },
+          }).then((result) => {
+            result1 = result;
+            console.log(result1.data.user.id);
+          });
+        } else {
+          console.log("로그인 실패");
+        }
+      })();
+    </script>
   </body>
 </html>

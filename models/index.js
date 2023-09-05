@@ -14,9 +14,18 @@ const sequelize = new Sequelize(
 //모델
 //db에 User생성
 db.Users = require("./Users")(sequelize);
+db.Parties = require("./Parties")(sequelize);
+db.Amenities = require("./Amenities")(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
 // db.User = temp;
+
+//1:다
+db.Users.hasMany(db.Parties);
+db.Parties.belongsTo(db.Users);
+
+db.Parties.belongsToMany(db.Amenities, { through: "PartyAmenities" });
+db.Amenities.belongsToMany(db.Parties, { through: "PartyAmenities" });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

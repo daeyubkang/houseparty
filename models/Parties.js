@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
 
 const Model = (sequelize) => {
-  return sequelize.define("Users", {
+  return sequelize.define("parties", {
     //컬럼 정의
-    user_num: {
+    party_num: {
       type: DataTypes.INTEGER,
       allowNull: false, //NOT NULL
       primaryKey: true,
@@ -13,31 +13,45 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    pw: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    name: {
+    title: {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    gender: {
+    description: {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    phone_number: {
-      type: DataTypes.INTEGER,
+    date: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    location: {
+    start_time: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
-    hobby: {
+    end_time: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    head_count: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    tag: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    party_location: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    image: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
   });
 };
+
+
 
 module.exports = Model;
