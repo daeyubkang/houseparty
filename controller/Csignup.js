@@ -1,4 +1,5 @@
 const { Users } = require("../models");
+
 const bcrypt = require("bcrypt");
 const saltNumber = 10;
 const SECRET = "secretKey";

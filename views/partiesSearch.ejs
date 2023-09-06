@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/public/css/parties.css" />
+    <link rel="stylesheet" href="/public/css/partiesSearch.css" />
     <link
       rel="canonical"
       href="https://getbootstrap.com/docs/5.3/examples/album/"
@@ -16,27 +16,8 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <h1>Parties</h1>
-    <button onclick="write1()">글쓰기</button>
-    <ul>
-      <% for (let i = 0; i < parties.length; i++) { %>
-      <li>
-        <b><%= parties[i].id %></b> -
-        <a><%= parties[i].title %></a>
-        <p><%= parties[i].party_num %></p>
-        <button
-          onclick="chatRoom(this.value)"
-          value="<%= parties[i].party_num %>"
-        >
-          채팅방 이동
-        </button>
-      </li>
-      <% } %>
-    </ul>
-
     <div class="topBar">
       <a class="howsParty" href="/main"> How's Party </a
       ><a class="signin" href="/login">login</a>
@@ -63,23 +44,20 @@
           </div>
         </form>
         <div class="tag">
-          <% for (let i = 0; i < parties.length; i++) { %>
+          <% for (let i = 0; i < tag.length; i++) { %>
           <button
             class="tagButton"
             id="tagButton"
-            value="<%= parties[i].tag %>"
-            onclick="tagSearchFunc(`<%= parties[i].tag %>`)"
+            value="<%= tag[i].tag %>"
+            onclick="tagSearchFunc(`<%= tag[i].tag %>`)"
           >
-            #<%= parties[i].tag %>
+            #<%= tag[i].tag %>
           </button>
           <% } %>
         </div>
-        <div
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
-          style="margin-top: 10px"
-        >
+        <div class="row" style="margin-top: 10px">
           <% for (let i = 0; i < parties.length; i++) { %>
-          <div class="col">
+          <div class="col-md-4">
             <div class="card shadow-sm hidden party-card">
               <svg
                 class="bd-placeholder-img card-img-top"
@@ -172,36 +150,31 @@
       </div>
     </div>
     <script>
-      (function () {
-        let result1 = "";
-        const local = sessionStorage.getItem("token");
-        console.log(local);
-        const currentUrl = window.location.href;
-        console.log(currentUrl);
-        if (local != null) {
-          axios({
-            method: "post",
-            url: `/verify`,
-            data: {
-              token: local,
-            },
-          }).then((result) => {
-            result1 = result;
-            console.log(result1.data.user.id);
-          });
-        } else {
-          console.log("로그인 실패");
+      // URL에서 파라미터 값을 가져오는 함수
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+        const results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      // URL에서 'tag' 파라미터 값을 읽어옴
+      const tagParam = getParameterByName("q");
+
+      // 모든 태그 버튼을 선택
+      const tagButtons = document.querySelectorAll(".tagButton");
+
+      // 'tag' 파라미터와 일치하는 값을 가진 태그 버튼에 스타일 적용
+      tagButtons.forEach((button) => {
+        const tagValue = button.getAttribute("value");
+        if (tagValue === tagParam) {
+          button.classList.add("selected");
         }
-      })();
+      });
 
-      function write1() {
-        location.href = `/parties/write`;
-      }
-
-      async function chatRoom(e) {
-        console.log(e);
-        location.href = `/chat?partiesNum=${e}`;
-      }
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
@@ -235,7 +208,5 @@
         }
       }
     </script>
-    <!-- <script>
-    </script> -->
   </body>
 </html>
