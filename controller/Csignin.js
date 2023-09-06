@@ -34,9 +34,10 @@ exports.signin = (req, res) => {
     console.log("123", result);
     if (result != null) {
       const compare = comparePassword(req.body.pw, result.dataValues.pw);
-      req.session.name = req.body.id;
-      req.session.password = req.body.pw;
-      res.send({ result: compare });
+      console.log(req.session.name);
+      const { id } = req.body;
+      const token = jwt.sign({ id }, SECRET);
+      res.send({ result: compare, token: token });
     } else {
       res.send({ result: false });
     }

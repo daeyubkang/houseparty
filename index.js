@@ -44,6 +44,9 @@ app.use("/chat", chatRouter);
 const profileRouter = require("./routes/profile");
 app.use("/profile", profileRouter);
 
+const verifyRouter = require("./routes/verify");
+app.use("/verify", verifyRouter);
+
 const loginRouter = require("./routes/login");
 app.use("/login", loginRouter);
 
@@ -53,6 +56,9 @@ app.use("/signup1", signup1Router);
 
 const signup2Router = require("./routes/signup2");
 app.use("/signup2", signup2Router);
+
+const partiesSearchRouter = require("./routes/paritesSearch");
+app.use("/partiesSearch", partiesSearchRouter);
 
 app.use("/public", express.static(__dirname + "/public"));
 

@@ -8,7 +8,7 @@
   </head>
   <body>
     <form onsubmit="login(event)">
-      <input type="text" id="id" placeholder="ID" /><br />
+      <input type="text" id="userid" placeholder="ID" /><br />
       <input type="password" id="pw" placeholder="PW" /><br />
       <button type="submit">로그인</button>
     </form>
@@ -21,13 +21,16 @@
           method: "POST",
           url: "/signin",
           data: {
-            id: document.querySelector("#id").value,
+            id: document.querySelector("#userid").value,
             pw: document.querySelector("#pw").value,
           },
         }).then((res) => {
           console.log(res);
           if (res.data.result) {
+            // console.log(session.name);
             alert(`로그인 성공`);
+            sessionStorage.setItem("token", res.data.token);
+            location.href = "/parties";
           } else {
             alert(`로그인 실패`);
             document.location.reload();
