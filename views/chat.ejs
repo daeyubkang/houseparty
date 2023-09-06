@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>Chat</h1>
-    <h2></h2>
+    <h2>게시글 번호 <%= partiesNum %></h2>
 
     <script>
       (function () {
@@ -20,7 +20,7 @@
         if (local != null) {
           axios({
             method: "post",
-            url: `${currentUrl}/verify`,
+            url: `/verify`,
             data: {
               token: local,
             },
