@@ -1,4 +1,5 @@
 const { Users } = require("../models");
+
 const bcrypt = require("bcrypt");
 const saltNumber = 10;
 const SECRET = "secretKey";
@@ -24,8 +25,8 @@ exports.signupPost = async (req, res) => {
       name,
       gender,
       phone_number,
-      region,
-      favorite,
+      location,
+      hobby,
     });
     console.log(user);
     res.send(user);

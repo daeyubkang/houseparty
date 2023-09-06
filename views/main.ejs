@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/public/css/main.css" />
   </head>
   <body>
@@ -49,5 +50,29 @@
     <h1>MVC</h1>
     <a href="/signin">로그인페이지</a>
     <a href="/signup">회원가입페이지</a>
+
+    <script>
+      (function () {
+        let result1 = "";
+        const local = sessionStorage.getItem("token");
+        console.log(local);
+        const currentUrl = window.location.href;
+        console.log(currentUrl);
+        if (local != null) {
+          axios({
+            method: "post",
+            url: `/verify`,
+            data: {
+              token: local,
+            },
+          }).then((result) => {
+            result1 = result;
+            console.log(result1.data.user.id);
+          });
+        } else {
+          console.log("로그인 실패");
+        }
+      })();
+    </script>
   </body>
 </html>
