@@ -1,7 +1,9 @@
 const { DataTypes } = require("sequelize");
 
 const Model = (sequelize) => {
+
   return sequelize.define("users2", {
+
     //컬럼 정의
     user_num: {
       type: DataTypes.INTEGER,
@@ -22,7 +24,7 @@ const Model = (sequelize) => {
       allowNull: false,
     },
     gender: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     phone_number: {
