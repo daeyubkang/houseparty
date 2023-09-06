@@ -30,7 +30,7 @@
             // console.log(session.name);
             alert(`로그인 성공`);
             sessionStorage.setItem("token", res.data.token);
-            location.href = "/parties";
+            location.href = "/";
           } else {
             alert(`로그인 실패`);
             document.location.reload();

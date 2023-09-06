@@ -7,6 +7,15 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
+      /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+      #msg::-webkit-scrollbar {
+        display: none;
+      }
+      /* 스크롤바 생성 */
+      #msg {
+        height: 100%;
+        overflow-y: scroll;
+      }
       #body {
         width: 100%;
         height: 70vh;
@@ -63,14 +72,19 @@
   </head>
   <body>
     <h1>Chat</h1>
+    <button id="chatListButton" hidden onclick="chatList()">
+      채팅 목록 보기
+    </button>
+    <br />
     <div id="main">
-      <h2>게시글 번호와 아이디 <%= partiesNum %></h2>
+      <h2 id="userTitle"></h2>
       <ul id="lists"></ul>
-      <button id="chatroom">채팅방입장</button>
     </div>
+
     <div id="body" hidden>
       <div id="msg">
         <div id="notice"></div>
+        <div id="messages"></div>
         <!-- <div class="my-chat">
               <p>채팅테스트(나)</p>
           </div>
@@ -86,7 +100,18 @@
     </div>
 
     <script>
+      let socket = io();
+      const userId = sessionStorage.getItem("userId");
+      const partiesData = "<%= partiesNum%>";
+      const partiesId = partiesData.split(",")[0];
+      const partiesDataId = partiesData.split(",")[1];
+
       (function () {
+        console.log(partiesDataId);
+
+        document.querySelector(
+          "#userTitle"
+        ).innerHTML = `${userId}님의 채팅목록`;
         let result1 = "";
         const local = sessionStorage.getItem("token");
         console.log(local);
@@ -107,40 +132,135 @@
         } else {
           console.log("로그인 실패");
         }
+
+        //소켓
+        // let roomName1 = "";
+        // const chatData = "<%= partiesNum %>";
+        // const partiesId = chatData.split(",")[0];
+        // const wrtieId = chatData.split(",")[1];
+        // const userId = sessionStorage.getItem("userId");
+        // if (wrtieId > userId) {
+        //   roomName1 = `${wrtieId}${userId}`;
+        // } else {
+        //   roomName1 = `${userId}${wrtieId}`;
+        // }
+        // console.log(partiesId, wrtieId, userId, roomName1);
+
+        // //소켓
+        // const msg = document.querySelector("#msg");
+        // const notice = document.querySelector("#notice");
+
+        // let myName;
+        //룸리스트
+        socket.emit("roomList", userId, (roomList) => {
+          console.log("roomList", roomList);
+          const lists = document.querySelector("#lists");
+          lists.textContent = "";
+          roomList.forEach((roomList) => {
+            let par = [];
+            for (let i = 0; i < roomList.participant.length; i++) {
+              if (roomList.participant[i] != userId) {
+                par.push(roomList.participant[i]);
+              }
+            }
+
+            const li = document.createElement("li");
+            li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
+            lists.appendChild(li);
+          });
+        });
+
+        if (partiesDataId) {
+          let roomName1 = "";
+          if (partiesDataId > userId) {
+            roomName1 = `${partiesDataId}${userId}`;
+          } else {
+            roomName1 = `${userId}${partiesDataId}`;
+          }
+          roomEnter(roomName1);
+        }
       })();
 
-      let roomName1 = "";
-      const chatData = "<%= partiesNum %>";
-      const partiesId = chatData.split(",")[0];
-      const wrtieId = chatData.split(",")[1];
-      const userId = sessionStorage.getItem("userId");
-      if (wrtieId > userId) {
-        roomName1 = `${wrtieId}${userId}`;
-      } else {
-        roomName1 = `${userId}${wrtieId}`;
+      function chatList() {
+        const main = document.querySelector("#main");
+        const body = document.querySelector("#body");
+        const chatListButton = document.querySelector("#chatListButton");
+        chatListButton.hidden = true;
+        main.hidden = false;
+        body.hidden = true;
+        msg.innerHTML = "";
+        prepareScroll();
       }
-      console.log(partiesId, wrtieId, userId, roomName1);
+
+      function roomEnter(name) {
+        console.log(name);
+        const roomName = name;
+        const userName = userId;
+        console.log(roomName, userName);
+        socket.emit("create", roomName, userName, partiesId, (res) => {
+          console.log(res); //이전 채팅 내용
+          const main = document.querySelector("#main");
+          const body = document.querySelector("#body");
+          const chatListButton = document.querySelector("#chatListButton");
+          chatListButton.hidden = false;
+          main.hidden = true;
+          body.hidden = false;
+
+          //이전 메세지 띄우기
+          if (res) {
+            for (let i = 0; i < res.length; i++) {
+              const div = document.createElement("div");
+              const p = document.createElement("p");
+              if (res[i].send_id === userId) {
+                //내가입력한 텍스트
+                div.classList.add("my-chat");
+              } else {
+                div.classList.add("other-chat");
+              }
+
+              //개인메세지일때 bool이 true
+              // if (bool) {
+              //   div.classList.add("secret-chat");
+              // }
+              //채팅 텍스트
+              p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
+              div.appendChild(p);
+              msg.appendChild(div);
+            }
+          }
+        });
+      }
+
+      // let roomName1 = "";
+      // const chatData = "<%= partiesNum %>";
+      // const partiesId = chatData.split(",")[0];
+      // const wrtieId = chatData.split(",")[1];
+      // // const userId = sessionStorage.getItem("userId");
+      // if (wrtieId > userId) {
+      //   roomName1 = `${wrtieId}${userId}`;
+      // } else {
+      //   roomName1 = `${userId}${wrtieId}`;
+      // }
+      // console.log(partiesId, wrtieId, userId, roomName1);
 
       //소켓
-      const socket = io();
-      const roomForm = document.querySelector("#chatroom");
       const chatForm = document.querySelector("#chat");
-      const msg = document.querySelector("#msg");
+      let msg = document.querySelector("#messages");
       const notice = document.querySelector("#notice");
 
       let myName;
 
-      //룸리스트
-      socket.on("roomList", (roomLists) => {
-        console.log(roomLists);
-        const lists = document.querySelector("#lists");
-        lists.textContent = "";
-        roomLists.forEach((roomList) => {
-          const li = document.createElement("li");
-          li.textContent = `${roomList} 와 닉네임 입력 후 입장`;
-          lists.appendChild(li);
-        });
-      });
+      // //룸리스트
+      // socket.emit("roomList", userId, (roomList) => {
+      //   console.log("roomList", roomList);
+      //   const lists = document.querySelector("#lists");
+      //   lists.textContent = "";
+      //   roomList.forEach((roomList) => {
+      //     const li = document.createElement("li");
+      //     li.innerHTML = `roomName: ${roomList.roomName} chatName: ${roomList.participant} <button id="chatroom">채팅방입장</button>`;
+      //     lists.appendChild(li);
+      //   });
+      // });
 
       //사용자 리스트
       socket.on("userList", (userLists) => {
@@ -187,17 +307,41 @@
       });
 
       ///폼 이벤트
-      roomForm.addEventListener("click", () => {
-        const roomName = roomName1;
-        const userName = userId;
-        console.log(roomName, userName);
-        socket.emit("create", roomName, userName, partiesId, () => {
-          const main = document.querySelector("#main");
-          const body = document.querySelector("#body");
-          main.hidden = true;
-          body.hidden = false;
-        });
-      });
+      // document.querySelector("#chat").addEventListener("click", () => {
+      //   const roomName = roomName1;
+      //   const userName = userId;
+      //   console.log(roomName, userName);
+      //   socket.emit("create", roomName, userName, partiesId, (res) => {
+      //     console.log(res); //이전 채팅 내용
+      //     const main = document.querySelector("#main");
+      //     const body = document.querySelector("#body");
+      //     main.hidden = true;
+      //     body.hidden = false;
+
+      //     //이전 메세지 띄우기
+      //     if (res) {
+      //       for (let i = 0; i < res.length; i++) {
+      //         const div = document.createElement("div");
+      //         const p = document.createElement("p");
+      //         if (res[i].send_id === userId) {
+      //           //내가입력한 텍스트
+      //           div.classList.add("my-chat");
+      //         } else {
+      //           div.classList.add("other-chat");
+      //         }
+
+      //         //개인메세지일때 bool이 true
+      //         // if (bool) {
+      //         //   div.classList.add("secret-chat");
+      //         // }
+      //         //채팅 텍스트
+      //         p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
+      //         div.appendChild(p);
+      //         msg.appendChild(div);
+      //       }
+      //     }
+      //   });
+      // });
       chatForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const user = document.querySelector("#userList");
@@ -210,7 +354,20 @@
         };
         socket.emit("sendMessage", msg);
         message.value = "";
+        prepareScroll();
       });
+
+      // 준비 함수, 약간의 시간을 두어 scroll 함수를 호출하기
+      function prepareScroll() {
+        window.setTimeout(scrollUl, 50);
+      }
+
+      // scroll 함수
+      function scrollUl() {
+        // 채팅창 form 안의 ul 요소, (ul 요소 안에 채팅 내용들이 li 요소로 입력된다.)
+        let chatUl = document.querySelector("#msg");
+        chatUl.scrollTop = chatUl.scrollHeight; // 스크롤의 위치를 최하단으로
+      }
     </script>
   </body>
 </html>
