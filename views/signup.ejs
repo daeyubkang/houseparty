@@ -36,6 +36,7 @@
 
     <script>
       async function registerFunc() {
+        console.log();
         const form = document.forms["register"];
         console.log(form.gender.value);
         try {
@@ -47,8 +48,8 @@
               pw: form.pw.value,
               name: form.name.value,
               gender: form.gender.value,
-              phone_number: form.phoneNum.value,
-              locaion: form.region.value,
+              phone_number: form.phone_number.value,
+              location: form.region.value,
               hobby: form.favorite.value,
             },
           });
