@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
 db.Users = require("./Users")(sequelize);
 db.Parties = require("./Parties")(sequelize);
 db.Amenities = require("./Amenities")(sequelize);
-// const model = require('./User');
+// const model = rm equire('./User');
 // const temp = model(sequelize);
 // db.User = temp;
 
