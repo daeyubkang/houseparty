@@ -41,6 +41,10 @@ const Model = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    imgURL: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 };
 
