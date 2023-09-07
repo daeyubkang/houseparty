@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/public/css/parties.css" />
   </head>
   <body>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a
+      ><a class="signin" href="/signin">login</a>
+    </div>
     <h1>Parties</h1>
     <ul>
       파티 목록 <% for(let i = 0; i < allPartyTitles.length; i++){ %>

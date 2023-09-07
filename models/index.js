@@ -16,6 +16,7 @@ const sequelize = new Sequelize(
 db.Users = require("./Users")(sequelize);
 db.Parties = require("./Parties")(sequelize);
 db.Amenities = require("./Amenities")(sequelize);
+db.Tags = require("./Tags")(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
 // db.User = temp;
@@ -26,6 +27,9 @@ db.Parties.belongsTo(db.Users);
 
 db.Parties.belongsToMany(db.Amenities, { through: "PartyAmenities" });
 db.Amenities.belongsToMany(db.Parties, { through: "PartyAmenities" });
+
+db.Parties.belongsToMany(db.Tags, { through: "PartyTags" });
+db.Tags.belongsToMany(db.Parties, { through: "PartyTags" });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

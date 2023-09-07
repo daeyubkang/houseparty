@@ -12,7 +12,14 @@
     설명: <%= party.description %>
     <br />파티 날짜: <%= party.date %> <br />
 
-    파티 시설:
+    파티 태그:
+    <ul>
+      <% party.tags.forEach((tag) => { %>
+      <li><%= tag.tag_name %></li>
+      <% }); %>
+    </ul>
+
+    파티 규칙/시설:
     <ul>
       <% party.amenities.forEach((amenity) => { %>
       <li><%= amenity.amen_name %></li>

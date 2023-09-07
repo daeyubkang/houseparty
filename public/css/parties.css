@@ -1,0 +1,304 @@
+@media screen and (max-width: 800px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    margin: 0;
+    background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
+  }
+
+  .topBar {
+    width: 360px;
+    padding: 14px 0 0;
+    background-color: #fff;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+  }
+  .howsParty {
+    width: 85px;
+    height: 27px;
+    margin: 0 165px 12px 15px;
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #bf2c47;
+    text-decoration: none;
+  }
+  .signin {
+    width: 85px;
+    height: 27px;
+    position: absolute;
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+
+  .bottombar {
+    display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 flex 사용 */
+    width: 360px; /* 부모 요소의 너비에 따라 자식 요소들을 가로로 나란히 정렬 */
+    justify-content: center;
+    position: fixed; /* 화면 하단에 고정 */
+    bottom: 0; /* 화면 하단에 위치 */
+  }
+
+  .leftBottomBar,
+  .rightBottomBar {
+    flex-grow: 1; /* 각 요소를 동일한 너비로 확장합니다. */
+    height: 44px;
+    backdrop-filter: blur(4px);
+    border: solid 1px #000;
+    background-color: #fff;
+    display: flex;
+    align-items: center; /* 내부 내용을 세로로 가운데 정렬합니다. */
+    justify-content: space-evenly;
+  }
+
+  .leftBottomBar {
+    border-radius: 0 45px 0 0;
+    width: 70px;
+  }
+
+  .rightBottomBar {
+    border-radius: 45px 0 0 0;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+    background-color: #bf2c47;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    border-color: #ffffff00;
+    color: white;
+  }
+  .a {
+    text-decoration: none;
+  }
+  .bottom {
+    font-size: 10px;
+    color: black;
+  }
+  .select {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .selectimg {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media screen and (min-width: 800px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px 0 0 0;
+    background-color: #ffffff;
+    min-height: 100vh;
+  }
+
+  .topBar {
+    width: 100%;
+    padding: 14px 0;
+    background-color: #fff;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝으로 정렬 */
+  }
+  .howsParty {
+    margin: 0 15px 12px; /* 여백 조정 */
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #bf2c47;
+    text-decoration: none;
+  }
+  .signin {
+    width: 85px;
+    margin: 0 15px 12px; /* 여백 조정 */
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+
+  .bottombar {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    position: fixed; /* 화면 하단에 고정 */
+    bottom: 0; /* 화면 하단에 위치 */
+  }
+
+  .leftBottomBar,
+  .rightBottomBar {
+    flex-grow: 1; /* 각 요소를 동일한 너비로 확장합니다. */
+    height: 44px;
+    backdrop-filter: blur(4px);
+    border: solid 1px #000;
+    background-color: #fff;
+    display: flex;
+    align-items: center; /* 내부 내용을 세로로 가운데 정렬합니다. */
+    justify-content: space-evenly;
+  }
+
+  .leftBottomBar {
+    border-radius: 0 45px 0 0;
+    width: 70px;
+  }
+
+  .rightBottomBar {
+    border-radius: 45px 0 0 0;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    background-color: #bf2c47;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    border-color: #ffffff00;
+    color: white;
+    font-size: 25px;
+  }
+  .a {
+    text-decoration: none;
+  }
+  .bottom {
+    font-size: 10px;
+    color: black;
+  }
+  .select {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .selectimg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  .b-example-divider {
+    width: 100%;
+    height: 3rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: solid rgba(0, 0, 0, 0.15);
+    border-width: 1px 0;
+    box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
+      inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+  }
+
+  .b-example-vr {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+  }
+
+  .bi {
+    vertical-align: -0.125em;
+    fill: currentColor;
+  }
+
+  .nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+  }
+
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .btn-bd-primary {
+    --bd-violet-bg: #712cf9;
+    --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+    --bs-btn-font-weight: 600;
+    --bs-btn-color: var(--bs-white);
+    --bs-btn-bg: var(--bd-violet-bg);
+    --bs-btn-border-color: var(--bd-violet-bg);
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: #6528e0;
+    --bs-btn-hover-border-color: #6528e0;
+    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-bg: #5a23c8;
+    --bs-btn-active-border-color: #5a23c8;
+  }
+  .bd-mode-toggle {
+    z-index: 1500;
+  }
+}
+.container {
+  margin-top: 15px;
+}
+.search {
+  display: flex;
+}
+.tag {
+  justify-content: space-evenly;
+  display: flex;
+  width: 50%;
+  margin-top: 30px;
+}
+.tagButton {
+  border-radius: 10px;
+  border: solid 1px #fff;
+  background-color: #bf2c47;
+  color: white;
+}
+.titleTags {
+  display: flex;
+}

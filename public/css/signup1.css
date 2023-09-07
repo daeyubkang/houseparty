@@ -1,0 +1,222 @@
+body {
+  margin: 0;
+  background-color: #fff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topBar {
+  width: 360px;
+  padding: 14px 0 0;
+  background-color: #fff;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+}
+.topBar .howsParty {
+  width: 85px;
+  height: 27px;
+  margin: 0 165px 12px 15px;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #bf2c47;
+  text-decoration: none;
+}
+.topBar .signin {
+  width: 85px;
+  height: 27px;
+  position: absolute;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+
+#signup1_title {
+  width: 80px;
+  height: 24px;
+  margin: 80px 143px 26px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+
+.top {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.idBox {
+  width: 270px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px 10px 0 0;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.top .id {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.pwBox {
+  width: 270px;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  border-bottom: 0;
+  display: flex;
+}
+.top .pw {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.pwCheckBox {
+  width: 270px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 10px 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+
+.top .pwCheck {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.nameBox {
+  width: 270px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px 10px 0 0;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.bottom .name {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.birthBox {
+  padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
+  width: 270px;
+
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  color: gray;
+  display: flex;
+}
+
+.bottom .birth {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.bottom .gender input[type="radio"] {
+  display: none;
+}
+.bottom .gender {
+  display: flex;
+  justify-content: center;
+  width: 270px;
+
+  font-size: 15px;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+}
+.bottom .gender input[type="radio"] + label {
+  width: 100px;
+  display: block;
+  text-align: center;
+  padding: 3px;
+}
+
+.bottom .gender label {
+  background-color: lightgray;
+}
+.bottom .gender #manLabel {
+  border-radius: 10px 0 0 10px;
+
+  border-right: solid 1px black;
+}
+.bottom .gender #womanLabel {
+  border-radius: 0 10px 10px 0;
+}
+
+.man-selected {
+  color: #bf2c47; /* 남자 선택 시 배경색상 */
+}
+
+.woman-selected {
+  color: #bf2c47; /* 여자 선택 시 배경색상 */
+}
+
+.phoneBox {
+  padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
+  width: 270px;
+  margin: 0 39px 10px 39px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 10px 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+
+.bottom .phoneNumber {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.nextButton {
+  width: 300px;
+  flex-grow: 0;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px;
+  border: solid 1px #fff;
+  background-color: #bf2c47;
+  color: white;
+}

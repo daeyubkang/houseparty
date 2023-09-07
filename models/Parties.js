@@ -37,10 +37,6 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
-    tag: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
-    },
     party_location: {
       type: DataTypes.STRING(255),
       allowNull: true,
@@ -51,7 +47,5 @@ const Model = (sequelize) => {
     },
   });
 };
-
-
 
 module.exports = Model;
