@@ -183,6 +183,7 @@
       </div>
     </div>
     <script>
+      localStorage.clear("searchItem");
       (function () {
         let result1 = "";
         const local = sessionStorage.getItem("token");
@@ -217,6 +218,7 @@
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
+        localStorage.setItem("searchItem", searchValue);
         try {
           const res = await axios({
             method: "get",
