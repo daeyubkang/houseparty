@@ -173,17 +173,18 @@
             lists.appendChild(li);
           });
         });
-
-        if (partiesDataId) {
-          let roomName1 = "";
-          if (partiesDataId > userId) {
-            roomName1 = `${partiesDataId}${userId}`;
-          } else {
-            roomName1 = `${userId}${partiesDataId}`;
-          }
-          roomEnter(roomName1);
-        }
       })();
+
+      console.log(partiesDataId);
+      if (partiesDataId) {
+        let roomName1 = "";
+        if (partiesDataId > userId) {
+          roomName1 = `${partiesDataId},${userId}`;
+        } else {
+          roomName1 = `${userId},${partiesDataId}`;
+        }
+        roomEnter(roomName1);
+      }
 
       function chatList() {
         const main = document.querySelector("#main");
@@ -193,6 +194,7 @@
         main.hidden = false;
         body.hidden = true;
         msg.innerHTML = "";
+        notice.innerHTML = "";
       }
 
       function roomEnter(name) {
@@ -202,7 +204,6 @@
         console.log(roomName, userName);
         socket.emit("create", roomName, userName, partiesId, (res) => {
           console.log(res); //이전 채팅 내용
-          console.log(res.length);
           const main = document.querySelector("#main");
           const body = document.querySelector("#body");
           const chatListButton = document.querySelector("#chatListButton");
@@ -251,7 +252,7 @@
       //소켓
       const chatForm = document.querySelector("#chatFormButton");
       let msg = document.querySelector("#messages");
-      const notice = document.querySelector("#notice");
+      let notice = document.querySelector("#notice");
 
       let myName;
 

@@ -11,7 +11,7 @@ exports.connection = (io, socket) => {
     });
     for (let i = 0; i < chatList.length; i++) {
       console.log("chatLists", chatList[i]);
-      const participant = chatList[i].dataValues.participant_id.split(" ");
+      const participant = chatList[i].dataValues.roomID.split(",");
       for (let j = 0; j < participant.length; j++) {
         if (participant[j] == userName) {
           roomList.push({
@@ -78,7 +78,7 @@ exports.connection = (io, socket) => {
     socket.room = roomName;
     socket.user = userName;
 
-    socket.to(roomName).emit("notice", `${socket.user}님이 입장하셨습니다`);
+    socket.to(roomName).emit("notice", `${userName}님이 입장하셨습니다`);
 
     //채팅방 목록 갱신
     // if (!roomList.includes(roomName)) {
