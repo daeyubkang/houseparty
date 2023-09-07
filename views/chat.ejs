@@ -102,13 +102,14 @@
 
     <script>
       let socket = io();
-      const userId = sessionStorage.getItem("userId");
+      let userId = sessionStorage.getItem("userId");
       const partiesData = "<%= partiesNum%>";
       const partiesId = partiesData.split(",")[0];
       const partiesDataId = partiesData.split(",")[1];
 
       (function () {
         console.log(partiesDataId);
+        console.log(userId);
 
         document.querySelector(
           "#userTitle"
@@ -153,6 +154,8 @@
 
         // let myName;
         //룸리스트
+        userId = sessionStorage.getItem("userId");
+        console.log(userId);
         socket.emit("roomList", userId, (roomList) => {
           console.log("roomList", roomList);
           const lists = document.querySelector("#lists");

@@ -28,6 +28,7 @@ exports.connection = (io, socket) => {
 
   //채팅방 만들기 생성
   socket.on("create", async (roomName, userName, partiesId, cb) => {
+    console.log(userName);
     //DB 존재여부 판별
     const chatroomExist = await Chat.findOne({
       where: { roomID: roomName },

@@ -228,15 +228,26 @@
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
-        if (searchValue) {
-          selectedTags.push(searchValue);
-          sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
-        }
+        sessionStorage.setItem("seachItem", JSON.stringify(searchValue));
+
+        //선택된 태그 배열 가져오기
+        const selectedTagsStr = sessionStorage.getItem("selectedTags");
+        const searchItemStr = sessionStorage.getItem("seachItem");
+
+        //JSON 문자열 파싱하여 배열로 변환
+        const selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
+        const searchItem = searchItemStr ? JSON.parse(searchItemStr) : [];
+
+        //두 배열 합침
+        const find = [...selectedTags, ...searchItem];
+
+        sessionStorage.setItem("find", JSON.stringify(find));
+
         try {
           const res = await axios({
             method: "get",
-            url: `/partiesSearch?q=${selectedTags.join(",")}`,
-            data: selectedTags.join(","),
+            url: `/partiesSearch?q=${find.join(",")}`,
+            data: find.join(","),
           }).then((res) => {
             console.log("res", res);
             location.href = `/partiesSearch?q=${res.config.data}`;
@@ -246,6 +257,7 @@
         }
         //입력값 비우기
         searchInput.value = searchValue;
+        sessionStorage.removeItem("seachItem");
       }
       function writeFunc() {
         location.href = `/parties/write`;
