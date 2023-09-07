@@ -347,3 +347,17 @@
   -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
   transform: translateX(-9%) translateY(-25%) rotate(45deg);
 }
+
+/* 카드에 마우스 올릴 시 나오는 효과 */
+.card.shadow-sm.hidden.party-card {
+  /*그림자 효과 추가*/
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease; /*transform 속성에 대한 애니메이션 설정*/
+  /*마우스 호버 시 확대 효과*/
+  transform-origin: center; /*확대 기준점을 가운데로 설정*/
+}
+
+.card.shadow-sm.hidden.party-card:hover {
+  transform: scale(1.05); /*1.05배 확대*/
+}
