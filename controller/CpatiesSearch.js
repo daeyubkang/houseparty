@@ -28,8 +28,5 @@ exports.search = async (req, res) => {
     attributes: ["tag"],
   });
   console.log("검색결과", partiesSearch);
-  // const firstResult = searchResults[0][0];
-  // const dataValue = firstResult.dataValue;
-  // console.log("dataValue", dataValue);
   res.render("partiesSearch", { parties: partiesSearch, tag: tag });
 };

@@ -173,10 +173,13 @@
 
       // URL에서 'tag' 파라미터 값을 읽어옴
       const tagParam = getParameterByName("q");
-      //세션스토리지 초기화
+
       sessionStorage.clear();
+      //태그 파라미터를 쉽표로 나누어 배열로 변환
+      let selectedTags = tagParam ? tagParam.split(",") : [];
+
+      //세션스토리지 초기화
       //'tag' 파라미터 값을 세션에 저장.
-      const selectedTags = [tagParam];
       sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
 
       // 모든 태그 버튼을 선택
@@ -185,7 +188,7 @@
       // 'tag' 파라미터와 일치하는 값을 가진 태그 버튼에 스타일 적용
       tagButtons.forEach((button) => {
         const tagValue = button.getAttribute("value");
-        if (tagValue === tagParam) {
+        if (selectedTags.includes(tagValue)) {
           button.classList.add("selected");
         }
       });
@@ -194,13 +197,17 @@
         console.log(tag);
         const selectedTagsStr = sessionStorage.getItem("selectedTags");
         //새로운 배열 생성
-        let selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
-        selectedTags.push(tag);
+        selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
+        if (selectedTags.includes(tag)) {
+          selectedTags = selectedTags.filter(
+            (selectedTags) => selectedTags !== tag
+          );
+        } else {
+          selectedTags.push(tag);
+        }
+
         sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
         console.log(selectedTags);
-        selectedTags.forEach(function (tags) {
-          console.log(tags);
-        });
         try {
           const res = await axios({
             method: "get",
