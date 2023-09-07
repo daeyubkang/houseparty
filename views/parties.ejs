@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <h1>Parties</h1>
+    <!-- <h1>Parties</h1>
     <button onclick="write1()">글쓰기</button>
     <ul>
       <% for (let i = 0; i < parties.length; i++) { %>
@@ -35,7 +35,7 @@
         </button>
       </li>
       <% } %>
-    </ul>
+    </ul> -->
 
     <div class="topBar">
       <a class="howsParty" href="/main"> How's Party </a
@@ -138,6 +138,17 @@
         </div>
       </div>
     </div>
+    <div>
+      <button
+        type="button"
+        id="writeButton"
+        class="writeButton"
+        onclick="writeFunc()"
+      >
+        <span>글쓰기</span>
+      </button>
+    </div>
+
     <div class="bottombar">
       <div class="leftBottomBar">
         <a href="/parties" class="a">
@@ -234,8 +245,9 @@
           console.log(err);
         }
       }
+      function writeFunc() {
+        location.href = `/parties/write`;
+      }
     </script>
-    <!-- <script>
-    </script> -->
   </body>
 </html>

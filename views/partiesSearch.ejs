@@ -116,6 +116,16 @@
         </div>
       </div>
     </div>
+    <div>
+      <button
+        type="button"
+        id="writeButton"
+        class="writeButton"
+        onclick="writeFunc()"
+      >
+        <span>글쓰기</span>
+      </button>
+    </div>
     <div class="bottombar">
       <div class="leftBottomBar">
         <a href="/parties" class="a">
@@ -163,6 +173,11 @@
 
       // URL에서 'tag' 파라미터 값을 읽어옴
       const tagParam = getParameterByName("q");
+      //세션스토리지 초기화
+      sessionStorage.clear();
+      //'tag' 파라미터 값을 세션에 저장.
+      const selectedTags = [tagParam];
+      sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
 
       // 모든 태그 버튼을 선택
       const tagButtons = document.querySelectorAll(".tagButton");
@@ -175,6 +190,34 @@
         }
       });
 
+      async function tagSearchFunc(tag) {
+        console.log(tag);
+        const selectedTagsStr = sessionStorage.getItem("selectedTags");
+        //새로운 배열 생성
+        let selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
+        selectedTags.push(tag);
+        sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
+        console.log(selectedTags);
+        selectedTags.forEach(function (tags) {
+          console.log(tags);
+        });
+        try {
+          const res = await axios({
+            method: "get",
+            url: `/partiesSearch?q=${selectedTags.join(",")}`,
+            data: selectedTags.join(","),
+          }).then((res) => {
+            sessionStorage.setItem(
+              "selectedTags",
+              JSON.stringify(selectedTags)
+            );
+            console.log("res", res);
+            location.href = `/partiesSearch?q=${res.config.data}`;
+          });
+        } catch (error) {
+          console.log(err);
+        }
+      }
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
@@ -191,21 +234,8 @@
           console.log(err);
         }
       }
-      async function tagSearchFunc(tag) {
-        console.log(tag);
-        const searchTag = tag;
-        try {
-          const res = await axios({
-            method: "get",
-            url: `/partiesSearch?q=${searchTag}`,
-            data: searchTag,
-          }).then((res) => {
-            console.log("res", res);
-            location.href = `/partiesSearch?q=${res.config.data}`;
-          });
-        } catch (error) {
-          console.log(err);
-        }
+      function writeFunc() {
+        location.href = `/parties/write`;
       }
     </script>
   </body>

@@ -305,3 +305,45 @@
 .album {
   width: 70%;
 }
+
+.writeButton {
+  position: fixed; /* 화면 하단에 고정 */
+  bottom: calc(5% + 60px);
+  right: 17%;
+  width: 130px;
+  height: 40px;
+  border: none;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: #222;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5%;
+}
+.writeButton span {
+  position: relative;
+  z-index: 1;
+}
+.writeButton::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 490%;
+  width: 140%;
+  background: #bf2c47;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+.writeButton:hover:after {
+  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+  transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
