@@ -13,10 +13,11 @@
       }
       /* 스크롤바 생성 */
       #msg {
-        height: 100%;
+        height: 96%;
         overflow-y: scroll;
       }
       #body {
+        margin-top: 20px;
         width: 100%;
         height: 70vh;
         position: relative;
@@ -92,11 +93,11 @@
               <p>채팅테스트(상대방)</p>
           </div> -->
       </div>
-      <form id="chat">
+      <div id="chat">
         <select id="userList"></select>
         <input type="text" id="message" placeholder="메세지 입력" />
-        <button>입력</button>
-      </form>
+        <button id="chatFormButton">입력</button>
+      </div>
     </div>
 
     <script>
@@ -189,7 +190,6 @@
         main.hidden = false;
         body.hidden = true;
         msg.innerHTML = "";
-        prepareScroll();
       }
 
       function roomEnter(name) {
@@ -199,6 +199,7 @@
         console.log(roomName, userName);
         socket.emit("create", roomName, userName, partiesId, (res) => {
           console.log(res); //이전 채팅 내용
+          console.log(res.length);
           const main = document.querySelector("#main");
           const body = document.querySelector("#body");
           const chatListButton = document.querySelector("#chatListButton");
@@ -228,6 +229,7 @@
               msg.appendChild(div);
             }
           }
+          prepareScroll();
         });
       }
 
@@ -244,7 +246,7 @@
       // console.log(partiesId, wrtieId, userId, roomName1);
 
       //소켓
-      const chatForm = document.querySelector("#chat");
+      const chatForm = document.querySelector("#chatFormButton");
       let msg = document.querySelector("#messages");
       const notice = document.querySelector("#notice");
 
@@ -306,44 +308,8 @@
         notice.appendChild(div);
       });
 
-      ///폼 이벤트
-      // document.querySelector("#chat").addEventListener("click", () => {
-      //   const roomName = roomName1;
-      //   const userName = userId;
-      //   console.log(roomName, userName);
-      //   socket.emit("create", roomName, userName, partiesId, (res) => {
-      //     console.log(res); //이전 채팅 내용
-      //     const main = document.querySelector("#main");
-      //     const body = document.querySelector("#body");
-      //     main.hidden = true;
-      //     body.hidden = false;
-
-      //     //이전 메세지 띄우기
-      //     if (res) {
-      //       for (let i = 0; i < res.length; i++) {
-      //         const div = document.createElement("div");
-      //         const p = document.createElement("p");
-      //         if (res[i].send_id === userId) {
-      //           //내가입력한 텍스트
-      //           div.classList.add("my-chat");
-      //         } else {
-      //           div.classList.add("other-chat");
-      //         }
-
-      //         //개인메세지일때 bool이 true
-      //         // if (bool) {
-      //         //   div.classList.add("secret-chat");
-      //         // }
-      //         //채팅 텍스트
-      //         p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
-      //         div.appendChild(p);
-      //         msg.appendChild(div);
-      //       }
-      //     }
-      //   });
-      // });
-      chatForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+      chatForm.addEventListener("click", (e) => {
+        // e.preventDefault();
         const user = document.querySelector("#userList");
         const message = document.querySelector("#message");
         console.log(user.value);
