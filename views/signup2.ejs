@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/signup2.css" />
+  </head>
+  <body>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a>
+    </div>
+    <div class="container">
+      <div class="select travel" id="travelSelect">
+        <div class="icon travel">
+          <img src="/public/img/travel.svg" />
+        </div>
+        <button class="choose">여행</button>
+      </div>
+      <div class="select alchol" id="alcholSelect">
+        <div class="icon alchol">
+          <img src="/public/img/alchol.svg" />
+        </div>
+        <button class="choose">술</button>
+      </div>
+      <div class="select pajamas" id="pajamasSelect">
+        <div class="icon pajamas">
+          <img src="/public/img/pajamas.svg" />
+        </div>
+        <button class="choose">파자마</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="select game" id="gameSelect">
+        <div class="icon game">
+          <img src="/public/img/game.svg" />
+        </div>
+        <button class="choose">게임</button>
+      </div>
+      <div class="select pet" id="petSelect">
+        <div class="icon pet">
+          <img src="/public/img/pet.svg" />
+        </div>
+        <button class="choose">애완동물</button>
+      </div>
+      <div class="select sports" id="sportsSelect">
+        <div class="icon sports">
+          <img src="/public/img/sports.svg" />
+        </div>
+        <button class="choose">운동</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="select music" id="musicSelect">
+        <div class="icon music">
+          <img src="/public/img/music.svg" />
+        </div>
+        <button class="choose">음악</button>
+      </div>
+      <div class="select cook" id="cookSelect">
+        <div class="icon cook">
+          <img src="/public/img/cook.svg" />
+        </div>
+        <button class="choose">요리</button>
+      </div>
+      <div class="select photo" id="photoSelect">
+        <div class="icon photo">
+          <img src="/public/img/photo.svg" value="photo" />
+        </div>
+        <button class="choose">사진</button>
+      </div>
+    </div>
+    <button type="button" id="nextButton" class="nextButton">다음</button>
+    <script>
+      // 모든 select 요소에 대한 이벤트 리스너를 추가.
+      const selectElements = document.querySelectorAll(".select");
+
+      selectElements.forEach((select) => {
+        select.addEventListener("click", () => {
+          select.classList.toggle("active");
+        });
+      });
+
+      document
+        .getElementById("nextButton")
+        .addEventListener("click", function () {
+          window.location.href = "/signup2"; // 페이지 이동
+        });
+    </script>
+  </body>
+</html>

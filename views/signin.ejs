@@ -4,15 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Covered+By+Your+Grace&family=Fasthand&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
+    <link rel="stylesheet" href="/public/css/signin.css" />
   </head>
   <body>
     <form onsubmit="login(event)">
-      <input type="text" id="id" placeholder="ID" /><br />
+      <input type="text" id="userid" placeholder="ID" /><br />
       <input type="password" id="pw" placeholder="PW" /><br />
       <button type="submit">로그인</button>
     </form>
 
+    <input type="text" name="id" id="id" class="id" placeholder="아이디" />
+    <input
+      type="password"
+      name="pw"
+      id="pw"
+      class="pw"
+      placeholder="비밀번호"
+    />
+    <button type="button" class="loginButton" onclick="login(event)">
+      로그인
+    </button>
+    <a href="/signup1" class="signup">회원가입</a>
+    <a href="/find" class="find">아이디/비밀번호 찾기</a>
     <script>
       function login(e) {
         e.preventDefault(); //기본 제출 멈춤
@@ -21,16 +39,15 @@
           method: "POST",
           url: "/signin",
           data: {
-            id: document.querySelector("#id").value,
+            id: document.querySelector("#userid").value,
             pw: document.querySelector("#pw").value,
           },
         }).then((res) => {
           console.log(res);
           if (res.data.result) {
-            // console.log(session.name);
             alert(`로그인 성공`);
             sessionStorage.setItem("token", res.data.token);
-            location.href = "/parties";
+            location.href = "/";
           } else {
             alert(`로그인 실패`);
             document.location.reload();

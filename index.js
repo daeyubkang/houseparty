@@ -4,6 +4,16 @@ const app = express();
 const PORT = 8000;
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const http = require("http");
+const SocketIO = require("socket.io");
+
+//소켓
+const server = http.createServer(app);
+const io = SocketIO(server);
+const socketRouter = require("./routes/socket");
+socketRouter(io);
+
+app.use("/public", express.static(__dirname + "/public"));
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -45,6 +55,21 @@ app.use("/profile", profileRouter);
 const verifyRouter = require("./routes/verify");
 app.use("/verify", verifyRouter);
 
+const loginRouter = require("./routes/login");
+app.use("/login", loginRouter);
+
+//
+const signup1Router = require("./routes/signup1");
+app.use("/signup1", signup1Router);
+
+const signup2Router = require("./routes/signup2");
+app.use("/signup2", signup2Router);
+
+const partiesSearchRouter = require("./routes/paritesSearch");
+app.use("/partiesSearch", partiesSearchRouter);
+
+app.use("/public", express.static(__dirname + "/public"));
+
 app.use("/", (req, res) => {
   res.render("index");
 });
@@ -57,8 +82,8 @@ app.use("*", (req, res) => {
 //db싱크
 //force:true 항상 테이블을 삭제 후 재생성
 //force:false(default) 테이블이 존재하면 패쓰, 없으면 생성
-db.sequelize.sync({ force: true }).then(() => {
-  app.listen(PORT, () => {
+db.sequelize.sync({ force: false }).then(() => {
+  server.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
   });
 });

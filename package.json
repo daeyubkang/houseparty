@@ -1,10 +1,11 @@
 {
   "name": "houseparty",
   "version": "1.0.0",
-  "description": "houseparty",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node-sass -wr --source-map true /pulic/scss/signup1.scss /public/css/signup1.css"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.6.0",
     "sequelize": "^6.32.1",
-    "sequelize-cli": "^6.6.1"
+    "sequelize-cli": "^6.6.1",
+    "socket.io": "^4.7.2"
   }
 }

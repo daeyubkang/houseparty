@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/public/css/partiesSearch.css" />
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.3/examples/album/"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a
+      ><a class="signin" href="/login">login</a>
+    </div>
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <form class="searchForm" id="searchForm">
+          <div class="search">
+            <input
+              id="searchInput"
+              class="form-control me-2"
+              type="search"
+              placeholder="원하는 파티를 찾아보세요."
+              aria-label="Search"
+            />
+            <button
+              class="btn btn-outline-success"
+              type="button"
+              id="searchButton"
+              onclick="searchFunc()"
+            >
+              <img src="/public/img/search.svg" alt="" />
+            </button>
+          </div>
+        </form>
+        <div class="tag">
+          <% for (let i = 0; i < tag.length; i++) { %>
+          <button
+            class="tagButton"
+            id="tagButton"
+            value="<%= tag[i].tag %>"
+            onclick="tagSearchFunc(`<%= tag[i].tag %>`)"
+          >
+            #<%= tag[i].tag %>
+          </button>
+          <% } %>
+        </div>
+        <div class="row" style="margin-top: 10px">
+          <% for (let i = 0; i < parties.length; i++) { %>
+          <div class="col-md-4">
+            <div class="card shadow-sm hidden party-card">
+              <svg
+                class="bd-placeholder-img card-img-top"
+                width="100%"
+                height="225"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Placeholder: Thumbnail"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#55595c"></rect>
+                <text x="50%" y="50%" fill="#eceeef" dy=".3em">사진</text>
+              </svg>
+              <div class="card-body">
+                <div class="titleTags">
+                  <p class="card-text"><%= parties[i].title %></p>
+                  <h6 class="tags"><%= parties[i].tag %></h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <img
+                      src="/public/img/time.svg"
+                      alt=""
+                      style="width: 15px"
+                    />
+                    <h6><%= parties[i].start_time %></h6>
+                  </div>
+                  <% const createdAt = new Date(parties[i].createdAt); const
+                  currentDate = new Date(); const timeDifference = currentDate -
+                  createdAt; if(timeDifference < 60 * 1000){ //1분 미만인 경우
+                  const secondsAgo = Math.floor(timeDifference/1000); %>
+                  <small class="text-body-secondary"
+                    ><%= secondsAgo %>초전</small
+                  >
+                  <% } else if(timeDifference < 60 * 60 * 1000){ const
+                  minutesAgo = Math.floor(timeDifference / (60*1000)); %>
+                  <small class="text-body-secondary"
+                    ><%= minutesAgo %>분전</small
+                  >
+                  <% } else if(timeDifference < 24 * 60 * 60 *1000){ const
+                  hoursAgo = Math.floor(timeDifference / (60*60*1000)); %>
+                  <small class="text-body-secondary"
+                    ><%= hoursAgo %>시간전</small
+                  >
+                  <% } else{ const daysAgo = Math.floor(timeDifference / (24 *
+                  60 * 60 * 1000)); %>
+                  <small class="text-body-secondary"><%= daysAgo %>일전</small>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        type="button"
+        id="writeButton"
+        class="writeButton"
+        onclick="writeFunc()"
+      >
+        <span>글쓰기</span>
+      </button>
+    </div>
+    <div class="bottombar">
+      <div class="leftBottomBar">
+        <a href="/parties" class="a">
+          <div class="select">
+            <img src="/public/img/parties.svg" class="selectimg" />
+            <span class="bottom partiesName"> 목록 </span>
+          </div></a
+        >
+        <a href="/location" class="a">
+          <div class="select">
+            <img src="/public/img/map.svg" class="selectimg" />
+            <span class="bottom locationName"> 지도 </span>
+          </div></a
+        >
+      </div>
+      <a href="/main" class="logo">
+        <button class="logo">H</button>
+      </a>
+      <div class="rightBottomBar">
+        <a href="/chat" class="a">
+          <div class="select">
+            <img src="/public/img/chat.svg" class="selectimg" />
+            <span class="bottom chatName"> 채팅 </span>
+          </div></a
+        >
+        <a href="/profile" class="a">
+          <div class="select">
+            <img src="/public/img/profile.svg" class="selectimg" />
+            <span class="bottom profileName"> 마이페이지 </span>
+          </div></a
+        >
+      </div>
+    </div>
+    <script>
+      // URL에서 파라미터 값을 가져오는 함수
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+        const results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      // URL에서 'tag' 파라미터 값을 읽어옴
+      const tagParam = getParameterByName("q");
+
+      sessionStorage.clear();
+      //태그 파라미터를 쉽표로 나누어 배열로 변환
+      let selectedTags = tagParam ? tagParam.split(",") : [];
+
+      //세션스토리지 초기화
+      //'tag' 파라미터 값을 세션에 저장.
+      sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
+
+      // 모든 태그 버튼을 선택
+      const tagButtons = document.querySelectorAll(".tagButton");
+
+      // 'tag' 파라미터와 일치하는 값을 가진 태그 버튼에 스타일 적용
+      tagButtons.forEach((button) => {
+        const tagValue = button.getAttribute("value");
+        if (selectedTags.includes(tagValue)) {
+          button.classList.add("selected");
+        }
+      });
+
+      async function tagSearchFunc(tag) {
+        console.log(tag);
+        const selectedTagsStr = sessionStorage.getItem("selectedTags");
+        //새로운 배열 생성
+        selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
+        if (selectedTags.includes(tag)) {
+          selectedTags = selectedTags.filter(
+            (selectedTags) => selectedTags !== tag
+          );
+        } else {
+          selectedTags.push(tag);
+        }
+
+        sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
+        console.log(selectedTags);
+        try {
+          const res = await axios({
+            method: "get",
+            url: `/partiesSearch?q=${selectedTags.join(",")}`,
+            data: selectedTags.join(","),
+          }).then((res) => {
+            sessionStorage.setItem(
+              "selectedTags",
+              JSON.stringify(selectedTags)
+            );
+            console.log("res", res);
+            location.href = `/partiesSearch?q=${res.config.data}`;
+          });
+        } catch (error) {
+          console.log(err);
+        }
+      }
+      async function searchFunc() {
+        const searchValue = document.getElementById("searchInput").value;
+        console.log(searchValue);
+        sessionStorage.setItem("seachItem", JSON.stringify(searchValue));
+
+        //선택된 태그 배열 가져오기
+        const selectedTagsStr = sessionStorage.getItem("selectedTags");
+        const searchItemStr = sessionStorage.getItem("seachItem");
+
+        //JSON 문자열 파싱하여 배열로 변환
+        const selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
+        const searchItem = searchItemStr ? JSON.parse(searchItemStr) : [];
+
+        //두 배열 합침
+        const find = [...selectedTags, ...searchItem];
+
+        sessionStorage.setItem("find", JSON.stringify(find));
+
+        try {
+          const res = await axios({
+            method: "get",
+            url: `/partiesSearch?q=${find.join(",")}`,
+            data: find.join(","),
+          }).then((res) => {
+            console.log("res", res);
+            location.href = `/partiesSearch?q=${res.config.data}`;
+          });
+        } catch (err) {
+          console.log(err);
+        }
+        //입력값 비우기
+        searchInput.value = searchValue;
+        sessionStorage.removeItem("seachItem");
+      }
+      function writeFunc() {
+        location.href = `/parties/write`;
+      }
+    </script>
+  </body>
+</html>

@@ -5,31 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      .selected-amenities {
+        background-color: gray;
+      }
+    </style>
   </head>
   <body>
-    <h1>글쓰기</h1>
-    <form name="register">
-      <label for="">제목</label>
+    <h1>새 파티 열기</h1>
+    <form onsubmit="postParty(event)">
+      <label for="title">제목</label>
       <input type="text" id="title" placeholder="제목" /><br />
-      <label for="">내용</label>
-      <input type="text" id="description" placeholder="내용" /><br />
-      <label for="">날짜</label>
-      <input type="date" id="date" placeholder="날짜" /><br />
-      <label for="">참여자 수</label>
-      <input type="number" id="headCount" placeholder="참여자 수" /><br />
-      <label for="">사진</label>
-      <input type="text" id="image" placeholder="사진" /><br />
-      <label for="">태그</label>
-      <input type="text" id="tag" placeholder="태그" /><br />
-      <label for="">파티 위치</label>
-      <input type="text" placeholder="파티위치" id="partyLocation" /> <br />
-      <label for="">시간</label>
-      <input type="text" id="startTime" /> <br />
+      <label for="description">설명</label>
+      <input type="text" id="description" placeholder="설명" /> <br />
+      <label for="date">날짜</label>
+      <input type="date" id="date" /> <br />
+      <label for="startTime">시작시간</label>
+      <input type="time" id="startTime" />
+      <label for="endTime">종료시간</label>
+      <input type="time" id="endTime" /><br />
+      <label for="headCount">인원수</label>
+      <input type="number" id="headCount" placeholder="인원수" /><br />
+
+      태그:<br />
+      <button type="button" name="tags" role="checkbox" aria-checked="false">
+        식사
+      </button>
+      <button type="button" name="tags" role="checkbox" aria-checked="false">
+        커피&티</button
+      ><br />
+      규칙:
       <br />
-      <button type="button" onclick="registerFunc()">글쓰기</button>
+      <button
+        type="button"
+        name="amenities"
+        role="checkbox"
+        aria-checked="false"
+      >
+        술
+      </button>
+      <button
+        type="button"
+        name="amenities"
+        role="checkbox"
+        aria-checked="false"
+      >
+        흡연</button
+      ><br />
+      시설:
+      <br />
+      <button
+        type="button"
+        name="amenities"
+        id="tv"
+        role="checkbox"
+        value="1"
+        aria-checked="false"
+      >
+        TV
+      </button>
+      <button
+        type="button"
+        name="amenities"
+        id="microwave"
+        role="checkbox"
+        value="2"
+        aria-checked="false"
+      >
+        전자레인지
+      </button>
+      <button
+        type="button"
+        name="amenities"
+        id="airfryer"
+        role="checkbox"
+        value="3"
+        aria-checked="false"
+      >
+        에어프라이어
+      </button>
+
+      <br />
+      <br />
+
+      <button type="submit">작성 완료</button>
     </form>
 
     <script>
+      //로그인 상태 확인
       let id = "";
       (function () {
         let result1 = "";
@@ -54,26 +117,54 @@
         }
       })();
 
-      async function registerFunc() {
-        const form = document.forms["register"];
+      //태그 클릭시 On/Off 토글
+      const buttons = document.querySelectorAll(
+        'button[name="tags"], button[name="amenities"]'
+      );
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          if (button.getAttribute("aria-checked") === "true") {
+            button.setAttribute("aria-checked", "false");
+            button.classList.remove("selected-amenities");
+          } else {
+            button.setAttribute("aria-checked", "true");
+            button.classList.add("selected-amenities");
+          }
+        });
+      });
+
+      //게시글 업로드
+      async function postParty(e) {
+        e.preventDefault();
+        const data = {
+          id,
+          title: document.querySelector("#title").value,
+          description: document.querySelector("#description").value,
+          date: document.querySelector("#date").value,
+          startTime: document.querySelector("#startTime").value,
+          endTime: document.querySelector("#endTime").value,
+          head_count: document.querySelector("#headCount").value,
+          amenities: [],
+        };
+        const selected = document.querySelectorAll(".selected-amenities");
+        selected.forEach((select) => {
+          data.amenities.push(select.value);
+        });
         try {
-          const res = await axios({
+          const result = await axios({
             method: "POST",
             url: "/parties/host",
-            data: {
-              id: id,
-              title: form.title.value,
-              description: form.description.value,
-              head_count: form.headCount.value,
-              date: form.date.value,
-              image: form.image.value,
-              tag: form.tag.value,
-              party_location: form.partyLocation.value,
-              start_time: form.startTime.value,
-            },
+            data,
           });
-          console.log(res);
-          if (res.data) {
+
+          //amenities.push(selected.value);
+
+          // const amenitiesbu = querySelectorAll('button[name="amenities"]');
+          // checkboxes.forEach( => {
+
+          // });
+          console.log("result:", result);
+          if (result.data) {
             alert("글쓰기 완료");
             document.location.href = "/parties";
           }

@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topBar {
+  width: 360px;
+  padding: 14px 0 0;
+  background-color: #fff;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+}
+
+.topBar .howsParty {
+  width: 85px;
+  height: 27px;
+  margin: 0 165px 12px 15px;
+  font-family: Inter;
+  font-size: 15px;
+  text-align: center;
+  color: #bf2c47;
+  text-decoration: none;
+}
+.topBar .signin {
+  width: 85px;
+  height: 27px;
+  position: absolute;
+  font-family: Inter;
+  font-size: 15px;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+
+.container {
+  margin-top: 100px;
+  text-align: center;
+}
+
+h3 {
+  margin-bottom: 30px;
+}
+
+.findID {
+  border: solid 1px black;
+  border-radius: 10px;
+}
+
+.findID > div {
+  width: 270px;
+  height: 60px;
+  border-bottom: solid 1px black;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.findID .lastDiv {
+  border-bottom: none;
+}
+
+.findID > div img + input {
+  width: 200px;
+  height: 50px;
+  background-color: lightgray;
+}
+.findID > div img {
+  margin-right: 10px;
+}
+
+.findID > div > input {
+  border: none;
+  outline: none;
+}
+
+button {
+  margin-top: 20px;
+  width: 270px;
+  height: 30px;
+  background-color: #bf2c47;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+}
+
+/* findPW */
+
+.findPW {
+  border: solid 1px black;
+  border-radius: 10px;
+}
+
+.findPW > div {
+  width: 270px;
+  height: 60px;
+  border-bottom: solid 1px black;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.findPW .lastDiv {
+  border-bottom: none;
+}
+
+.findPW > div img + input {
+  width: 200px;
+  height: 50px;
+  background-color: lightgray;
+}
+.findPW > div img {
+  margin-right: 10px;
+}
+
+.findPW > div > input {
+  border: none;
+  outline: none;
+}
+
+form {
+  margin-bottom: 50px;
+}

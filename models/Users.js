@@ -37,6 +37,10 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
+    birth: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   });
 };
 
