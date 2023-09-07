@@ -11,8 +11,8 @@ exports.search = async (req, res) => {
     const term = searchTerms[i];
     findWhere.push({
       [Op.or]: [
-        { title: { [Op.like]: `${term}` } },
-        { tag: { [Op.like]: `${term}` } },
+        { title: { [Op.like]: `%${term}%` } },
+        { tag: { [Op.like]: `%${term}%` } },
       ],
     });
   }

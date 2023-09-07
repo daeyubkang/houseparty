@@ -228,11 +228,15 @@
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
+        if (searchValue) {
+          selectedTags.push(searchValue);
+          sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
+        }
         try {
           const res = await axios({
             method: "get",
-            url: `/partiesSearch?q=${searchValue}`,
-            data: searchValue,
+            url: `/partiesSearch?q=${selectedTags.join(",")}`,
+            data: selectedTags.join(","),
           }).then((res) => {
             console.log("res", res);
             location.href = `/partiesSearch?q=${res.config.data}`;
@@ -240,6 +244,8 @@
         } catch (err) {
           console.log(err);
         }
+        //입력값 비우기
+        searchInput.value = searchValue;
       }
       function writeFunc() {
         location.href = `/parties/write`;
