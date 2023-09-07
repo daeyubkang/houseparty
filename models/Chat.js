@@ -9,9 +9,13 @@ const Model = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    board_num: {
+    roomID: {
+      type: DataTypes.STRING(50),
+      allowNull: false, //NOT NULL
+    },
+    party_num: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     participant_id: {
       type: DataTypes.STRING(255),
@@ -19,7 +23,7 @@ const Model = (sequelize) => {
     },
     host_id: {
       type: DataTypes.STRING(30),
-      allowNull: false,
+      allowNull: true,
     },
   });
 };

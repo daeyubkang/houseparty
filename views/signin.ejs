@@ -46,6 +46,8 @@
           console.log(res);
           if (res.data.result) {
             alert(`로그인 성공`);
+            sessionStorage.setItem("token", res.data.token);
+            location.href = "/";
           } else {
             alert(`로그인 실패`);
             document.location.reload();
