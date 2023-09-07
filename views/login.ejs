@@ -9,14 +9,14 @@
       rel="stylesheet"
     />
     <title>Document</title>
-    <link rel="stylesheet" href="/public/css/signin.css" />
+    <link rel="stylesheet" href="/public/css/login.css" />
   </head>
   <body>
-    <form onsubmit="login(event)">
-      <input type="text" id="userid" placeholder="ID" /><br />
-      <input type="password" id="pw" placeholder="PW" /><br />
-      <button type="submit">로그인</button>
-    </form>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a
+      ><a class="signin" href="/signin">login</a>
+    </div>
+    <div class="logo">How's Party</div>
 
     <input type="text" name="id" id="id" class="id" placeholder="아이디" />
     <input
@@ -39,15 +39,13 @@
           method: "POST",
           url: "/signin",
           data: {
-            id: document.querySelector("#userid").value,
+            id: document.querySelector("#id").value,
             pw: document.querySelector("#pw").value,
           },
         }).then((res) => {
           console.log(res);
           if (res.data.result) {
             alert(`로그인 성공`);
-            sessionStorage.setItem("token", res.data.token);
-            location.href = "/";
           } else {
             alert(`로그인 실패`);
             document.location.reload();

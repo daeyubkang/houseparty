@@ -6,4 +6,6 @@ router.get("/", controller.index);
 
 router.post("/", controller.signinPost);
 
+router.get("/search", controller.searchID);
+
 module.exports = router;

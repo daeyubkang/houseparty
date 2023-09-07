@@ -1,4 +1,5 @@
 const { Users } = require("../models");
+
 const bcrypt = require("bcrypt");
 const saltNumber = 10;
 const SECRET = "secretKey";
@@ -16,7 +17,8 @@ exports.index = (req, res) => {
 exports.signupPost = async (req, res) => {
   try {
     console.log(req.body);
-    const { id, pw, name, gender, phone_number, location, hobby } = req.body;
+    const { id, pw, name, gender, phone_number, location, hobby, birth } =
+      req.body;
     let secretPw = bcryptPassword(pw);
     const user = await Users.create({
       id,
@@ -26,6 +28,7 @@ exports.signupPost = async (req, res) => {
       phone_number,
       location,
       hobby,
+      birth,
     });
     console.log(user);
     res.send(user);

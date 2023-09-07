@@ -13,6 +13,8 @@ const io = SocketIO(server);
 const socketRouter = require("./routes/socket");
 socketRouter(io);
 
+app.use("/public", express.static(__dirname + "/public"));
+
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
@@ -52,6 +54,21 @@ app.use("/profile", profileRouter);
 
 const verifyRouter = require("./routes/verify");
 app.use("/verify", verifyRouter);
+
+const loginRouter = require("./routes/login");
+app.use("/login", loginRouter);
+
+//
+const signup1Router = require("./routes/signup1");
+app.use("/signup1", signup1Router);
+
+const signup2Router = require("./routes/signup2");
+app.use("/signup2", signup2Router);
+
+const partiesSearchRouter = require("./routes/paritesSearch");
+app.use("/partiesSearch", partiesSearchRouter);
+
+app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/", (req, res) => {
   res.render("index");

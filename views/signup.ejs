@@ -11,6 +11,7 @@
     <form name="register">
       <label for="">아이디</label>
       <input type="text" id="userid" placeholder="ID" /><br />
+      <input type="text" id="userid" placeholder="ID" /><br />
       <label for="">비밀번호</label>
       <input type="password" id="pw" placeholder="PW" /><br />
       <label for="">이름</label>
@@ -21,8 +22,8 @@
       <label for="">전화번호</label>
       <input
         type="tel"
-        name="phoneNum"
-        id="phoneNum"
+        name="phone_number"
+        id="phone_number"
         placeholder="010-0000-0000"
       />
       <br />
@@ -36,6 +37,7 @@
 
     <script>
       async function registerFunc() {
+        console.log();
         const form = document.forms["register"];
         console.log(form.gender.value);
         try {
@@ -43,6 +45,7 @@
             method: "POST",
             url: "/signup",
             data: {
+              id: form.userid.value,
               id: form.userid.value,
               pw: form.pw.value,
               name: form.name.value,

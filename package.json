@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node-sass -wr --source-map true /pulic/scss/signup1.scss /public/css/signup1.css"
   },
   "author": "",
   "license": "ISC",
