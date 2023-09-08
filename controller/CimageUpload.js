@@ -13,7 +13,7 @@ exports.uploadImage = async (req, res) => {
     // const imageUrl = await imageUpload(imageFile);
 
     // // 업로드된 이미지의 URL을 클라이언트에게 전송합니다.
-    // res.json({ imageUrl });
+    res.json({ file: req.file });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "이미지 업로드 중 오류가 발생했습니다." });

@@ -234,25 +234,21 @@
           const formData = new FormData();
           formData.append("image", selectedImage);
 
-          const res = await axios({
-            method: "post",
-            url: "/upload",
-            data: formData,
-          }).then((res) => {});
+          // const res = await axios({
+          //   method: "post",
+          //   url: "/upload",
+          //   data: formData,
+          // }).then((res) => {});
 
           // 이미지를 업로드할 엔드포인트로 POST 요청 보내기
-          // const res = await axios
-          //   .post("/upload", formData, {
-          //     headers: {
-          //       "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
-          //     },
-          //   })
-          //   .then((res) => {
-          //     console.log(res);
-          //     console.log("imgURL", res.data.imgUrl);
-          //   });
+          const res = await axios.post("signup/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
+            },
+          });
+          console.log(res.data.file.location);
 
-          // alert("이미지 업로드가 완료되었습니다.");
+          alert("이미지 업로드가 완료되었습니다.");
         } catch (error) {
           console.error("이미지 업로드 중 오류 발생:", error);
         }
