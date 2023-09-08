@@ -295,13 +295,16 @@
 }
 .tagButton {
   border-radius: 10px;
+
   border: solid 1px #000000;
   background-color: white;
   color: black;
+
 }
 .titleTags {
   display: flex;
 }
+
 .album {
   width: 70%;
 }
@@ -361,3 +364,4 @@
 .card.shadow-sm.hidden.party-card:hover {
   transform: scale(1.05); /*1.05배 확대*/
 }
+

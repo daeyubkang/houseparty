@@ -15,8 +15,13 @@ const sequelize = new Sequelize(
 //db에 User생성
 db.Users = require("./Users")(sequelize);
 db.Parties = require("./Parties")(sequelize);
+
 db.Chat = require("./Chat")(sequelize);
 db.ChatMessage = require("./ChatMessage")(sequelize);
+
+db.Amenities = require("./Amenities")(sequelize);
+db.Tags = require("./Tags")(sequelize);
+
 // const model = require('./User');
 // const temp = model(sequelize);
 // db.User = temp;
@@ -30,6 +35,9 @@ db.Parties.belongsTo(db.Users);
 
 db.Chat.hasMany(db.ChatMessage);
 db.ChatMessage.belongsTo(db.Chat);
+
+db.Parties.belongsToMany(db.Tags, { through: "PartyTags" });
+db.Tags.belongsToMany(db.Parties, { through: "PartyTags" });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
