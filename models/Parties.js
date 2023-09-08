@@ -51,6 +51,10 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
+    tag: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
   });
 };
 
