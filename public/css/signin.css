@@ -109,3 +109,6 @@ body {
   color: #000;
   text-decoration: none;
 }
+.loginButton:hover {
+  cursor: pointer;
+}
