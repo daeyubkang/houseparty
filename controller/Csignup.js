@@ -17,8 +17,17 @@ exports.index = (req, res) => {
 exports.signupPost = async (req, res) => {
   try {
     console.log(req.body);
-    const { id, pw, name, gender, phone_number, location, hobby, birth } =
-      req.body;
+    const {
+      id,
+      pw,
+      name,
+      gender,
+      phone_number,
+      location,
+      hobby,
+      birth,
+      imageUrl,
+    } = req.body;
     let secretPw = bcryptPassword(pw);
     const user = await Users.create({
       id,
@@ -29,7 +38,9 @@ exports.signupPost = async (req, res) => {
       location,
       hobby,
       birth,
+      imageUrl,
     });
+
     console.log(user);
     res.send(user);
   } catch (error) {
