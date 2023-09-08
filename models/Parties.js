@@ -13,6 +13,10 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
+    party_location: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     title: {
       type: DataTypes.STRING(30),
       allowNull: false,
@@ -25,11 +29,7 @@ const Model = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    start_time: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
-    },
-    end_time: {
+    image: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
@@ -37,12 +37,18 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
+
+    start_time: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    }
+
     party_location: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
     image: {
-      type: DataTypes.STRING(50),
+     type: DataTypes.STRING(50),
       allowNull: true,
     },
   });

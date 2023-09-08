@@ -295,20 +295,23 @@
 }
 .tagButton {
   border-radius: 10px;
-
   border: solid 1px #000000;
-  background-color: white;
-  color: black;
-
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
 }
+.tagButton.selected {
+  border-radius: 10px;
+  border: solid 1px #fff;
+  background-color: #bf2c47;
+  color: white;
+}
+
 .titleTags {
   display: flex;
 }
-
 .album {
   width: 70%;
 }
-
 .writeButton {
   position: fixed; /* 화면 하단에 고정 */
   bottom: calc(5% + 60px);
@@ -350,7 +353,6 @@
   -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
   transform: translateX(-9%) translateY(-25%) rotate(45deg);
 }
-
 /* 카드에 마우스 올릴 시 나오는 효과 */
 .card.shadow-sm.hidden.party-card {
   /*그림자 효과 추가*/
@@ -364,4 +366,3 @@
 .card.shadow-sm.hidden.party-card:hover {
   transform: scale(1.05); /*1.05배 확대*/
 }
-

@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/public/css/parties.css" />
-
+    <link rel="stylesheet" href="/public/css/partiesSearch.css" />
     <link
       rel="canonical"
       href="https://getbootstrap.com/docs/5.3/examples/album/"
@@ -17,34 +16,8 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
   </head>
   <body>
-    <div class="topBar">
-      <a class="howsParty" href="/main"> How's Party </a
-      ><a class="signin" href="/signin">login</a>
-    </div>
-    <h1>Parties</h1>
-    <button onclick="write1()">글쓰기</button>
-    <ul>
-
-      <% for (let i = 0; i < parties.length; i++) { %>
-      <li>
-        <b><%= parties[i].id %></b> -
-        <a href="/parties/<%=parties[i].party_num%><%= parties[i].title %></a>
-        <p><%= parties[i].party_num %></p>
-        <button
-          onclick="chatRoom(this.value)"
-          value="<%= parties[i].party_num %>,<%= parties[i].id %>"
-        >
-          채팅방 이동
-        </button>
-      </li>
-
-      <% } %>
-    </ul>
-
     <div class="topBar">
       <a class="howsParty" href="/main"> How's Party </a
       ><a class="signin" href="/login">login</a>
@@ -71,24 +44,21 @@
           </div>
         </form>
         <div class="tag">
-          <% for (let i = 0; i < parties.length; i++) { %>
+          <% for (let i = 0; i < tag.length; i++) { %>
           <button
             class="tagButton"
             id="tagButton"
-            value="<%= parties[i].tag %>"
-            onclick="tagSearchFunc(`<%= parties[i].tag %>`)"
+            value="<%= tag[i].tag %>"
+            onclick="tagSearchFunc(`<%= tag[i].tag %>`)"
           >
-            #<%= parties[i].tag %>
+            #<%= tag[i].tag %>
           </button>
           <% } %>
         </div>
-        <div
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
-          style="margin-top: 10px"
-        >
+        <div class="row" style="margin-top: 10px">
           <% for (let i = 0; i < parties.length; i++) { %>
-          <div class="col">
-            <div class="card shadow-sm hidden party-card" >
+          <div class="col-md-4">
+            <div class="card shadow-sm hidden party-card">
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"
@@ -156,7 +126,6 @@
         <span>글쓰기</span>
       </button>
     </div>
-
     <div class="bottombar">
       <div class="leftBottomBar">
         <a href="/parties" class="a">
@@ -191,55 +160,107 @@
       </div>
     </div>
     <script>
-      // //카드 마우스 효과 실행
-      // const cards = document.querySelectorAll(".card");
-      // cards.forEach((card) => {
-      //   card.addEventListener("mouseleave", () => {
-      //     card.style.transform = "scale(1)"; //원래 크기로 돌아감
-      //     card.style.boxShaow = "0 4px 8px rgba(0, 0, 0, 0.1)"; //원래 그림자로 돌아감
-      //   });
-      // });
-      localStorage.clear("searchItem");
-      (function () {
-        let result1 = "";
-        const local = sessionStorage.getItem("token");
-        console.log(local);
-        const currentUrl = window.location.href;
-        console.log(currentUrl);
-        if (local != null) {
-          axios({
-            method: "post",
-            url: `/verify`,
-            data: {
-              token: local,
-            },
-          }).then((result) => {
-            result1 = result;
-            console.log(result1.data.user.id);
-            sessionStorage.setItem("userId", result1.data.user.id);
-          });
-        } else {
-          console.log("로그인 실패");
-        }
-      })();
-
-      function write1() {
-        location.href = `/parties/write`;
+      // URL에서 파라미터 값을 가져오는 함수
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+        const results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
       }
 
-      async function chatRoom(e) {
-        console.log(e);
-        location.href = `/chat?partiesNum=${e}`;
+      // URL에서 'tag' 파라미터 값을 읽어옴
+      const tagParam = getParameterByName("q");
+
+      sessionStorage.clear();
+      //태그 파라미터를 쉽표로 나누어 배열로 변환
+      let selectedTags = tagParam ? tagParam.split(",") : [];
+
+      //세션스토리지 초기화
+      //'tag' 파라미터 값을 세션에 저장.
+      sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
+
+      // 모든 태그 버튼을 선택
+      const tagButtons = document.querySelectorAll(".tagButton");
+
+      // 'tag' 파라미터와 일치하는 값을 가진 태그 버튼에 스타일 적용
+      tagButtons.forEach((button) => {
+        const tagValue = button.getAttribute("value");
+        if (selectedTags.includes(tagValue)) {
+          button.classList.add("selected");
+        }
+      });
+
+      //검색어 유지하기
+      const searchInput = document.getElementById("searchInput");
+      const searchItem = localStorage.getItem("searchItem");
+      searchInput.value = searchItem;
+
+      async function tagSearchFunc(tag) {
+        console.log(tag);
+        const selectedTagsStr = sessionStorage.getItem("selectedTags");
+        //새로운 배열 생성
+        selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
+        if (selectedTags.includes(tag)) {
+          selectedTags = selectedTags.filter(
+            (selectedTags) => selectedTags !== tag
+          );
+        } else {
+          selectedTags.push(tag);
+        }
+
+        sessionStorage.setItem("selectedTags", JSON.stringify(selectedTags));
+        console.log(selectedTags);
+        try {
+          const res = await axios({
+            method: "get",
+            url: `/partiesSearch?q=${selectedTags.join(",")}`,
+            data: selectedTags.join(","),
+          }).then((res) => {
+            sessionStorage.setItem(
+              "selectedTags",
+              JSON.stringify(selectedTags)
+            );
+            console.log("res", res);
+            location.href = `/partiesSearch?q=${res.config.data}`;
+          });
+        } catch (error) {
+          console.log(err);
+        }
       }
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
+        sessionStorage.setItem("seachItem", searchValue);
         localStorage.setItem("searchItem", searchValue);
+
+        //선택된 태그 배열 가져오기
+        const selectedTagsStr = sessionStorage.getItem("selectedTags");
+        const searchItemStr = sessionStorage.getItem("seachItem");
+
+        //JSON 문자열 파싱하여 배열로 변환
+        const selectedTags = selectedTagsStr ? JSON.parse(selectedTagsStr) : [];
+        const searchItem = searchItemStr ? searchItemStr : [];
+
+        //만약 검색어가 이미 있으면 삭제시키기(값이 2개 이상일 때 맨 앞 값 삭제 )
+        const selectedTagsOn = document.querySelectorAll(".tagButton.selected");
+        if ((selectedTagsOn.length = 0)) {
+          selectedTags.remove();
+        } else {
+          selectedTags.shift();
+        }
+        //두 배열 합침(검색어를 제일 처음 배열로 저장)
+        const find = [searchItemStr, ...selectedTags].filter(Boolean);
+
+        sessionStorage.setItem("find", find);
+
         try {
           const res = await axios({
             method: "get",
-            url: `/partiesSearch?q=${searchValue}`,
-            data: searchValue,
+            url: `/partiesSearch?q=${find.join(",")}`,
+            data: find.join(","),
           }).then((res) => {
             console.log("res", res);
             location.href = `/partiesSearch?q=${res.config.data}`;
@@ -247,22 +268,9 @@
         } catch (err) {
           console.log(err);
         }
-      }
-      async function tagSearchFunc(tag) {
-        console.log(tag);
-        const searchTag = tag;
-        try {
-          const res = await axios({
-            method: "get",
-            url: `/partiesSearch?q=${searchTag}`,
-            data: searchTag,
-          }).then((res) => {
-            console.log("res", res);
-            location.href = `/partiesSearch?q=${res.config.data}`;
-          });
-        } catch (error) {
-          console.log(err);
-        }
+        //입력값 비우기
+        searchInput.value = searchValue;
+        sessionStorage.removeItem("seachItem");
       }
       function writeFunc() {
         location.href = `/parties/write`;

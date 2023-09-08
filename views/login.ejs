@@ -9,7 +9,9 @@
       rel="stylesheet"
     />
     <title>Document</title>
-    <link rel="stylesheet" href="../public/css/login.css" />
+
+    <link rel="stylesheet" href="/public/css/login.css" />
+
   </head>
   <body>
     <div class="topBar">
@@ -26,8 +28,34 @@
       class="pw"
       placeholder="비밀번호"
     />
-    <button type="button" class="loginButton">로그인</button>
+
+    <button type="button" class="loginButton" onclick="login(event)">
+      로그인
+    </button>
     <a href="/signup1" class="signup">회원가입</a>
     <a href="/find" class="find">아이디/비밀번호 찾기</a>
+    <script>
+      function login(e) {
+        e.preventDefault(); //기본 제출 멈춤
+
+        axios({
+          method: "POST",
+          url: "/signin",
+          data: {
+            id: document.querySelector("#id").value,
+            pw: document.querySelector("#pw").value,
+          },
+        }).then((res) => {
+          console.log(res);
+          if (res.data.result) {
+            alert(`로그인 성공`);
+          } else {
+            alert(`로그인 실패`);
+            document.location.reload();
+          }
+        });
+      }
+    </script>
+
   </body>
 </html>

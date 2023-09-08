@@ -1,3 +1,4 @@
 exports.index = (req, res) => {
-  res.render("chat");
+  console.log(req.query);
+  res.render("chat", { partiesNum: req.query.partiesNum });
 };

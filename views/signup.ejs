@@ -10,7 +10,8 @@
     <h1>회원가입</h1>
     <form name="register">
       <label for="">아이디</label>
-      <input type="text" id="id" placeholder="ID" /><br />
+      <input type="text" id="userid" placeholder="ID" /><br />
+      <input type="text" id="userid" placeholder="ID" /><br />
       <label for="">비밀번호</label>
       <input type="password" id="pw" placeholder="PW" /><br />
       <label for="">이름</label>
@@ -36,6 +37,7 @@
 
     <script>
       async function registerFunc() {
+        console.log();
         const form = document.forms["register"];
         console.log(form.gender.value);
         try {
@@ -43,11 +45,12 @@
             method: "POST",
             url: "/signup",
             data: {
-              id: form.id.value,
+              id: form.userid.value,
+              id: form.userid.value,
               pw: form.pw.value,
               name: form.name.value,
               gender: form.gender.value,
-              phone_number: form.phone_number.value,
+              phone_number: form.phoneNum.value,
               locaion: form.region.value,
               hobby: form.favorite.value,
             },

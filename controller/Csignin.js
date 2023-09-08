@@ -39,3 +39,7 @@ exports.signinPost = (req, res) => {
     }
   });
 };
+
+exports.searchID = (req, res) => {
+  res.render("search");
+};
