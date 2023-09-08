@@ -242,7 +242,7 @@
           });
 
           // 업로드 성공 시 서버에서 받은 응답 처리
-          console.log(res);
+          console.log("location", res);
 
           alert("이미지 업로드가 완료되었습니다.");
         } catch (error) {
@@ -256,6 +256,7 @@
     // server
     async function registerFunc() {
       const form = document.forms["register"];
+      // const imageUrl =
       console.log(form.gender.value);
       try {
         const res = await axios({
@@ -271,6 +272,7 @@
             location: form.displayAddress.value,
             // hobby: form.favorite.value,
             image: document.getElementById("imageInput").files[0],
+            // imageUrl,
           },
         });
         console.log(res);
