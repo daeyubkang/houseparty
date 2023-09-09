@@ -186,3 +186,31 @@ body {
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
 }
+.pwBox {
+  width: 270px;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  border-bottom: 0;
+  display: flex;
+}
+.top .pw {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.pwCheckBox {
+  width: 270px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 10px 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+
+.top .pwCheck {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}

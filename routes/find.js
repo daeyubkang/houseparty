@@ -6,6 +6,8 @@ router.get("/", controller.index);
 
 router.post("/findId", controller.findId);
 
-router.post("/findPw", controller.findPw);
+router.post("/updatePw", controller.updatePw);
+
+router.post("/EmailAuthentication", controller.EmailAuthentication);
 
 module.exports = router;

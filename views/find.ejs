@@ -67,8 +67,8 @@
         회원님 아이디는 ~~~입니다.
       </div>
 
-      <span id="find_title_pw">비밀번호 찾기</span>
-      <form name="findPwForm">
+      <span id="find_title_pw">비밀번호 재설정</span>
+      <form name="updataPwForm">
         <div class="top">
           <div class="nameBox">
             <img src="/public/img/id.svg" />
@@ -110,21 +110,102 @@
               placeholder="휴대전화 번호"
             />
           </div>
+          <div class="emailCheck">
+            <input type="email" id="email" class="email" placeholder="이메일" />
+            <button
+              type="button"
+              class="emailsubmit"
+              onclick="sendEmailVerification()"
+            >
+              전송
+            </button>
+          </div>
+          <div>
+            <input
+              type="number"
+              id="emailCheck"
+              class="emailCheck"
+              placeholder="인증번호"
+            />
+            <button
+              type="button"
+              class="emailCheckSubmit"
+              onclick="emailCheckSubmit()"
+            >
+              확인
+            </button>
+          </div>
+          <div class="pwBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="password"
+              name="pw"
+              id="pw"
+              class="pw"
+              placeholder="비밀번호"
+            />
+          </div>
+          <div class="pwCheckBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="password"
+              name="pwCheck"
+              id="pwCheck"
+              class="pwCheck"
+              placeholder="비밀번호 확인"
+            />
+          </div>
           <br />
+
           <button
             type="button"
             id="findId"
             class="findId"
-            onclick="findPwFunc()"
+            onclick="updatePwFunc()"
           >
-            찾기
+            재설정
           </button>
         </div>
       </form>
-      <div class="findPwResult">회원님 비밀번호는 ~~~입니다.</div>
     </div>
   </body>
   <script>
+    //이메일 인증하기
+    async function sendEmailVerification(event) {
+      const emailInput = document.getElementById("email");
+      const emailSubmitButton = document.querySelector(".emailsubmit");
+      const email = emailInput.value;
+      const id = document.getElementById("id").value;
+      //유효성 검사
+      if (!isValidEmail(email)) {
+        alert("올바른 이메일 주소를 입력하세요.");
+        return;
+      } else {
+        const res = await axios.post("/find/EmailAuthentication", {
+          email: email,
+          id: id,
+        });
+        alert(`${res.data.message}`);
+        console.log("payload", res.data.payload);
+        savedPayload = res.data.payload;
+      }
+    }
+    // 간단한 이메일 유효성 검사 함수
+    function isValidEmail(email) {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      return emailPattern.test(email);
+    }
+    function emailCheckSubmit(payload) {
+      const emailCheck = document.getElementById("emailCheck").value;
+      console.log("이메일 체크", savedPayload);
+      if (emailCheck === savedPayload) {
+        alert("본인 인증을 완료하였습니다.");
+        sessionStorage.setItem("emailCheck", true);
+      } else {
+        alert("인증번호가 틀립니다.");
+      }
+    }
+
     async function findIdFunc() {
       const form = document.forms["findIdForm"];
       const birth = `${form.birth.value} 00:00:00`;
@@ -146,16 +227,16 @@
             phone_number: form.phone_number.value,
           });
           console.log("결과 받아옴", res);
-          // findIdResult.textContent = `회원님의 아이디는 ${res.data.findId}입니다.`;
+          findIdResult.textContent = `회원님의 아이디는 ${res.data.findId}입니다.`;
         } catch (err) {
           console.log(err);
         }
       }
     }
 
-    async function findPwFunc() {
-      const form = document.forms["findPwForm"];
-      const findPwResult = document.getElementById("findPwResult");
+    async function updatePwFunc() {
+      const form = document.forms["updataPwForm"];
+      const emailCheck = sessionStorage.getItem("emailCheck");
 
       if (
         form.name.value === "" ||
@@ -164,14 +245,20 @@
         form.phone_number.value === ""
       ) {
         alert("항목을 다 입력해주세요.");
+      } else if (!emailCheck || emailCheck !== "true") {
+        alert("본인인증을 먼저 해주세요.");
+      } else if (form.pw.value !== form.pwCheck.value) {
+        alert("비밀번호가 서로 다릅니다.");
       } else {
         try {
-          const res = await axios.post("/find/findPw", {
+          const res = await axios.post("/find/updatePw", {
             name: form.name.value,
             id: form.id.value,
             birth: form.birth.value,
             phone_number: form.phone_number.value,
+            pw: form.pw.value,
           });
+          alert(`${res.data.message}`);
         } catch (err) {
           console.log(err);
         }
