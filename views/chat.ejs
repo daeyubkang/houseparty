@@ -6,6 +6,17 @@
     <title>Document</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/public/css/main.css" />
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.3/examples/album/"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
     <style>
       /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
       #msg::-webkit-scrollbar {
@@ -18,7 +29,7 @@
       }
       #body {
         margin-top: 20px;
-        width: 100%;
+        width: 80vw;
         height: 70vh;
         position: relative;
         background: #8ae4bc;
@@ -69,10 +80,99 @@
       .secret-chat p {
         background: pink;
       }
+      #lists li {
+        margin-top: 20px;
+        width: 60vw;
+        display: flex;
+        align-items: center;
+      }
+      #lists button {
+        width: 80px;
+      }
+      #lists span {
+        height: 25px;
+        margin-right: 10px;
+      }
+      #album {
+        height: 85vh;
+      }
     </style>
   </head>
   <body>
-    <h1>Chat</h1>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a>
+      <a class="signin" href="/login">login</a>
+    </div>
+    <br />
+
+    <div id="album" class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <button id="chatListButton" hidden onclick="chatList()">
+          채팅 목록 보기
+        </button>
+        <br />
+
+        <div id="main">
+          <h2 id="userTitle"></h2>
+          <ul id="lists" style="width: max-conte"></ul>
+        </div>
+
+        <div id="body" hidden>
+          <div id="msg">
+            <div id="notice"></div>
+            <div id="messages"></div>
+            <!-- <div class="my-chat">
+              <p>채팅테스트(나)</p>
+          </div>
+          <div class="other-chat">
+              <p>채팅테스트(상대방)</p>
+          </div> -->
+          </div>
+          <div id="chat">
+            <select id="userList"></select>
+            <button id="invite" onclick="invite()" hidden>초대</button>
+            <input type="text" id="message" placeholder="메세지 입력" />
+            <button id="chatFormButton">입력</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottombar">
+      <div class="leftBottomBar">
+        <a href="/parties" class="a">
+          <div class="select">
+            <img src="/public/img/parties.svg" class="selectimg" />
+            <span class="bottom partiesName"> 목록 </span>
+          </div></a
+        >
+        <a href="/location" class="a">
+          <div class="select">
+            <img src="/public/img/map.svg" class="selectimg" />
+            <span class="bottom locationName"> 지도 </span>
+          </div></a
+        >
+      </div>
+      <a href="/main" class="logo">
+        <button class="logo">H</button>
+      </a>
+      <div class="rightBottomBar">
+        <a href="/chat" class="a">
+          <div class="select">
+            <img src="/public/img/chat.svg" class="selectimg" />
+            <span class="bottom chatName"> 채팅 </span>
+          </div></a
+        >
+        <a href="/profile" class="a">
+          <div class="select">
+            <img src="/public/img/profile.svg" class="selectimg" />
+            <span class="bottom profileName"> 마이페이지 </span>
+          </div></a
+        >
+      </div>
+    </div>
+
+    <!-- chat original code -->
     <button id="chatListButton" hidden onclick="chatList()">
       채팅 목록 보기
     </button>
@@ -81,7 +181,6 @@
       <h2 id="userTitle"></h2>
       <ul id="lists"></ul>
     </div>
-
     <div id="body" hidden>
       <div id="msg">
         <div id="notice"></div>
@@ -135,25 +234,6 @@
         } else {
           console.log("로그인 실패");
         }
-
-        //소켓
-        // let roomName1 = "";
-        // const chatData = "<%= partiesNum %>";
-        // const partiesId = chatData.split(",")[0];
-        // const wrtieId = chatData.split(",")[1];
-        // const userId = sessionStorage.getItem("userId");
-        // if (wrtieId > userId) {
-        //   roomName1 = `${wrtieId}${userId}`;
-        // } else {
-        //   roomName1 = `${userId}${wrtieId}`;
-        // }
-        // console.log(partiesId, wrtieId, userId, roomName1);
-
-        // //소켓
-        // const msg = document.querySelector("#msg");
-        // const notice = document.querySelector("#notice");
-
-        // let myName;
         //룸리스트
         userId = sessionStorage.getItem("userId");
         console.log(userId);
@@ -164,13 +244,23 @@
           roomList.forEach((roomList) => {
             let par = [];
             for (let i = 0; i < roomList.participant.length; i++) {
-              if (roomList.participant[i] != userId) {
+              if (
+                roomList.participant[i] != userId &&
+                roomList.participant[i][0] != "게"
+              ) {
                 par.push(roomList.participant[i]);
               }
             }
 
             const li = document.createElement("li");
-            li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
+            li.innerHTML = `<div id="chatListdiv" class="ms-2 me-auto">
+      <div class="fw-bold">${par}</div>
+      ${roomList.roomName}     
+    </div>
+    <span class="badge bg-primary rounded-pill">14</span>
+    <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+    `;
+            // li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
             lists.appendChild(li);
           });
         });
