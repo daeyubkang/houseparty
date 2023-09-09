@@ -95,6 +95,7 @@
       </div>
       <div id="chat">
         <select id="userList"></select>
+        <button id="invite" onclick="invite()" hidden>초대</button>
         <input type="text" id="message" placeholder="메세지 입력" />
         <button id="chatFormButton">입력</button>
       </div>
@@ -173,67 +174,122 @@
             lists.appendChild(li);
           });
         });
+
+        console.log(partiesDataId);
+        if (partiesDataId) {
+          let roomName1 = "";
+          console.log("hello");
+          if (partiesDataId > userId) {
+            roomName1 = `${partiesDataId},${userId}`;
+          } else {
+            roomName1 = `${userId},${partiesDataId}`;
+          }
+          const roomName = roomName1;
+          const userName = userId;
+          socket.emit(
+            "create",
+            roomName,
+            userName,
+            partiesId,
+            partiesDataId,
+            () => {
+              console.log("게시글에서 채팅 넘어오는 방 생성");
+              const main = document.querySelector("#main");
+              const body = document.querySelector("#body");
+              const chatListButton = document.querySelector("#chatListButton");
+              chatListButton.hidden = false;
+              main.hidden = true;
+              body.hidden = false;
+            }
+          );
+        }
       })();
 
-      console.log(partiesDataId);
-      if (partiesDataId) {
-        let roomName1 = "";
-        if (partiesDataId > userId) {
-          roomName1 = `${partiesDataId},${userId}`;
-        } else {
-          roomName1 = `${userId},${partiesDataId}`;
-        }
-        roomEnter(roomName1);
+      function chatList() {
+        // const main = document.querySelector("#main");
+        // const body = document.querySelector("#body");
+        // const chatListButton = document.querySelector("#chatListButton");
+        // chatListButton.hidden = true;
+        // main.hidden = false;
+        // body.hidden = true;
+        // msg.innerHTML = "";
+        // notice.innerHTML = "";
+        location.href = "/chat";
       }
 
-      function chatList() {
-        const main = document.querySelector("#main");
-        const body = document.querySelector("#body");
-        const chatListButton = document.querySelector("#chatListButton");
-        chatListButton.hidden = true;
-        main.hidden = false;
-        body.hidden = true;
-        msg.innerHTML = "";
-        notice.innerHTML = "";
-      }
+      let participantID = "";
+      let partyNum = "";
 
       function roomEnter(name) {
         console.log(name);
         const roomName = name;
         const userName = userId;
         console.log(roomName, userName);
-        socket.emit("create", roomName, userName, partiesId, (res) => {
-          console.log(res); //이전 채팅 내용
-          const main = document.querySelector("#main");
-          const body = document.querySelector("#body");
-          const chatListButton = document.querySelector("#chatListButton");
-          chatListButton.hidden = false;
-          main.hidden = true;
-          body.hidden = false;
+        socket.emit(
+          "create",
+          roomName,
+          userName,
+          partiesId,
+          partiesDataId,
+          (res1) => {
+            const res = res1.beforeChat;
+            const host_id = res1.chatData.host_id;
+            participantID = res1.chatData.participant_id;
+            partyNum = res1.chatData.party_num;
+            console.log(res); //이전 채팅 내용
+            const main = document.querySelector("#main");
+            const body = document.querySelector("#body");
+            const chatListButton = document.querySelector("#chatListButton");
+            chatListButton.hidden = false;
+            main.hidden = true;
+            body.hidden = false;
 
-          //이전 메세지 띄우기
-          if (res) {
-            for (let i = 0; i < res.length; i++) {
-              const div = document.createElement("div");
-              const p = document.createElement("p");
-              if (res[i].send_id === userId) {
-                //내가입력한 텍스트
-                div.classList.add("my-chat");
-              } else {
-                div.classList.add("other-chat");
+            //이전 메세지 띄우기
+            if (res) {
+              for (let i = 0; i < res.length; i++) {
+                const div = document.createElement("div");
+                const p = document.createElement("p");
+                if (res[i].send_id === userId) {
+                  //내가입력한 텍스트
+                  div.classList.add("my-chat");
+                } else {
+                  div.classList.add("other-chat");
+                }
+
+                //개인메세지일때 bool이 true
+                // if (bool) {
+                //   div.classList.add("secret-chat");
+                // }
+                //채팅 텍스트
+                p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
+                div.appendChild(p);
+                msg.appendChild(div);
               }
-
-              //개인메세지일때 bool이 true
-              // if (bool) {
-              //   div.classList.add("secret-chat");
-              // }
-              //채팅 텍스트
-              p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
-              div.appendChild(p);
-              msg.appendChild(div);
             }
+            if (userId == host_id) {
+              document.querySelector("#invite").hidden = false;
+            }
+            prepareScroll();
           }
-          prepareScroll();
+        );
+      }
+
+      function invite() {
+        const par = participantID.split(",");
+        let otherID = "";
+        for (let i = 0; i < par.length; i++) {
+          if (par[i] != userId) {
+            otherID = par[i];
+            break;
+          }
+        }
+        console.log("invite", otherID, partyNum);
+        const ID = `단톡 게시글번호:${partyNum}`;
+        socket.emit("create", ID, userId, partyNum, `단톡 ${userId}`, () => {
+          console.log("방장 단톡 생성 완료");
+        });
+        socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
+          console.log("초대 단톡 생성 완료");
         });
       }
 
