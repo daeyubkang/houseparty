@@ -175,35 +175,36 @@
           });
         });
 
-        console.log(partiesDataId);
-        if (partiesDataId) {
-          let roomName1 = "";
-          console.log("hello");
-          if (partiesDataId > userId) {
-            roomName1 = `${partiesDataId},${userId}`;
-          } else {
-            roomName1 = `${userId},${partiesDataId}`;
-          }
-          const roomName = roomName1;
-          const userName = userId;
-          socket.emit(
-            "create",
-            roomName,
-            userName,
-            partiesId,
-            partiesDataId,
-            () => {
-              console.log("게시글에서 채팅 넘어오는 방 생성");
-              const main = document.querySelector("#main");
-              const body = document.querySelector("#body");
-              const chatListButton = document.querySelector("#chatListButton");
-              chatListButton.hidden = false;
-              main.hidden = true;
-              body.hidden = false;
-            }
-          );
-        }
+        // if (partiesDataId) {
+        //   let roomName1 = "";
+        //   roomName1 = `게시글번호${partiesId},${partiesDataId},${userId}`;
+
+        //   const roomName = roomName1;
+        //   const userName = userId;
+        //   socket.emit(
+        //     "create",
+        //     roomName,
+        //     userName,
+        //     partiesId,
+        //     partiesDataId,
+        //     () => {
+        //       console.log("게시글에서 채팅 넘어오는 방 생성");
+        //       const main = document.querySelector("#main");
+        //       const body = document.querySelector("#body");
+        //       const chatListButton = document.querySelector("#chatListButton");
+        //       chatListButton.hidden = false;
+        //       main.hidden = true;
+        //       body.hidden = false;
+        //     }
+        //   );
+        // }
       })();
+
+      console.log(partiesDataId);
+      if (partiesDataId) {
+        const roomName1 = `게시글번호${partiesId},${partiesDataId},${userId}`;
+        roomEnter(roomName1);
+      }
 
       function chatList() {
         // const main = document.querySelector("#main");
@@ -277,7 +278,7 @@
       function invite() {
         const par = participantID.split(",");
         let otherID = "";
-        for (let i = 0; i < par.length; i++) {
+        for (let i = 1; i < par.length; i++) {
           if (par[i] != userId) {
             otherID = par[i];
             break;
@@ -285,12 +286,26 @@
         }
         console.log("invite", otherID, partyNum);
         const ID = `단톡 게시글번호:${partyNum}`;
-        socket.emit("create", ID, userId, partyNum, `단톡 ${userId}`, () => {
-          console.log("방장 단톡 생성 완료");
-        });
-        socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
-          console.log("초대 단톡 생성 완료");
-        });
+        socket.emit(
+          "create",
+          ID,
+          userId,
+          partyNum,
+          `단톡 ${userId}`,
+          async () => {
+            console.log("방장 단톡 생성 완료");
+            await socket.emit(
+              "create",
+              ID,
+              otherID,
+              partyNum,
+              `단톡 ${userId}`,
+              () => {
+                console.log("초대 단톡 생성 완료");
+              }
+            );
+          }
+        );
       }
 
       // let roomName1 = "";

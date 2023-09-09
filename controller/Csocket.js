@@ -49,6 +49,7 @@ exports.connection = (io, socket) => {
           participant_id: roomName1, //단톡방이랑 다름
           host_id: partiesDataId,
         });
+        cb({ beforeChat: false, chatData: false });
       } else {
         const participant = chatroomExist.participant_id.split(",");
         let flag = false;
