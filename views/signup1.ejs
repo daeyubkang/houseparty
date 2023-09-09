@@ -124,6 +124,38 @@
               placeholder="휴대전화 번호"
             />
           </div>
+          <div class="email">
+            <form id="emailForm">
+              <input
+                type="email"
+                id="email"
+                class="email"
+                placeholder="이메일"
+              />
+              <button
+                type="button"
+                class="emailsubmit"
+                onclick="sendEmailVerification()"
+              >
+                전송
+              </button>
+            </form>
+          </div>
+          <div class="emailCheck">
+            <input
+              type="number"
+              id="emailCheck"
+              class="emailCheck"
+              placeholder="인증번호"
+            />
+            <button
+              type="button"
+              class="emailCheckSubmit"
+              onclick="emailCheckSubmit()"
+            >
+              확인
+            </button>
+          </div>
         </div>
 
         <!-- 주소 입력 -->
@@ -169,6 +201,40 @@
     </div>
   </body>
   <script>
+    //이메일 인증하기
+    async function sendEmailVerification(event) {
+      const emailInput = document.getElementById("email");
+      const emailSubmitButton = document.querySelector(".emailsubmit");
+      const email = emailInput.value;
+      //유효성 검사
+      if (!isValidEmail(email)) {
+        alert("올바른 이메일 주소를 입력하세요.");
+        return;
+      } else {
+        const res = await axios.post("signup/EmailAuthentication", {
+          email: email,
+        });
+        alert("인증번호를 이메일로 발송하였습니다.");
+        console.log("payload", res.data.payload);
+        savedPayload = res.data.payload;
+      }
+    }
+    // 간단한 이메일 유효성 검사 함수
+    function isValidEmail(email) {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      return emailPattern.test(email);
+    }
+    function emailCheckSubmit(payload) {
+      const emailCheck = document.getElementById("emailCheck").value;
+      console.log("이메일 체크", savedPayload);
+      if (emailCheck === savedPayload) {
+        alert("본인 인증을 완료하였습니다.");
+        sessionStorage.setItem("emailCheck", true);
+      } else {
+        alert("인증번호가 틀립니다.");
+      }
+    }
+
     // 이미지 미리보기
     function previewImage(input) {
       const preview = document.getElementById("preview");
@@ -263,6 +329,16 @@
     // server
     async function registerFunc() {
       const form = document.forms["register"];
+      const emailCheck = sessionStorage.getItem("emailCheck");
+      console.log("id", form.id.value);
+      console.log("pw", form.pw.value);
+      console.log("name", form.name.value);
+      console.log("gender", form.gender.value);
+      console.log("phone_number", form.phone_number.value);
+      console.log("birth", form.birth.value);
+      console.log("email", form.email.value);
+      console.log("location", document.getElementById("displayAddress").value);
+      console.log("image", document.getElementById("imageInput").files[0]);
       // const imageUrl =
       console.log(form.gender.value);
       //회원가입 조건 분류
@@ -274,14 +350,15 @@
         form.name.value === "" ||
         form.gender.value === "" ||
         form.phone_number.value === "" ||
-        form.birth.value === "" ||
-        form.displayAddress.value === ""
+        form.birth.value === ""
       ) {
         alert("필수항목을 다 입력해주세요.");
+      } else if (!emailCheck || emailCheck !== "true") {
+        alert("본인 인증을 해주세요.");
       } else {
         try {
           const imageUrl = await uploadImage();
-          console.log(imgaeUrl);
+          console.log(imageUrl);
           const res = await axios({
             method: "POST",
             url: "/signup",
@@ -292,7 +369,8 @@
               gender: form.gender.value,
               phone_number: form.phone_number.value,
               birth: form.birth.value,
-              location: form.displayAddress.value,
+              email: form.email.value,
+              location: document.getElementById("displayAddress").value,
               image: document.getElementById("imageInput").files[0],
               imageUrl,
             },
