@@ -2,7 +2,7 @@
   "development": {
     "username": "user",
     "password": "1234",
-    "database": "houseparty1",
+    "database": "houseparty",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "admin",
+    "password": "12345678!",
+    "database": "houseparty",
+    "host": "houseparty.cmi2uwickkdp.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   }
 }

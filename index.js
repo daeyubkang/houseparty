@@ -15,6 +15,7 @@ socketRouter(io);
 
 app.use("/public", express.static(__dirname + "/public"));
 
+app.use("/public", express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
@@ -83,7 +84,7 @@ app.use("*", (req, res) => {
 //force:true 항상 테이블을 삭제 후 재생성
 //force:false(default) 테이블이 존재하면 패쓰, 없으면 생성
 db.sequelize.sync({ force: false }).then(() => {
-  server.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
   });
 });

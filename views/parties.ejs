@@ -6,6 +6,7 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/public/css/parties.css" />
+
     <link
       rel="canonical"
       href="https://getbootstrap.com/docs/5.3/examples/album/"
@@ -17,15 +18,21 @@
       crossorigin="anonymous"
     />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   </head>
   <body>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a
+      ><a class="signin" href="/signin">login</a>
+    </div>
     <h1>Parties</h1>
     <button onclick="write1()">글쓰기</button>
     <ul>
+
       <% for (let i = 0; i < parties.length; i++) { %>
       <li>
         <b><%= parties[i].id %></b> -
-        <a><%= parties[i].title %></a>
+        <a href="/parties/<%=parties[i].party_num%><%= parties[i].title %></a>
         <p><%= parties[i].party_num %></p>
         <button
           onclick="chatRoom(this.value)"
@@ -34,6 +41,7 @@
           채팅방 이동
         </button>
       </li>
+
       <% } %>
     </ul>
 
@@ -80,7 +88,7 @@
         >
           <% for (let i = 0; i < parties.length; i++) { %>
           <div class="col">
-            <div class="card shadow-sm hidden party-card">
+            <div class="card shadow-sm hidden party-card" >
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"
@@ -183,6 +191,15 @@
       </div>
     </div>
     <script>
+      // //카드 마우스 효과 실행
+      // const cards = document.querySelectorAll(".card");
+      // cards.forEach((card) => {
+      //   card.addEventListener("mouseleave", () => {
+      //     card.style.transform = "scale(1)"; //원래 크기로 돌아감
+      //     card.style.boxShaow = "0 4px 8px rgba(0, 0, 0, 0.1)"; //원래 그림자로 돌아감
+      //   });
+      // });
+      localStorage.clear("searchItem");
       (function () {
         let result1 = "";
         const local = sessionStorage.getItem("token");
@@ -217,6 +234,7 @@
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
+        localStorage.setItem("searchItem", searchValue);
         try {
           const res = await axios({
             method: "get",
