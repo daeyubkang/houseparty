@@ -68,7 +68,7 @@
       </div>
 
       <span id="find_title_pw">비밀번호 찾기</span>
-      <form>
+      <form name="findPwForm">
         <div class="top">
           <div class="nameBox">
             <img src="/public/img/id.svg" />
@@ -146,7 +146,32 @@
             phone_number: form.phone_number.value,
           });
           console.log("결과 받아옴", res);
-          findIdResult.textContent = `회원님의 아이디는 ${res.data.findId}입니다.`;
+          // findIdResult.textContent = `회원님의 아이디는 ${res.data.findId}입니다.`;
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+
+    async function findPwFunc() {
+      const form = document.forms["findPwForm"];
+      const findPwResult = document.getElementById("findPwResult");
+
+      if (
+        form.name.value === "" ||
+        form.id.value === "" ||
+        form.birth.value === "" ||
+        form.phone_number.value === ""
+      ) {
+        alert("항목을 다 입력해주세요.");
+      } else {
+        try {
+          const res = await axios.post("/find/findPw", {
+            name: form.name.value,
+            id: form.id.value,
+            birth: form.birth.value,
+            phone_number: form.phone_number.value,
+          });
         } catch (err) {
           console.log(err);
         }

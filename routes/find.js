@@ -6,4 +6,6 @@ router.get("/", controller.index);
 
 router.post("/findId", controller.findId);
 
+router.post("/findPw", controller.findPw);
+
 module.exports = router;
