@@ -19,7 +19,7 @@
         ><a class="signin" href="/signin">login</a>
       </div>
       <span id="find_title_id">아이디 찾기</span>
-      <form>
+      <form name="findIdForm">
         <div class="top">
           <div class="nameBox">
             <img src="/public/img/id.svg" />
@@ -63,7 +63,9 @@
         </div>
       </form>
 
-      <div class="findIdResult">회원님 아이디는 ~~~입니다.</div>
+      <div id="findIdResult" class="findIdResult">
+        회원님 아이디는 ~~~입니다.
+      </div>
 
       <span id="find_title_pw">비밀번호 찾기</span>
       <form>
@@ -122,4 +124,33 @@
       <div class="findPwResult">회원님 비밀번호는 ~~~입니다.</div>
     </div>
   </body>
+  <script>
+    async function findIdFunc() {
+      const form = document.forms["findIdForm"];
+      const birth = `${form.birth.value} 00:00:00`;
+      const findIdResult = document.getElementById("findIdResult");
+      console.log("form", form.name.value);
+      console.log("form birth", birth);
+      console.log("form phone", form.phone_number.value);
+      if (
+        form.name.value === "" ||
+        form.birth.value === "" ||
+        form.phone_number === ""
+      ) {
+        alert("필수항목을 다 입력해주세요.");
+      } else {
+        try {
+          const res = await axios.post("/find/findId", {
+            name: form.name.value,
+            birth: birth,
+            phone_number: form.phone_number.value,
+          });
+          console.log("결과 받아옴", res);
+          findIdResult.textContent = `회원님의 아이디는 ${res.data.findId}입니다.`;
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  </script>
 </html>

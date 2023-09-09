@@ -38,7 +38,7 @@ const Model = (sequelize) => {
       allowNull: true,
     },
     birth: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY, // DATEONLY 데이터 유형 사용
       allowNull: true,
     },
     imgURL: {
