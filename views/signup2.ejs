@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/signup2.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div class="topBar">
@@ -81,8 +82,12 @@
     </button>
 
     <script>
+      const token_signup = sessionStorage.getItem("token_signup");
+      console.log(token_signup);
+
       // 모든 select 요소에 대한 이벤트 리스너를 추가.
       const nextBtn = document.querySelector("#nextButton");
+
       const selectElements = document.querySelectorAll(".select");
 
       selectElements.forEach((select) => {
@@ -91,11 +96,50 @@
         });
       });
 
+      // "다음" 버튼 클릭 시 선택한 값을 POST 요청으로 보냅니다.
       document
         .getElementById("nextButton")
         .addEventListener("click", function () {
-          window.location.href = "/signup2"; // 페이지 이동
+          console.log("이벤트 리스터 실행");
+          const selectedValues = Array.from(selectElements)
+            .filter((select) => select.classList.contains("active"))
+            .map((select) => select.querySelector(".choose").value);
+
+          if (selectedValues.length > 0) {
+            postHobby(selectedValues);
+          } else {
+            alert("하나 이상의 취미를 선택하세요.");
+          }
         });
+
+      async function postHobby(selectedHobbies) {
+        try {
+          console.log("postHobby 실행", selectedHobbies);
+          const hobbiesString = selectedHobbies.join(", ");
+          console.log(hobbiesString);
+          const res = await axios({
+            method: "POST",
+            url: "/signup/hobby",
+            data: {
+              hobby: hobbiesString,
+              token: token_signup,
+            },
+          });
+          console.log(res);
+          if (res.data) {
+            alert("회원가입을 축하드립니다");
+            // document.location.href = "/signin";
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      // document
+      //   .getElementById("nextButton")
+      //   .addEventListener("click", function () {
+      //     window.location.href = "/signup2"; // 페이지 이동
+      //   });
 
       // 선택된 데이터 값
       const selectedHobby = [];
@@ -110,32 +154,10 @@
           updateDataDisplay();
         }
       }
-
       // 데이터 표시 업데이트 함수
       function updateDataDisplay() {
         const dataDisplay = document.getElementById("dataDisplay");
         dataDisplay.innerHTML = "데이터 배열: [" + dataArray.join(", ") + "]";
-      }
-
-      async function postHobby() {
-        const form = document.forms["hobby"];
-
-        try {
-          const res = await axios({
-            method: "POST",
-            url: "/signup/hobby",
-            data: {
-              hobby: form.favorite.value,
-            },
-          });
-          console.log(res);
-          if (res.data) {
-            alert("회원가입을 축하드립니다");
-            document.location.href = "/signin";
-          }
-        } catch (err) {
-          console.log(err);
-        }
       }
     </script>
   </body>

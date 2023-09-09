@@ -247,8 +247,11 @@
             },
           });
           console.log(res.data.file.location);
+          const imgURL = res.data.file.location;
+          console.log(imgURL);
 
           alert("이미지 업로드가 완료되었습니다.");
+          return imgURL;
         } catch (error) {
           console.error("이미지 업로드 중 오류 발생:", error);
         }
@@ -263,6 +266,8 @@
       // const imageUrl =
       console.log(form.gender.value);
       try {
+        const imageUrl = await uploadImage();
+        console.log(imgaeUrl);
         const res = await axios({
           method: "POST",
           url: "/signup",
@@ -274,16 +279,17 @@
             phone_number: form.phone_number.value,
             birth: form.birth.value,
             location: form.displayAddress.value,
-            // hobby: form.favorite.value,
             image: document.getElementById("imageInput").files[0],
-            // imageUrl,
+            imageUrl,
           },
         });
         console.log(res);
         await uploadImage();
         if (res.data) {
+          console.log(res.data);
           alert("회원가입을 축하드립니다");
-          window.location.href = "/signup2";
+          sessionStorage.setItem("token_signup", res.data.token_signup);
+          // window.location.href = "/signup2";
           // document.location.href = "/signin";
         }
       } catch (err) {

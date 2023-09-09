@@ -34,7 +34,7 @@ const Model = (sequelize) => {
       allowNull: true,
     },
     hobby: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     birth: {
