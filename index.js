@@ -69,6 +69,9 @@ app.use("/signup2", signup2Router);
 const partiesSearchRouter = require("./routes/paritesSearch");
 app.use("/partiesSearch", partiesSearchRouter);
 
+const findRouter = require("./routes/find");
+app.use("/find", findRouter);
+
 app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/", (req, res) => {
