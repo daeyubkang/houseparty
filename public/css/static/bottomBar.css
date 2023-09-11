@@ -7,7 +7,7 @@
 .leftBottomBar,
 .rightBottomBar {
   flex-grow: 1; /* 각 요소를 동일한 너비로 확장합니다. */
-  height: 44px;
+  height: 55px;
   backdrop-filter: blur(4px);
   border: solid 1px #000;
   background-color: #fff;
@@ -52,18 +52,21 @@
   width: 20px;
   height: 20px;
 }
+span {
+  color: #000;
+}
 
 @media screen and (min-width: 800px) {
   .bottombar {
     display: flex;
-    width: 100%;
+    width: 80%;
     justify-content: center;
   }
 
   .leftBottomBar,
   .rightBottomBar {
     flex-grow: 1; /* 각 요소를 동일한 너비로 확장합니다. */
-    height: 44px;
+    height: 55px;
     backdrop-filter: blur(4px);
     border: solid 1px #000;
     background-color: #fff;

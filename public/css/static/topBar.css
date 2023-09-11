@@ -35,6 +35,20 @@
   color: #000;
   text-decoration: none;
 }
+.logout {
+  width: 85px;
+  height: 27px;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
 @media screen and (min-width: 800px) {
   .topBar {
     width: 100%;
@@ -64,6 +78,20 @@
   .signin {
     width: 85px;
     margin: 0 15px 12px; /* 여백 조정 */
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+  .logout {
+    width: 85px;
+    height: 27px;
     font-family: Inter;
     font-size: 15px;
     font-weight: normal;

@@ -26,8 +26,9 @@
     min-height: 100vh;
   }
   .mainHome {
-    width: 100%; /* 부모 요소에 꽉 차도록 설정 */
+    width: 80%; /* 부모 요소에 꽉 차도록 설정 */
     height: auto; /* 이미지 비율 유지 */
+    margin: 49px 0 -45px;
     content: url("/public/img/mainhome2.svg");
   }
 }
