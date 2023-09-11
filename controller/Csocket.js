@@ -1,3 +1,4 @@
+const { STRING } = require("sequelize");
 const { Users, Parties, Chat, ChatMessage } = require("../models");
 
 exports.connection = (io, socket) => {
@@ -74,9 +75,26 @@ exports.connection = (io, socket) => {
         let send_before_chat = [];
         for (let i = 0; i < beforeChat.length; i++) {
           console.log("beforeChat", beforeChat[i].dataValues.send_message);
+          let send_time = beforeChat[i].dataValues.createdAt;
+          send_time += 9;
+          const inputDateString = send_time;
+          const inputDate = new Date(inputDateString);
+          // 연도에서 끝의 2자리만 가져오기
+          const year = inputDate.getFullYear().toString().slice(-2);
+          // 월과 일을 두 자리 숫자로 만들고 가져오기
+          const month = (inputDate.getMonth() + 1).toString().padStart(2, "0");
+          const day = inputDate.getDate().toString().padStart(2, "0");
+          // 시간과 분을 두 자리 숫자로 만들고 가져오기
+          const hours = inputDate.getHours().toString().padStart(2, "0");
+          const minutes = inputDate.getMinutes().toString().padStart(2, "0");
+          // "YY-MM-DD HH:mm" 형식으로 날짜와 시간을 조합
+          const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+          console.log(formattedDate);
           send_before_chat.push({
             send_id: beforeChat[i].dataValues.send_id,
             send_message: beforeChat[i].dataValues.send_message,
+            send_time: formattedDate,
           });
         }
         cb({ beforeChat: send_before_chat, chatData: chatroomExist });
@@ -105,6 +123,23 @@ exports.connection = (io, socket) => {
   );
 
   socket.on("sendMessage", (message) => {
+    const currentDate = new Date();
+
+    // 연도에서 끝의 2자리만 가져오기
+    const year = currentDate.getFullYear().toString().slice(-2);
+
+    // 월과 일을 두 자리 숫자로 만들고 가져오기
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = currentDate.getDate().toString().padStart(2, "0");
+
+    // 시간과 분을 두 자리 숫자로 만들고 가져오기
+    const hours = currentDate.getHours().toString().padStart(2, "0");
+    const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+
+    // "YY-MM-DD HH:mm" 형식으로 날짜와 시간을 조합
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+    console.log(formattedDate);
     console.log(message);
     console.log(socket.room);
     ChatMessage.create({
@@ -117,6 +152,7 @@ exports.connection = (io, socket) => {
         "newMessage",
         message.message,
         message.nick,
+        formattedDate,
         false
       );
     } else {
@@ -124,10 +160,17 @@ exports.connection = (io, socket) => {
         "newMessage",
         message.message,
         message.nick,
+        formattedDate,
         true
       );
       //자기자신에게 메세지 띄우기
-      socket.emit("newMessage", message.message, message.nick, true);
+      socket.emit(
+        "newMessage",
+        message.message,
+        message.nick,
+        formattedDate,
+        true
+      );
     }
   });
 
