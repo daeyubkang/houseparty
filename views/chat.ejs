@@ -128,6 +128,14 @@
         margin-left: 6px;
         margin-right: 6px;
       }
+      #chatProfile {
+        width: 50px;
+        border-radius: 50%;
+        background-color: beige;
+        text-align: center;
+        font-size: medium;
+        margin-left: 8px;
+      }
     </style>
   </head>
   <body>
@@ -368,15 +376,16 @@
                 if (res[i].send_id === userId) {
                   //내가입력한 텍스트
                   div.classList.add("my-chat");
-                  p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
+                  p.textContent = `${res[i].send_message}`;
                   span.innerHTML = `${res[i].send_time}`;
                   div.appendChild(span);
                   div.appendChild(p);
                   msg.appendChild(div);
                 } else {
                   div.classList.add("other-chat");
-                  p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
                   span.innerHTML = `${res[i].send_time}`;
+                  div.innerHTML = `<img src="/public/img/puppy.jpeg" alt="${res[i].send_id}" id="chatProfile">`;
+                  p.textContent = `${res[i].send_message}`;
                   div.appendChild(p);
                   div.appendChild(span);
                   msg.appendChild(div);
@@ -490,17 +499,14 @@
         if (userId === nick) {
           //내가입력한 텍스트
           div.classList.add("my-chat");
-          p.textContent = bool
-            ? `(귓속말) ${nick} : ${message}`
-            : `${nick} : ${message}`;
+          p.textContent = bool ? `(귓속말) ${nick} : ${message}` : `${message}`;
           div.appendChild(span);
           div.appendChild(p);
           msg.appendChild(div);
         } else {
           div.classList.add("other-chat");
-          p.textContent = bool
-            ? `(귓속말) ${nick} : ${message}`
-            : `${nick} : ${message}`;
+          div.innerHTML = `<img src="/public/img/puppy.jpeg" alt="${res[i].send_id} id="chatProfile">`;
+          p.textContent = bool ? `(귓속말) ${nick} : ${message}` : `${message}`;
           div.appendChild(p);
           div.appendChild(span);
           msg.appendChild(div);
