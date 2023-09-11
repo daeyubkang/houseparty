@@ -15,8 +15,6 @@ const socketRouter = require("./routes/socket");
 socketRouter(io);
 
 app.use("/public", express.static(__dirname + "/public"));
-
-app.use("/public", express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
@@ -51,8 +49,11 @@ app.use("/signup", singupRouter);
 const chatRouter = require("./routes/chat");
 app.use("/chat", chatRouter);
 
-const profileRouter = require("./routes/profile");
-app.use("/profile", profileRouter);
+// const profileRouter = require("./routes/profile");
+// app.use("/profile", profileRouter);
+
+const profile1Router = require("./routes/profile1");
+app.use("/profile1", profile1Router);
 
 const verifyRouter = require("./routes/verify");
 app.use("/verify", verifyRouter);
