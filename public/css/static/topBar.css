@@ -1,15 +1,14 @@
 .topBar {
   width: 360px;
-  padding: 14px 0 0;
+  margin-top: 30px;
   background-color: #fff;
-  position: fixed;
   z-index: 1000;
   top: 0;
 }
 .howsParty {
   width: 85px;
   height: 27px;
-  margin: 0 165px 12px 15px;
+  margin: 0 190px 12px 15px;
   font-family: Inter;
   font-size: 15px;
   font-weight: normal;
@@ -51,16 +50,13 @@
 }
 @media screen and (min-width: 800px) {
   .topBar {
-    width: 100%;
-    padding: 14px 0;
-    background-color: #fff;
-    position: fixed;
+    width: 80%;
+    margin-top: 30px;
+    background-color: #fff0;
     z-index: 1000;
     top: 0;
-    left: 0;
-    right: 0;
     display: flex;
-    justify-content: space-between; /* 양쪽 끝으로 정렬 */
+    justify-content: space-between;
   }
   .howsParty {
     margin: 0 15px 12px; /* 여백 조정 */

@@ -11,7 +11,7 @@
   .mainHome {
     width: 360px;
     height: 437px;
-    margin: 49px 0 -45px;
+    margin: 40px 0 -45px;
     object-fit: contain;
     content: url("/public/img/mainhome.png");
   }
@@ -28,7 +28,7 @@
   .mainHome {
     width: 80%; /* 부모 요소에 꽉 차도록 설정 */
     height: auto; /* 이미지 비율 유지 */
-    margin: 49px 0 -45px;
+    margin: 50px 0 -45px;
     content: url("/public/img/mainhome2.svg");
   }
 }
