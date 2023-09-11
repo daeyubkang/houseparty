@@ -17,7 +17,7 @@ exports.index = (req, res) => {
 exports.signupPost = async (req, res) => {
   try {
     console.log(req.body);
-    const { id, pw, name, gender, phone_number, location, birth, imageUrl } =
+    const { id, pw, name, gender, phone_number, location, birth, imgURL } =
       req.body;
     let secretPw = bcryptPassword(pw);
     const user = await Users.create({
@@ -28,7 +28,7 @@ exports.signupPost = async (req, res) => {
       phone_number,
       location,
       birth,
-      imageUrl,
+      imgURL,
     });
 
     const token_signup = jwt.sign({ id }, SECRET);
