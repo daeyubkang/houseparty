@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/css/find.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topBar">
+        <a class="howsParty" href="/main"> How's Party </a
+        ><a class="signin" href="/signin">login</a>
+      </div>
+      <span id="find_title_id">아이디 찾기</span>
+      <form name="findIdForm">
+        <div class="top">
+          <div class="nameBox">
+            <img src="/public/img/id.svg" />
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="name"
+              placeholder="이름"
+            />
+          </div>
+          <div class="birthBox">
+            <img src="/public/img/birth.svg" />
+            <input
+              type="date"
+              name="birth"
+              id="birth"
+              class="birth"
+              placeholder="생년월일"
+            />
+          </div>
+          <div class="phoneBox">
+            <img src="/public/img/phone.svg" />
+            <input
+              type="number"
+              name="phone_number"
+              id="phone_number"
+              class="phoneNumber"
+              placeholder="휴대전화 번호"
+            />
+          </div>
+          <br />
+          <button
+            type="button"
+            id="findId"
+            class="findId"
+            onclick="findIdFunc()"
+          >
+            찾기
+          </button>
+        </div>
+      </form>
+
+      <div id="findIdResult" class="findIdResult">
+        회원님 아이디는 ~~~입니다.
+      </div>
+
+      <span id="find_title_pw">비밀번호 재설정</span>
+      <form name="updataPwForm">
+        <div class="top">
+          <div class="nameBox">
+            <img src="/public/img/id.svg" />
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="name"
+              placeholder="이름"
+            />
+          </div>
+          <div class="idBox">
+            <img src="/public/img/id.svg" />
+            <input
+              type="text"
+              name="id"
+              id="id"
+              class="id"
+              placeholder="아이디"
+            />
+          </div>
+          <div class="birthBox">
+            <img src="/public/img/birth.svg" />
+            <input
+              type="date"
+              name="birth"
+              id="birth"
+              class="birth"
+              placeholder="생년월일"
+            />
+          </div>
+          <div class="phoneBox">
+            <img src="/public/img/phone.svg" />
+            <input
+              type="number"
+              name="phone_number"
+              id="phone_number"
+              class="phoneNumber"
+              placeholder="휴대전화 번호"
+            />
+          </div>
+          <div class="emailCheck">
+            <input type="email" id="email" class="email" placeholder="이메일" />
+            <button
+              type="button"
+              class="emailsubmit"
+              onclick="sendEmailVerification()"
+            >
+              전송
+            </button>
+          </div>
+          <div>
+            <input
+              type="number"
+              id="emailCheck"
+              class="emailCheck"
+              placeholder="인증번호"
+            />
+            <button
+              type="button"
+              class="emailCheckSubmit"
+              onclick="emailCheckSubmit()"
+            >
+              확인
+            </button>
+          </div>
+          <div class="pwBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="password"
+              name="pw"
+              id="pw"
+              class="pw"
+              placeholder="비밀번호"
+            />
+          </div>
+          <div class="pwCheckBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="password"
+              name="pwCheck"
+              id="pwCheck"
+              class="pwCheck"
+              placeholder="비밀번호 확인"
+            />
+          </div>
+          <br />
+
+          <button
+            type="button"
+            id="findId"
+            class="findId"
+            onclick="updatePwFunc()"
+          >
+            재설정
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    //이메일 인증하기
+    async function sendEmailVerification(event) {
+      const emailInput = document.getElementById("email");
+      const emailSubmitButton = document.querySelector(".emailsubmit");
+      const email = emailInput.value;
+      const id = document.getElementById("id").value;
+      //유효성 검사
+      if (!isValidEmail(email)) {
+        alert("올바른 이메일 주소를 입력하세요.");
+        return;
+      } else {
+        const res = await axios.post("/find/EmailAuthentication", {
+          email: email,
+          id: id,
+        });
+        alert(`${res.data.message}`);
+        console.log("payload", res.data.payload);
+        savedPayload = res.data.payload;
+      }
+    }
+    // 간단한 이메일 유효성 검사 함수
+    function isValidEmail(email) {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      return emailPattern.test(email);
+    }
+    function emailCheckSubmit(payload) {
+      const emailCheck = document.getElementById("emailCheck").value;
+      console.log("이메일 체크", savedPayload);
+      if (emailCheck === savedPayload) {
+        alert("본인 인증을 완료하였습니다.");
+        sessionStorage.setItem("emailCheck", true);
+      } else {
+        alert("인증번호가 틀립니다.");
+      }
+    }
+
+    async function findIdFunc() {
+      const form = document.forms["findIdForm"];
+      const birth = `${form.birth.value} 00:00:00`;
+      const findIdResult = document.getElementById("findIdResult");
+      console.log("form", form.name.value);
+      console.log("form birth", birth);
+      console.log("form phone", form.phone_number.value);
+      if (
+        form.name.value === "" ||
+        form.birth.value === "" ||
+        form.phone_number === ""
+      ) {
+        alert("필수항목을 다 입력해주세요.");
+      } else {
+        try {
+          const res = await axios.post("/find/findId", {
+            name: form.name.value,
+            birth: birth,
+            phone_number: form.phone_number.value,
+          });
+          console.log("결과 받아옴", res);
+          findIdResult.textContent = `회원님의 아이디는 ${res.data.findId}입니다.`;
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+
+    async function updatePwFunc() {
+      const form = document.forms["updataPwForm"];
+      const emailCheck = sessionStorage.getItem("emailCheck");
+
+      if (
+        form.name.value === "" ||
+        form.id.value === "" ||
+        form.birth.value === "" ||
+        form.phone_number.value === ""
+      ) {
+        alert("항목을 다 입력해주세요.");
+      } else if (!emailCheck || emailCheck !== "true") {
+        alert("본인인증을 먼저 해주세요.");
+      } else if (form.pw.value !== form.pwCheck.value) {
+        alert("비밀번호가 서로 다릅니다.");
+      } else {
+        try {
+          const res = await axios.post("/find/updatePw", {
+            name: form.name.value,
+            id: form.id.value,
+            birth: form.birth.value,
+            phone_number: form.phone_number.value,
+            pw: form.pw.value,
+          });
+          alert(`${res.data.message}`);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  </script>
+</html>

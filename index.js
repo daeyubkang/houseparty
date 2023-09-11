@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const http = require("http");
 const SocketIO = require("socket.io");
+require("dotenv").config();
 
 //소켓
 const server = http.createServer(app);
@@ -68,6 +69,9 @@ app.use("/signup2", signup2Router);
 
 const partiesSearchRouter = require("./routes/paritesSearch");
 app.use("/partiesSearch", partiesSearchRouter);
+
+const findRouter = require("./routes/find");
+app.use("/find", findRouter);
 
 app.use("/public", express.static(__dirname + "/public"));
 

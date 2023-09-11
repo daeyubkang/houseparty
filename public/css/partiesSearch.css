@@ -365,4 +365,5 @@
 
 .card.shadow-sm.hidden.party-card:hover {
   transform: scale(1.05); /*1.05배 확대*/
+  cursor: pointer; /*마우스 포인터*/
 }
