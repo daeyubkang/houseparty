@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const http = require("http");
 const SocketIO = require("socket.io");
+require("dotenv").config();
 
 //소켓
 const server = http.createServer(app);

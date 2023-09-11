@@ -217,7 +217,21 @@ body {
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
 }
-
+.email {
+  padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
+  width: 270px;
+  margin: 0 39px 10px 39px;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 10px 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.bottom .email {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
 .nextButton {
   width: 300px;
   flex-grow: 0;

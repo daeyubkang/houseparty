@@ -41,6 +41,10 @@ const Model = (sequelize) => {
       type: DataTypes.DATEONLY, // DATEONLY 데이터 유형 사용
       allowNull: true,
     },
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
     imgURL: {
       type: DataTypes.STRING,
       allowNull: true,
