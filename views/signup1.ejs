@@ -315,9 +315,9 @@
           console.log(res.data.file.location);
           const imgURL = res.data.file.location;
           console.log(imgURL);
+          return imgURL;
 
           alert("이미지 업로드가 완료되었습니다.");
-          return imgURL;
         } catch (error) {
           console.error("이미지 업로드 중 오류 발생:", error);
         }
@@ -357,8 +357,8 @@
         alert("본인 인증을 해주세요.");
       } else {
         try {
-          const imageUrl = await uploadImage();
-          console.log(imageUrl);
+          const imgURL = await uploadImage();
+          console.log(imgURL);
           const res = await axios({
             method: "POST",
             url: "/signup",
@@ -372,7 +372,6 @@
               email: form.email.value,
               location: document.getElementById("displayAddress").value,
               image: document.getElementById("imageInput").files[0],
-              imageUrl,
             },
           });
           console.log(res);

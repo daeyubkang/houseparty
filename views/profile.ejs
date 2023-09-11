@@ -9,7 +9,48 @@
   <body>
     <h1>Profile</h1>
     <div class="container">
-      <img src="" alt="" id="porfile_photo" />
+      <img src="" alt="이미지" id="porfile_photo" />
+      <div class="content">
+        <div class="editProfile">
+          프로필 수정 (비밀번호 변경, 성별, 이름, 전화번호, 주소 변경)
+        </div>
+        <div class="hobby">관심사 수정</div>
+        <div class="parties">내가 참여할 파티 내역</div>
+      </div>
+    </div>
+
+    <div class="bottombar">
+      <div class="leftBottomBar">
+        <a href="/parties" class="a">
+          <div class="select">
+            <img src="/public/img/parties.svg" class="selectimg" />
+            <span class="bottom partiesName"> 목록 </span>
+          </div></a
+        >
+        <a href="/location" class="a">
+          <div class="select">
+            <img src="/public/img/map.svg" class="selectimg" />
+            <span class="bottom locationName"> 지도 </span>
+          </div></a
+        >
+      </div>
+      <a href="/main" class="logo">
+        <button class="logo">H</button>
+      </a>
+      <div class="rightBottomBar">
+        <a href="/chat" class="a">
+          <div class="select">
+            <img src="/public/img/chat.svg" class="selectimg" />
+            <span class="bottom chatName"> 채팅 </span>
+          </div></a
+        >
+        <a href="/profile" class="a">
+          <div class="select">
+            <img src="/public/img/profile.svg" class="selectimg" />
+            <span class="bottom profileName"> 마이페이지 </span>
+          </div></a
+        >
+      </div>
     </div>
 
     <script>
@@ -34,6 +75,17 @@
           console.log("로그인 실패");
         }
       })();
+
+      function EditImage() {
+        const image = document.querySelector("#profile_photo");
+        // 프로필 페이지 눌렀을 때 그 토큰의 아이디에 해당되는 imgURL 불러와서 src 에 넣기
+
+        // 기존 이미지 삭제
+
+        // 새로운 이미지 업로드
+
+        // 새로운 이미지 URL 가져오기
+      }
     </script>
   </body>
 </html>
