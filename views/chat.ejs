@@ -6,32 +6,67 @@
     <title>Document</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/public/css/main.css" />
+    <!-- 아이콘 링크 -->
+    <script
+      src="https://kit.fontawesome.com/3191b0c349.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.3/examples/album/"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
     <style>
       /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
       #msg::-webkit-scrollbar {
         display: none;
       }
+      #body::-webkit-scrollbar {
+        display: none;
+      }
       /* 스크롤바 생성 */
       #msg {
-        height: 96%;
+        height: 91%;
         overflow-y: scroll;
       }
       #body {
         margin-top: 20px;
-        width: 100%;
+        width: 80vw;
+        max-width: 800px;
         height: 70vh;
         position: relative;
-        background: #8ae4bc;
+        background: #7d8d86;
+        overflow-y: scroll;
       }
       #chat {
         position: absolute;
         bottom: 0px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         width: 100%;
+        height: 40px;
+        margin-bottom: 3px;
       }
       #chat input {
         width: 80%;
+      }
+      #invite {
+        width: 8%;
+        text-align: center;
+        font-size: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      #chatFormButton {
+        width: 8%;
+        font-size: 17px;
+        padding-right: 25px;
       }
       .my-chat {
         display: flex;
@@ -61,7 +96,7 @@
         display: flex;
         flex-direction: column;
         text-align: center;
-        color: gray;
+        color: rgb(211, 210, 229);
       }
       #notice p {
         margin: 0;
@@ -69,36 +104,125 @@
       .secret-chat p {
         background: pink;
       }
+      #lists li {
+        margin-top: 20px;
+        width: 60vw;
+        display: flex;
+        align-items: center;
+      }
+      #lists button {
+        width: 80px;
+      }
+      #lists span {
+        height: 25px;
+        margin-right: 10px;
+      }
+      #album {
+        height: 85vh;
+      }
+      #messages span {
+        font-size: x-small;
+        display: grid;
+        place-items: end;
+        margin-bottom: 3px;
+        margin-left: 6px;
+        margin-right: 6px;
+      }
     </style>
   </head>
   <body>
-    <h1>Chat</h1>
-    <button id="chatListButton" hidden onclick="chatList()">
-      채팅 목록 보기
-    </button>
-    <br />
-    <div id="main">
-      <h2 id="userTitle"></h2>
-      <ul id="lists"></ul>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a>
+      <a class="signin" href="/login">login</a>
     </div>
+    <br />
 
-    <div id="body" hidden>
-      <div id="msg">
-        <div id="notice"></div>
-        <div id="messages"></div>
-        <!-- <div class="my-chat">
+    <div id="album" class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <button
+          id="chatListButton"
+          hidden
+          onclick="chatList()"
+          class="btn btn-secondary"
+        >
+          채팅 목록 보기
+        </button>
+        <br />
+
+        <div id="main">
+          <h2 id="userTitle"></h2>
+          <ul id="lists" style="width: max-conte"></ul>
+        </div>
+
+        <div id="body" hidden>
+          <div id="msg">
+            <div id="notice"></div>
+            <div id="messages"></div>
+            <!-- <div class="my-chat">
               <p>채팅테스트(나)</p>
           </div>
           <div class="other-chat">
               <p>채팅테스트(상대방)</p>
           </div> -->
-      </div>
-      <div id="chat">
-        <select id="userList"></select>
-        <input type="text" id="message" placeholder="메세지 입력" />
-        <button id="chatFormButton">입력</button>
+          </div>
+          <div id="chat">
+            <button
+              class="btn btn-danger"
+              id="invite"
+              onclick="invite()"
+              hidden
+            >
+              초대
+            </button>
+            <input
+              class="col-form-label"
+              type="text"
+              id="message"
+              placeholder="메세지 입력"
+            />
+            <button class="btn btn-warning" id="chatFormButton">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="bottombar">
+      <div class="leftBottomBar">
+        <a href="/parties" class="a">
+          <div class="select">
+            <img src="/public/img/parties.svg" class="selectimg" />
+            <span class="bottom partiesName"> 목록 </span>
+          </div></a
+        >
+        <a href="/location" class="a">
+          <div class="select">
+            <img src="/public/img/map.svg" class="selectimg" />
+            <span class="bottom locationName"> 지도 </span>
+          </div></a
+        >
+      </div>
+      <a href="/main" class="logo">
+        <button class="logo">H</button>
+      </a>
+      <div class="rightBottomBar">
+        <a href="/chat" class="a">
+          <div class="select">
+            <img src="/public/img/chat.svg" class="selectimg" />
+            <span class="bottom chatName"> 채팅 </span>
+          </div></a
+        >
+        <a href="/profile" class="a">
+          <div class="select">
+            <img src="/public/img/profile.svg" class="selectimg" />
+            <span class="bottom profileName"> 마이페이지 </span>
+          </div></a
+        >
+      </div>
+    </div>
+
+    <!-- chat original code -->
 
     <script>
       let socket = io();
@@ -134,25 +258,6 @@
         } else {
           console.log("로그인 실패");
         }
-
-        //소켓
-        // let roomName1 = "";
-        // const chatData = "<%= partiesNum %>";
-        // const partiesId = chatData.split(",")[0];
-        // const wrtieId = chatData.split(",")[1];
-        // const userId = sessionStorage.getItem("userId");
-        // if (wrtieId > userId) {
-        //   roomName1 = `${wrtieId}${userId}`;
-        // } else {
-        //   roomName1 = `${userId}${wrtieId}`;
-        // }
-        // console.log(partiesId, wrtieId, userId, roomName1);
-
-        // //소켓
-        // const msg = document.querySelector("#msg");
-        // const notice = document.querySelector("#notice");
-
-        // let myName;
         //룸리스트
         userId = sessionStorage.getItem("userId");
         console.log(userId);
@@ -163,78 +268,173 @@
           roomList.forEach((roomList) => {
             let par = [];
             for (let i = 0; i < roomList.participant.length; i++) {
-              if (roomList.participant[i] != userId) {
+              if (
+                roomList.participant[i] != userId &&
+                roomList.participant[i][0] != "게"
+              ) {
                 par.push(roomList.participant[i]);
               }
             }
 
             const li = document.createElement("li");
-            li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
+            li.innerHTML = `<div id="chatListdiv" class="ms-2 me-auto">
+        <div class="fw-bold">${par}</div>
+        ${roomList.roomName}
+      </div>
+      <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+      `;
+            // li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
             lists.appendChild(li);
           });
         });
 
-        if (partiesDataId) {
-          let roomName1 = "";
-          if (partiesDataId > userId) {
-            roomName1 = `${partiesDataId}${userId}`;
-          } else {
-            roomName1 = `${userId}${partiesDataId}`;
-          }
-          roomEnter(roomName1);
-        }
+        // if (partiesDataId) {
+        //   let roomName1 = "";
+        //   roomName1 = `게시글번호${partiesId},${partiesDataId},${userId}`;
+
+        //   const roomName = roomName1;
+        //   const userName = userId;
+        //   socket.emit(
+        //     "create",
+        //     roomName,
+        //     userName,
+        //     partiesId,
+        //     partiesDataId,
+        //     () => {
+        //       console.log("게시글에서 채팅 넘어오는 방 생성");
+        //       const main = document.querySelector("#main");
+        //       const body = document.querySelector("#body");
+        //       const chatListButton = document.querySelector("#chatListButton");
+        //       chatListButton.hidden = false;
+        //       main.hidden = true;
+        //       body.hidden = false;
+        //     }
+        //   );
+        // }
       })();
       // 우선 실행 끝
 
-      function chatList() {
-        const main = document.querySelector("#main");
-        const body = document.querySelector("#body");
-        const chatListButton = document.querySelector("#chatListButton");
-        chatListButton.hidden = true;
-        main.hidden = false;
-        body.hidden = true;
-        msg.innerHTML = "";
+      console.log(partiesDataId);
+      if (partiesDataId) {
+        const roomName1 = `게시글번호${partiesId},${partiesDataId},${userId}`;
+        roomEnter(roomName1);
       }
+
+      function chatList() {
+        // const main = document.querySelector("#main");
+        // const body = document.querySelector("#body");
+        // const chatListButton = document.querySelector("#chatListButton");
+        // chatListButton.hidden = true;
+        // main.hidden = false;
+        // body.hidden = true;
+        // msg.innerHTML = "";
+        // notice.innerHTML = "";
+        location.href = "/chat";
+      }
+
+      let participantID = "";
+      let partyNum = "";
 
       function roomEnter(name) {
         console.log(name);
         const roomName = name;
         const userName = userId;
         console.log(roomName, userName);
-        socket.emit("create", roomName, userName, partiesId, (res) => {
-          console.log(res); //이전 채팅 내용
-          console.log(res.length);
-          const main = document.querySelector("#main");
-          const body = document.querySelector("#body");
-          const chatListButton = document.querySelector("#chatListButton");
-          chatListButton.hidden = false;
-          main.hidden = true;
-          body.hidden = false;
+        socket.emit(
+          "create",
+          roomName,
+          userName,
+          partiesId,
+          partiesDataId,
+          (res1) => {
+            const res = res1.beforeChat;
+            const host_id = res1.chatData.host_id;
+            participantID = res1.chatData.participant_id;
+            partyNum = res1.chatData.party_num;
+            console.log(res); //이전 채팅 내용
+            const main = document.querySelector("#main");
+            const body = document.querySelector("#body");
+            const chatListButton = document.querySelector("#chatListButton");
+            chatListButton.hidden = false;
+            main.hidden = true;
+            body.hidden = false;
 
-          //이전 메세지 띄우기
-          if (res) {
-            for (let i = 0; i < res.length; i++) {
-              const div = document.createElement("div");
-              const p = document.createElement("p");
-              if (res[i].send_id === userId) {
-                //내가입력한 텍스트
-                div.classList.add("my-chat");
-              } else {
-                div.classList.add("other-chat");
+            //이전 메세지 띄우기
+            if (res) {
+              for (let i = 0; i < res.length; i++) {
+                const div = document.createElement("div");
+                const p = document.createElement("p");
+                const span = document.createElement("span");
+                if (res[i].send_id === userId) {
+                  //내가입력한 텍스트
+                  div.classList.add("my-chat");
+                  p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
+                  span.innerHTML = `${res[i].send_time}`;
+                  div.appendChild(span);
+                  div.appendChild(p);
+                  msg.appendChild(div);
+                } else {
+                  div.classList.add("other-chat");
+                  p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
+                  span.innerHTML = `${res[i].send_time}`;
+                  div.appendChild(p);
+                  div.appendChild(span);
+                  msg.appendChild(div);
+                }
+
+                //개인메세지일때 bool이 true
+                // if (bool) {
+                //   div.classList.add("secret-chat");
+                // }
+                //채팅 텍스트
               }
-
-              //개인메세지일때 bool이 true
-              // if (bool) {
-              //   div.classList.add("secret-chat");
-              // }
-              //채팅 텍스트
-              p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
-              div.appendChild(p);
-              msg.appendChild(div);
             }
+            if (userId == host_id) {
+              document.querySelector("#invite").hidden = false;
+            }
+            prepareScroll();
           }
-          prepareScroll();
-        });
+        );
+      }
+
+      function invite() {
+        const par = participantID.split(",");
+        let otherID = "";
+        for (let i = 1; i < par.length; i++) {
+          if (par[i] != userId) {
+            otherID = par[i];
+            break;
+          }
+        }
+        console.log("invite", otherID, partyNum);
+        const ID = `단톡 게시글번호:${partyNum}`;
+        socket.emit(
+          "create",
+          ID,
+          userId,
+          partyNum,
+          `단톡 ${userId}`,
+          async () => {
+            console.log("방장 단톡 생성 완료");
+            await socket.emit(
+              "create",
+              ID,
+              otherID,
+              partyNum,
+              `단톡 ${userId}`,
+              () => {
+                console.log("초대 단톡 생성 완료");
+              }
+            );
+          }
+        );
+
+        const msg = {
+          nick: userId,
+          user: "all",
+          message: `${otherID} 단톡방 초대 완료! 채팅목록을 확인해주세요!`,
+        };
+        socket.emit("sendMessage", msg);
       }
 
       // let roomName1 = "";
@@ -252,7 +452,7 @@
       //소켓
       const chatForm = document.querySelector("#chatFormButton");
       let msg = document.querySelector("#messages");
-      const notice = document.querySelector("#notice");
+      let notice = document.querySelector("#notice");
 
       let myName;
 
@@ -271,55 +471,52 @@
       //사용자 리스트
       socket.on("userList", (userLists) => {
         console.log(userLists);
-        const lists = document.querySelector("#userList");
-        lists.textContent = "";
-        let options = `<option value="all">전체</option>`;
-        for (let i of userLists) {
-          options += `<option value="${i.key}">${i.name}</option>`;
-        }
-        lists.innerHTML = options;
+        // const lists = document.querySelector("#userList");
+        // lists.textContent = "";
+        // let options = `<option value="all">전체</option>`;
+        // for (let i of userLists) {
+        //   options += `<option value="${i.key}">${i.name}</option>`;
+        // }
+        // lists.innerHTML = options;
       });
 
       //메세지 띄우기
-      socket.on("newMessage", (message, nick, bool) => {
+      socket.on("newMessage", (message, nick, time, bool) => {
         console.log(message, nick);
         const div = document.createElement("div");
         const p = document.createElement("p");
+        const span = document.createElement("span");
+        span.innerText = time;
         if (userId === nick) {
           //내가입력한 텍스트
           div.classList.add("my-chat");
+          p.textContent = bool
+            ? `(귓속말) ${nick} : ${message}`
+            : `${nick} : ${message}`;
+          div.appendChild(span);
+          div.appendChild(p);
+          msg.appendChild(div);
         } else {
           div.classList.add("other-chat");
+          p.textContent = bool
+            ? `(귓속말) ${nick} : ${message}`
+            : `${nick} : ${message}`;
+          div.appendChild(p);
+          div.appendChild(span);
+          msg.appendChild(div);
         }
-        //개인메세지일때 bool이 true
-        if (bool) {
-          div.classList.add("secret-chat");
-        }
-
-        //채팅 텍스트
-        p.textContent = bool
-          ? `(귓속말) ${nick} : ${message}`
-          : `${nick} : ${message}`;
-        div.appendChild(p);
-        msg.appendChild(div);
       });
       //입장 메세지 이벤트
       socket.on("notice", (message) => {
-        const div = document.createElement("div");
-        const p = document.createElement("p");
-        p.textContent = message;
-        div.appendChild(p);
-        notice.appendChild(div);
+        notice.innerHTML = `<div><p>${message}</p></div>`;
       });
 
       chatForm.addEventListener("click", (e) => {
         // e.preventDefault();
-        const user = document.querySelector("#userList");
         const message = document.querySelector("#message");
-        console.log(user.value);
         const msg = {
           nick: userId,
-          user: user.value,
+          user: "all",
           message: message.value,
         };
         socket.emit("sendMessage", msg);

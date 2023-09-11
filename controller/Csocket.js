@@ -1,3 +1,4 @@
+const { STRING } = require("sequelize");
 const { Users, Parties, Chat, ChatMessage } = require("../models");
 
 exports.connection = (io, socket) => {
@@ -11,7 +12,7 @@ exports.connection = (io, socket) => {
     });
     for (let i = 0; i < chatList.length; i++) {
       console.log("chatLists", chatList[i]);
-      const participant = chatList[i].dataValues.participant_id.split(" ");
+      const participant = chatList[i].dataValues.participant_id.split(",");
       for (let j = 0; j < participant.length; j++) {
         if (participant[j] == userName) {
           roomList.push({
@@ -27,72 +28,118 @@ exports.connection = (io, socket) => {
   });
 
   //채팅방 만들기 생성
-  socket.on("create", async (roomName, userName, partiesId, cb) => {
-    console.log(userName);
-    //DB 존재여부 판별
-    const chatroomExist = await Chat.findOne({
-      where: { roomID: roomName },
-    });
-    console.log("chatroomExist", chatroomExist);
-    if (!chatroomExist) {
-      Chat.create({
-        roomID: roomName,
-        party_num: partiesId,
-        participant_id: userName,
-      });
-    } else {
-      const participant = chatroomExist.participant_id.split(" ");
-      let flag = false;
-      for (let i = 0; i < participant.length; i++) {
-        if (participant[i] == userName) {
-          flag = true;
-          break;
-        }
+  socket.on(
+    "create",
+    async (roomName, userName, partiesId, partiesDataId, cb) => {
+      console.log(roomName);
+      let roomName1 = "";
+      if (roomName.split(" ")[0] == "단톡") {
+        roomName1 = userName;
+      } else {
+        roomName1 = roomName;
       }
-      if (!flag) {
-        const participantID = `${chatroomExist.participant_id} ${userName}`;
-        Chat.update(
-          { participant_id: participantID },
-          { where: { chat_key: chatroomExist.chat_key } }
-        );
-      }
-      const beforeChat = await ChatMessage.findAll({
-        where: { chat_key: roomName },
+      //DB 존재여부 판별
+      const chatroomExist = await Chat.findOne({
+        where: { roomID: roomName },
       });
-      console.log("beforeChat", beforeChat);
-      let send_before_chat = [];
-      for (let i = 0; i < beforeChat.length; i++) {
-        console.log("beforeChat", beforeChat[i].dataValues.send_message);
-        send_before_chat.push({
-          send_id: beforeChat[i].dataValues.send_id,
-          send_message: beforeChat[i].dataValues.send_message,
+      console.log("chatroomExist", chatroomExist);
+      if (!chatroomExist) {
+        Chat.create({
+          roomID: roomName,
+          party_num: partiesId,
+          participant_id: roomName1, //단톡방이랑 다름
+          host_id: partiesDataId,
         });
+        cb({ beforeChat: false, chatData: false });
+      } else {
+        const participant = chatroomExist.participant_id.split(",");
+        let flag = false;
+        for (let i = 0; i < participant.length; i++) {
+          if (participant[i] == userName) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) {
+          //단톡방 참가자 추가 코드
+          const participantID = `${chatroomExist.participant_id},${userName}`;
+          Chat.update(
+            { participant_id: participantID },
+            { where: { chat_key: chatroomExist.chat_key } }
+          );
+        }
+        const beforeChat = await ChatMessage.findAll({
+          where: { chat_key: roomName },
+        });
+        console.log("beforeChat", beforeChat);
+        let send_before_chat = [];
+        for (let i = 0; i < beforeChat.length; i++) {
+          console.log("beforeChat", beforeChat[i].dataValues.send_message);
+          let send_time = beforeChat[i].dataValues.createdAt;
+          send_time += 9;
+          const inputDateString = send_time;
+          const inputDate = new Date(inputDateString);
+          // 연도에서 끝의 2자리만 가져오기
+          const year = inputDate.getFullYear().toString().slice(-2);
+          // 월과 일을 두 자리 숫자로 만들고 가져오기
+          const month = (inputDate.getMonth() + 1).toString().padStart(2, "0");
+          const day = inputDate.getDate().toString().padStart(2, "0");
+          // 시간과 분을 두 자리 숫자로 만들고 가져오기
+          const hours = inputDate.getHours().toString().padStart(2, "0");
+          const minutes = inputDate.getMinutes().toString().padStart(2, "0");
+          // "YY-MM-DD HH:mm" 형식으로 날짜와 시간을 조합
+          const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+          console.log(formattedDate);
+          send_before_chat.push({
+            send_id: beforeChat[i].dataValues.send_id,
+            send_message: beforeChat[i].dataValues.send_message,
+            send_time: formattedDate,
+          });
+        }
+        cb({ beforeChat: send_before_chat, chatData: chatroomExist });
       }
-      cb(send_before_chat);
+
+      //join(방이름) 해당 방이름으로 없다면 생성. 존재하면 입장
+      //socket.rooms에 socket.id값과 방이름 확인가능
+      socket.join(roomName);
+      //socket은 객체이며 원하는 값을 할당할 수 있음
+      socket.room = roomName;
+      socket.user = userName;
+
+      socket.to(roomName).emit("notice", `${userName}님이 입장하셨습니다`);
+
+      //채팅방 목록 갱신
+      // if (!roomList.includes(roomName)) {
+      //   roomList.push(roomName);
+      //   //갱신된 목록은 전체가 봐야함
+      //   io.emit("roomList", roomList);
+      // }
+
+      const usersInRoom = getUsersInRoom(roomName);
+      io.to(roomName).emit("userList", usersInRoom);
+      cb();
     }
-
-    //join(방이름) 해당 방이름으로 없다면 생성. 존재하면 입장
-    //socket.rooms에 socket.id값과 방이름 확인가능
-    socket.join(roomName);
-    //socket은 객체이며 원하는 값을 할당할 수 있음
-    socket.room = roomName;
-    socket.user = userName;
-
-    socket.to(roomName).emit("notice", `${socket.user}님이 입장하셨습니다`);
-
-    //채팅방 목록 갱신
-    // if (!roomList.includes(roomName)) {
-    //   roomList.push(roomName);
-    //   //갱신된 목록은 전체가 봐야함
-    //   io.emit("roomList", roomList);
-    // }
-
-    const usersInRoom = getUsersInRoom(roomName);
-    io.to(roomName).emit("userList", usersInRoom);
-    cb();
-  });
+  );
 
   socket.on("sendMessage", (message) => {
+    const currentDate = new Date();
+
+    // 연도에서 끝의 2자리만 가져오기
+    const year = currentDate.getFullYear().toString().slice(-2);
+
+    // 월과 일을 두 자리 숫자로 만들고 가져오기
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = currentDate.getDate().toString().padStart(2, "0");
+
+    // 시간과 분을 두 자리 숫자로 만들고 가져오기
+    const hours = currentDate.getHours().toString().padStart(2, "0");
+    const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+
+    // "YY-MM-DD HH:mm" 형식으로 날짜와 시간을 조합
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+    console.log(formattedDate);
     console.log(message);
     console.log(socket.room);
     ChatMessage.create({
@@ -105,6 +152,7 @@ exports.connection = (io, socket) => {
         "newMessage",
         message.message,
         message.nick,
+        formattedDate,
         false
       );
     } else {
@@ -112,10 +160,17 @@ exports.connection = (io, socket) => {
         "newMessage",
         message.message,
         message.nick,
+        formattedDate,
         true
       );
       //자기자신에게 메세지 띄우기
-      socket.emit("newMessage", message.message, message.nick, true);
+      socket.emit(
+        "newMessage",
+        message.message,
+        message.nick,
+        formattedDate,
+        true
+      );
     }
   });
 
