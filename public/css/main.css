@@ -91,6 +91,7 @@
     border-color: #ffffff00;
     color: white;
   }
+
   .a {
     text-decoration: none;
   }
@@ -216,4 +217,7 @@
     width: 20px;
     height: 20px;
   }
+}
+.logo:hover {
+  cursor: pointer;
 }
