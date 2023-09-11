@@ -18,7 +18,6 @@
       crossorigin="anonymous"
     />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
   </head>
   <body>
     <div class="topBar">
@@ -28,11 +27,10 @@
     <h1>Parties</h1>
     <button onclick="write1()">글쓰기</button>
     <ul>
-
       <% for (let i = 0; i < parties.length; i++) { %>
       <li>
         <b><%= parties[i].id %></b> -
-        <a href="/parties/<%=parties[i].party_num%><%= parties[i].title %></a>
+        <a><%= parties[i].title %></a>
         <p><%= parties[i].party_num %></p>
         <button
           onclick="chatRoom(this.value)"
@@ -41,7 +39,6 @@
           채팅방 이동
         </button>
       </li>
-
       <% } %>
     </ul>
 
@@ -88,7 +85,7 @@
         >
           <% for (let i = 0; i < parties.length; i++) { %>
           <div class="col">
-            <div class="card shadow-sm hidden party-card" >
+            <div class="card shadow-sm hidden party-card">
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"
