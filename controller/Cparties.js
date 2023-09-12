@@ -12,9 +12,11 @@ exports.index = async (req, res) => {
         "createdAt",
       ],
     });
-
+    const allTags = await Tags.findAll({
+      attributes: ["tag_num", "tag_name", "tag_category", "tag_category_num"],
+    });
     // console.log("게시글 불러오기 성공", Partiess);
-    res.render("parties", { parties: Partiess });
+    res.render("parties", { parties: Partiess, allTags: allTags });
   } catch (error) {
     console.log(error);
   }

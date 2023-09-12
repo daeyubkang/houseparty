@@ -70,14 +70,14 @@
           </div>
         </form>
         <div class="tag">
-          <% for (let i = 0; i < parties.length; i++) { %>
+          <% for (let i = 0; i < allTags.length; i++){ %>
           <button
             class="tagButton"
             id="tagButton"
-            value="<%= parties[i].tag %>"
-            onclick="tagSearchFunc(`<%= parties[i].tag %>`)"
+            value="<%= allTags[i].tag_name %>"
+            onclick="tagSearchFunc(`<%= allTags[i].tag_name %>`)"
           >
-            #<%= parties[i].tag %>
+            <%= allTags[i].tag_name %>
           </button>
           <% } %>
         </div>
@@ -90,13 +90,11 @@
           </div>
           <% for (let i = 0; i < parties.length; i++) { %>
           <div class="col">
-
             <div
               class="card shadow-sm hidden party-card"
               id="<%=i+1%>"
               data-value="<%=parties[i].party_num%>"
             >
-
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"
