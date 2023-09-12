@@ -107,6 +107,7 @@
       #lists li {
         margin-top: 20px;
         width: 60vw;
+        max-width: 800px;
         display: flex;
         align-items: center;
       }
@@ -136,6 +137,15 @@
         font-size: medium;
         margin-left: 8px;
       }
+      #chatListProfile {
+        width: 10vw;
+        max-width: 100px;
+        height: 10vw;
+        max-height: 100px;
+        border-radius: 50%;
+        background-color: beige;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -159,7 +169,7 @@
 
         <div id="main">
           <h2 id="userTitle"></h2>
-          <ul id="lists" style="width: max-conte"></ul>
+          <ul id="lists"></ul>
         </div>
 
         <div id="body" hidden>
@@ -284,13 +294,24 @@
               }
             }
 
+            console.log(roomList.participant.length);
             const li = document.createElement("li");
-            li.innerHTML = `<div id="chatListdiv" class="ms-2 me-auto">
+            if (roomList.roomName[0] == "단") {
+              li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
+                                <div class="fw-bold">${par}</div>
+                                  ${roomList.roomName}
+                                </div>
+                                <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+                              `;
+            } else {
+              li.innerHTML = `<img src="/public/img/puppy.jpeg" alt="${par}" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
         <div class="fw-bold">${par}</div>
         ${roomList.roomName}
       </div>
       <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
       `;
+            }
+
             // li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
             lists.appendChild(li);
           });
