@@ -73,7 +73,15 @@ exports.info = async (req, res) => {
 
   const user = await Users.findOne({
     where: { id: userId },
-    attributes: ["name", "gender", "phone_number", "birth", "email"],
+    attributes: [
+      "name",
+      "gender",
+      "phone_number",
+      "birth",
+      "email",
+      "location",
+      "imgURL",
+    ],
   });
 
   console.log("user", user);
@@ -90,11 +98,12 @@ exports.eidtProfile = async (req, res) => {
   const decodedToken = jwt.verify(token, SECRET);
 
   const userId = decodedToken.id; // 토큰에 포함된 사용자 ID
-  const { name, gender, phone_number, birth, email, imgURL } = req.body;
+  const { name, gender, phone_number, birth, email, location, imgURL } =
+    req.body;
   console.log("req", req.body);
 
   const user = await Users.update(
-    { name, gender, phone_number, birth, email, imgURL },
+    { name, gender, phone_number, birth, email, location, imgURL },
     { where: { id: userId } }
   );
 
