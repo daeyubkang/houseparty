@@ -288,17 +288,18 @@
   display: flex;
 }
 .tag {
-  justify-content: space-evenly;
-  display: flex;
-  width: 50%;
+  width: 100%;
   margin-top: 30px;
 }
 .tagButton {
   border-radius: 10px;
-
+  width: 116px;
   border: solid 1px #000000;
   background-color: white;
   color: black;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 .titleTags {
   display: flex;

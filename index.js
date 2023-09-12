@@ -80,7 +80,7 @@ app.use("/find", findRouter);
 app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/", (req, res) => {
-  res.render("index");
+  res.render("main");
 });
 
 //오류처리
