@@ -14,7 +14,7 @@ const bcryptPassword = (password) => {
 };
 
 exports.index = (req, res) => {
-  res.render("signup");
+  res.render("signup1");
 };
 
 exports.signupPost = async (req, res) => {
