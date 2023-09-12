@@ -57,7 +57,7 @@ exports.index = (req, res) => {
   // }
 };
 
-exports.info = (req, res) => {
+exports.info = async (req, res) => {
   // 데이터베이스에서 프로필 정보를 가져옵니다.
 
   const token = req.query.token;
@@ -71,14 +71,38 @@ exports.info = (req, res) => {
 
   const { name, gender, phone_number, birth, email } = req.query;
 
-  const user = Users.findOne({
+  const user = await Users.findOne({
     where: { id: userId },
-    name,
-    gender,
-    phone_number,
-    birth,
-    email,
+    attributes: ["name", "gender", "phone_number", "birth", "email"],
   });
 
+  console.log("user", user);
+
   res.json({ user: user });
+};
+
+exports.eidtProfile = async (req, res) => {
+  console.log("server-edit");
+  const token = req.body.token;
+  console.log(token);
+
+  // JWT 토큰을 검증
+  const decodedToken = jwt.verify(token, SECRET);
+
+  const userId = decodedToken.id; // 토큰에 포함된 사용자 ID
+  const { name, gender, phone_number, birth, email, imgURL } = req.body;
+  console.log("req", req.body);
+
+  const user = await Users.update(
+    { name, gender, phone_number, birth, email, imgURL },
+    { where: { id: userId } }
+  );
+
+  console.log("user", user);
+
+  res.json({ user: user });
+};
+
+exports.updateImg = async (req, res) => {
+  console.log("server: updateImg");
 };
