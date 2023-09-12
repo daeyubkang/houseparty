@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>파티 상세페이지</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <h1>파티 상세페이지</h1>
+
+    <!-- 파티글 작성자의 id를 hidden값으로 받아옴 -->
+    <div hidden id="postedBy" data-value="<%= party.id %>"></div>
+    <!-- 파티의 party_num을 hidden값으로 받아옴 -->
+    <div hidden id="partyNum" data-value="<%= party.party_num %>"></div>
+
     파티 제목: <%= party.title %>
     <br />
     설명: <%= party.description %>
@@ -26,6 +33,68 @@
       <% }); %>
     </ul>
 
-    <script></script>
+    <script>
+      (function () {
+        let result1 = "";
+        const local = sessionStorage.getItem("token");
+        console.log(local);
+        const currentUrl = window.location.href;
+        console.log(currentUrl);
+        if (local != null) {
+          axios({
+            method: "post",
+            url: `/verify`,
+            data: {
+              token: local,
+            },
+          }).then((result) => {
+            //console.log(result.data.user.id);
+            sessionStorage.setItem("userId", result.data.user.id);
+            const postedBy = document.querySelector("#postedBy");
+            const body = document.querySelector("body");
+            //console.log(postedBy.dataset.value);
+            if (result.data.user.id === postedBy.dataset.value) {
+              body.insertAdjacentHTML(
+                "afterbegin",
+                `<button id="editParty" type="button" onclick="editParty()">파티 수정</button>
+                <button id="deteleParty" type="button" onclick= "deleteParty()">파티 삭제</button>`
+              );
+            }
+          });
+        } else {
+          console.log("로그인 실패");
+        }
+      })();
+
+      async function editParty() {
+        const postedBy = document.querySelector("#postedBy");
+        const currentUserId = sessionStorage.getItem("userId");
+        console.log(postedBy.dataset.value, currentUserId);
+        document.location.href = `/parties/host/${partyNum.dataset.value}`;
+        // try {
+        //   const res = await axios({
+        //     method: "GET",
+        //     url: `/parties/host/${partyNum.dataset.value}`,
+        //   });
+        //   console.log("res", res);
+        // } catch (err) {
+        //   console.log(err);
+        // }
+      }
+
+      async function deleteParty() {
+        const partyNum = document.querySelector("#partyNum");
+        try {
+          const res = await axios({
+            method: "DELETE",
+            url: `/parties/${partyNum.dataset.value}`,
+          });
+          alert(res.data);
+          document.location.href = "/parties";
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    </script>
   </body>
 </html>

@@ -41,14 +41,14 @@ const Model = (sequelize) => {
     start_time: {
       type: DataTypes.STRING(50),
       allowNull: true,
-    }
+    },
 
     party_location: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
     image: {
-     type: DataTypes.STRING(50),
+      type: DataTypes.STRING(50),
       allowNull: true,
     },
   });
