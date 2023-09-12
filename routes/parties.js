@@ -22,7 +22,7 @@ router.get("/:partyNum", controller.partyDetail);
 
 //게시글 수정
 router.get("/host/:partyNum", controller.editParty);
-router.put("/:partyNum", controller.editPartyPost);
+router.put("/host/:partyNum", controller.editPartyPost);
 
 //게시글 삭제
 router.delete("/:partyNum", controller.deleteParty);

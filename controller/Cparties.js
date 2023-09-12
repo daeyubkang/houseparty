@@ -154,7 +154,6 @@ exports.hostParty = async (req, res) => {
   //console.log(allTags);
 
   res.render("host", { allTags, allAmens, isEdit: false });
-
 };
 
 exports.hostPartyPost = async (req, res) => {
@@ -240,7 +239,68 @@ exports.editParty = async (req, res, next) => {
   }
 };
 
-exports.editPartyPost = async (req, res) => {};
+exports.editPartyPost = async (req, res) => {
+  try {
+    console.log("reqbody:", req.body);
+    const {
+      party_num,
+      id,
+      title,
+      description,
+      date,
+      start_time,
+      end_time,
+      head_count,
+      image,
+      tags,
+      party_location,
+      amenities,
+    } = req.body;
+
+    await Parties.update(
+      {
+        id,
+        title,
+        description,
+        date,
+        start_time,
+        end_time,
+        head_count,
+        image,
+        party_location,
+      },
+      { where: { party_num } }
+    );
+
+    const updatedParty = await Parties.findByPk(party_num);
+
+    await updatedParty.setTags([]);
+    await updatedParty.setAmenities([]);
+
+    //받은(수정된) 태그값을 파티 정보에 새로 추가
+    const selectedTagNames = tags;
+    if (selectedTagNames.length > 0) {
+      const selectedTags = await Tags.findAll({
+        where: { tag_name: selectedTagNames },
+      });
+      console.log("newTags:", selectedTags);
+      await updatedParty.addTags(selectedTags);
+    }
+    //받은(수정된) 어메니티값을 파티 정보에 새로 추가
+    const selectedAmenityNames = amenities;
+    if (selectedAmenityNames.length > 0) {
+      const selectedAmenities = await Amenities.findAll({
+        where: { amen_name: selectedAmenityNames },
+      });
+      await updatedParty.addAmenities(selectedAmenities);
+    }
+    console.log("tags: ", tags);
+    console.log("amenities: ", amenities);
+    res.send(updatedParty);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 exports.deleteParty = async (req, res) => {
   const party_num = req.params.partyNum;

@@ -48,11 +48,11 @@
               token: local,
             },
           }).then((result) => {
-            //console.log(result.data.user.id);
+            console.log(result.data.user.id);
             sessionStorage.setItem("userId", result.data.user.id);
             const postedBy = document.querySelector("#postedBy");
             const body = document.querySelector("body");
-            //console.log(postedBy.dataset.value);
+            console.log(postedBy.dataset.value);
             if (result.data.user.id === postedBy.dataset.value) {
               body.insertAdjacentHTML(
                 "afterbegin",
