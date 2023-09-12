@@ -39,18 +39,46 @@ const jwt = require("jsonwebtoken");
 //   }
 // };
 
-exports.index = async (req, res) => {
-  try {
-    const token = req.query.token;
+exports.index = (req, res) => {
+  console.log("hi");
+  res.render("profile2");
+  // try {
+  //   const token = req.query;
 
-    console.log("server-token", token);
+  //   console.log("server-token", token);
 
-    // JWT 토큰을 검증하고 토큰에 포함된 정보를 추출합니다.
-    // const decodedToken = jwt.verify(token, SECRET);
-    // console.log("decodedToken", decodedToken);
+  //   // JWT 토큰을 검증하고 토큰에 포함된 정보를 추출합니다.
+  //   // const decodedToken = jwt.verify(token, SECRET);
+  //   // console.log("decodedToken", decodedToken);
 
-    res.render("profile2");
-  } catch {
-    console.log("err");
-  }
+  //   res.render("profile2");
+  // } catch {
+  //   console.log("err");
+  // }
+};
+
+exports.info = (req, res) => {
+  // 데이터베이스에서 프로필 정보를 가져옵니다.
+
+  const token = req.query.token;
+  console.log("server-token", token);
+
+  // JWT 토큰을 검증
+  const decodedToken = jwt.verify(token, SECRET);
+
+  // 토큰에서 추출한 정보를 사용하여 프로필 정보를 조회
+  const userId = decodedToken.id; // 토큰에 포함된 사용자 ID
+
+  const { name, gender, phone_number, birth, email } = req.query;
+
+  const user = Users.findOne({
+    where: { id: userId },
+    name,
+    gender,
+    phone_number,
+    birth,
+    email,
+  });
+
+  res.json({ user: user });
 };

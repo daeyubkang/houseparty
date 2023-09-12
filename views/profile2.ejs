@@ -31,7 +31,7 @@
           </button>
         </div>
         <div class="name">
-          <input type="text" id="name" placeholder="이름" />
+          <input type="text" id="name" placeholder="이름" value="" />
         </div>
         <div class="birth">
           <input type="date" id="birth" placeholder="생년월일" />
@@ -95,13 +95,13 @@
       axios({
         method: "GET",
         params: { token: token },
-        url: "/profile2",
+        url: "/profile2/info",
       })
         .then((res) => {
           console.log("res");
         })
         .catch((err) => {
-          console.error("Error", error);
+          console.error("Error", err);
         });
 
       // 이미지 미리보기
