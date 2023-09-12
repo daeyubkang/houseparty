@@ -56,9 +56,16 @@
           <% } %>
         </div>
         <div class="row" style="margin-top: 10px">
+          <div id="partyLength" data-value="<%=parties.length%>">
+            총 <%=parties.length%> 개 파티
+          </div>
           <% for (let i = 0; i < parties.length; i++) { %>
           <div class="col-md-4">
-            <div class="card shadow-sm hidden party-card">
+            <div
+              class="card shadow-sm hidden party-card"
+              id="<%=i+1%>"
+              data-value="<%=parties[i].party_num%>"
+            >
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"
@@ -273,7 +280,17 @@
         sessionStorage.removeItem("seachItem");
       }
       function writeFunc() {
-        location.href = `/parties/write`;
+        location.href = `/parties/host`;
+      }
+
+      //파티카드 누르면 해당파티 상세페이지로 이동
+      const partyLength = document.getElementById("partyLength");
+      for (let i = 0; i < partyLength.dataset.value; i++) {
+        const cardLink = document.getElementById(`${i + 1}`);
+        cardLink.addEventListener("click", () => {
+          //console.log(cardLink.dataset.value);
+          window.location.href = `/parties/${cardLink.dataset.value}`;
+        });
       }
     </script>
   </body>

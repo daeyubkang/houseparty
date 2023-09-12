@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "user",
-    "password": "1234",
+    "username": "hi",
+    "password": "12345678!",
     "database": "houseparty",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -19,7 +19,10 @@
     "password": "12345678!",
     "database": "houseparty",
     "host": "houseparty.cmi2uwickkdp.us-east-1.rds.amazonaws.com",
+
+
     "dialect": "mysql",
     "timezone": "+09:00"
+
   }
 }
