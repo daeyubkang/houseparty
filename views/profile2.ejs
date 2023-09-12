@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>profile2</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../public/css/profile2.css" />
   </head>
   <body>
     <h1>프로필 수정</h1>
@@ -52,58 +53,36 @@
         <div class="email">
           <input type="text" id="email" placeholder="이메일" />
         </div>
-        <!-- <div class="selectedAddress">
-          <div id="popup" class="popup">
-            <div class="popup-content">
-              <span class="close-button" id="closeButton">&times;</span>
-              <input type="text" id="sample4_postcode" placeholder="우편번호" />
-              <input
-                type="button"
-                onclick="sample4_execDaumPostcode()"
-                value="우편번호 찾기"
-              /><br />
-              <input
-                type="text"
-                id="sample4_roadAddress"
-                placeholder="도로명주소"
-              />
 
-              <span id="guide" style="color: #999; display: none"></span>
-              <input
-                type="text"
-                id="sample4_detailAddress"
-                placeholder="상세주소"
-              />
-              <button type="button" id="submitAddress">확인</button>
-            </div>
-          </div>
-          <img src="/public/img/map.svg" alt="" />
-          <input type="text" placeholder="주소" id="displayAddress" readonly />
-          <button type="button" id="popupButton">주소 입력</button>
-        </div> -->
-        <button type="button" id="editBtn" onclick="editProfile()">
+        <button type="button" id="editBtn" onclick="editProfileFunc()">
           수정하기
         </button>
       </form>
     </div>
 
     <script>
+      let user;
       // get
       const token = sessionStorage.getItem("token");
       console.log("token", token);
 
-      axios({
-        method: "GET",
-        params: { token: token },
-        url: "/profile2/info",
-      })
-        .then((res) => {
-          console.log("res");
-          res.data.user;
+      window.onload = function getUser() {
+        axios({
+          method: "GET",
+          params: { token: token },
+          url: "profile2/info",
         })
-        .catch((err) => {
-          console.error("Error", err);
-        });
+          .then((res) => {
+            console.log("res");
+            user = res.data.user;
+            console.log("user", user);
+
+            pushProfile();
+          })
+          .catch((err) => {
+            console.error("Error", err);
+          });
+      };
 
       // 이미지 미리보기
       function previewImage(input) {
@@ -137,21 +116,15 @@
             const formData = new FormData();
             formData.append("image", selectedImage);
 
-            // const res = await axios({
-            //   method: "post",
-            //   url: "/upload",
-            //   data: formData,
-            // }).then((res) => {});
-
             // 이미지를 업로드할 엔드포인트로 POST 요청 보내기
-            const res = await axios.post("signup/upload", formData, {
+            const res = await axios.post("profile2/upload", formData, {
               headers: {
                 "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
               },
             });
-            console.log(res.data.file.location);
+            // console.log(res.data.file.location);
             const imgURL = res.data.file.location;
-            console.log(imgURL);
+            console.log("uploadImage()함수 :", imgURL);
             return imgURL;
 
             alert("이미지 업로드가 완료되었습니다.");
@@ -163,117 +136,45 @@
         }
       }
 
-      // 주소 입력
-      // 버튼과 팝업 요소 가져오기
-      //   const popupButton = document.getElementById("popupButton");
-      //   const popup = document.getElementById("popup");
-      //   const closeButton = document.getElementById("closeButton");
-      //   const topBar = document.querySelector(".topBar");
+      // -------- input 태그에 정보 넣기 -------------
+      async function pushProfile() {
+        // user 데이터가 존재하는지 확인
+        if (user) {
+          // 사용자 데이터에서 필요한 정보 추출
+          const { name, birth, gender, phone_number, email } = user;
 
-      // 버튼 클릭 시 팝업 열기
-      //   popupButton.addEventListener("click", () => {
-      //     popup.style.display = "block";
-      //     topBar.style.position = "static";
-      //     topBar.style.backgroundColor = "transparent"; // 먼저 배경색을 투명하게 설정합니다.
-      //     topBar.style.zIndex = "1"; // z-index를 설정하여 topBar가 다른 콘텐츠 위에 나타나도록 합니다.
-      //   });
+          // 각 input 요소에 사용자 데이터 설정
+          document.getElementById("name").value = name || ""; // 이름
+          document.getElementById("birth").value = birth || ""; // 생년월일
+          // 성별 설정
+          if (gender === "남자") {
+            document.getElementById("man").checked = true;
+          } else if (gender === "여자") {
+            document.getElementById("woman").checked = true;
+          }
+          document.getElementById("phone_number").value = phone_number || ""; // 전화번호
+          document.getElementById("email").value = email || ""; // 이메일
+        }
+      }
 
-      // 확인 버튼 클릭 시 팝업 닫기
-      //   const submitAddress = document.querySelector("#submitAddress");
-      //   const displayAddress = document.querySelector("#displayAddress");
-      //   // 1. input에 입력된 데이터 보여주기
-      //   submitAddress.addEventListener("click", () => {
-      //     popup.style.display = "none";
-      //     topBar.style.position = "fixed"; // topBar의 position을 다시 relative로 설정합니다.
-      //     topBar.style.zIndex = "0"; // 기본적으로 다른 콘텐츠 아래에 나타나도록 설정합니다.
-
-      //     // 입력 받은 데이터 input 태그에 추가
-      //     displayAddress.value =
-      //       document.getElementById("sample4_roadAddress").value +
-      //       " " +
-      //       document.getElementById("sample4_detailAddress").value;
-      //   });
-      //   // 2. 입력 값 db에 넣기
-      //   // close 버튼 클릭 시 팝ㄷ업 닫기
-      //   closeButton.addEventListener("click", () => {
-      //     popup.style.display = "none";
-      //     topBar.style.position = "fixed"; // topBar의 position을 다시 relative로 설정합니다.
-      //     topBar.style.zIndex = "0"; // 기본적으로 다른 콘텐츠 아래에 나타나도록 설정합니다.
-      //   });
-
-      // 팝업 외부 클릭 시 팝업 닫기
-      //   window.addEventListener("click", (event) => {
-      //     if (event.target === popup) {
-      //       popup.style.display = "none";
-      //       topBar.style.position = "fixed"; // topBar의 position을 다시 relative로 설정합니다.
-      //       topBar.style.zIndex = "0"; // 기본적으로 다른 콘텐츠 아래에 나타나도록 설정합니다.
-      //     }
-      //   });
-
-      // 지도 api
-      //   function sample4_execDaumPostcode() {
-      //     new daum.Postcode({
-      //       oncomplete: function (data) {
-      //         // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-      //         // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-      //         // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-      //         var roadAddr = data.roadAddress; // 도로명 주소 변수
-      //         var extraRoadAddr = ""; // 참고 항목 변수
-
-      //         // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-      //         // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-      //         if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-      //           extraRoadAddr += data.bname;
-      //         }
-      //         // 건물명이 있고, 공동주택일 경우 추가한다.
-      //         if (data.buildingName !== "" && data.apartment === "Y") {
-      //           extraRoadAddr +=
-      //             extraRoadAddr !== ""
-      //               ? ", " + data.buildingName
-      //               : data.buildingName;
-      //         }
-
-      //         // 우편번호와 주소 정보를 해당 필드에 넣는다.
-      //         document.getElementById("sample4_postcode").value = data.zonecode;
-      //         document.getElementById("sample4_roadAddress").value =
-      //           roadAddr + `(${data.bname})`;
-
-      //         var guideTextBox = document.getElementById("guide");
-      //         // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-      //         if (data.autoRoadAddress) {
-      //           var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-      //           guideTextBox.innerHTML =
-      //             "(예상 도로명 주소 : " + expRoadAddr + ")";
-      //           guideTextBox.style.display = "block";
-      //         } else if (data.autoJibunAddress) {
-      //           var expJibunAddr = data.autoJibunAddress;
-      //           guideTextBox.innerHTML =
-      //             "(예상 지번 주소 : " + expJibunAddr + ")";
-      //           guideTextBox.style.display = "block";
-      //         } else {
-      //           guideTextBox.innerHTML = "";
-      //           guideTextBox.style.display = "none";
-      //         }
-      //       },
-      //     }).open();
-      //   }
-
-      async function editProfile() {
-        const form = document.forms["editProfile"];
-        const emailCheck = sessionStorage.getItem("emailCheck");
-
-        //회원가입 조건 분류
-
+      async function editProfileFunc() {
+        console.log("editProfileFunc");
         try {
+          const form = document.forms["editProfile"];
+          // const emailCheck = sessionStorage.getItem("emailCheck");
           const token = sessionStorage.getItem("token");
-          // const imgURL = await uploadImage();
-          // console.log(imgURL);
-          const res = await axios({
+          const imgURL = await uploadImage();
+
+          console.log(imgURL);
+
+          console.log("editProfile");
+          console.log(token);
+          console.log(form.name.value);
+          const res = axios({
             method: "POST",
-            url: "/profile",
+            url: "/profile2/edit",
             data: {
-              id: token,
+              token,
               name: form.name.value,
               gender: form.gender.value,
               phone_number: form.phone_number.value,
@@ -281,16 +182,9 @@
               email: form.email.value,
               // location: document.getElementById("displayAddress").value,
               // image: document.getElementById("imageInput").files[0],
+              imgURL,
             },
           });
-          console.log(res);
-          // await uploadImage();
-          if (res.data) {
-            console.log(res.data);
-            alert("변경 안료");
-
-            // document.location.href = "/signin";
-          }
         } catch (err) {
           console.log(err);
         }
