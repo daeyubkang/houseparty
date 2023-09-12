@@ -102,7 +102,3 @@ exports.eidtProfile = async (req, res) => {
 
   res.json({ user: user });
 };
-
-exports.updateImg = async (req, res) => {
-  console.log("server: updateImg");
-};
