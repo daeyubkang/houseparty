@@ -5,16 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>비밀번호 변경</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../public/css/profile1.css" />
   </head>
   <body>
-    <h1>비밀번호 변경 페이지</h1>
-
-    <form id="changeProfile">
-      <input type="text" id="oldPassword" placeholder="기존 비밀번호" />
-      <button type="button" onclick="checkPassword()">비밀번호 확인</button>
-      <input type="password" id="newPassword" placeholder="새로운 비밀번호" />
-      <button type="button" onclick="changePassword()">비밀번호 변경</button>
-    </form>
+    <div class="container">
+      <%- include('./static/topBar') %>
+      <span id="profile1_title">비밀번호 변경</span>
+      <form id="changeProfile">
+        <div class="top">
+          <div class="oldPwBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="text"
+              id="oldPassword"
+              class="oldPw"
+              placeholder="기존 비밀번호"
+            />
+            <button type="button" class="oldPwCheck" onclick="checkPassword()">
+              비밀번호 확인
+            </button>
+          </div>
+          <div class="newPwBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="password"
+              id="newPassword"
+              class="newPw"
+              placeholder="새로운 비밀번호"
+            />
+          </div>
+          <br />
+          <button type="button" class="changePw" onclick="changePassword()">
+            비밀번호 변경
+          </button>
+        </div>
+      </form>
+    </div>
   </body>
 
   <script>

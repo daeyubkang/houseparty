@@ -142,25 +142,28 @@
       // get
       const token = sessionStorage.getItem("token");
       console.log("token", token);
-
-      window.onload = function getUser() {
-        axios({
-          method: "GET",
-          params: { token: token },
-          url: "profile2/info",
-        })
-          .then((res) => {
-            console.log("res");
-            user = res.data.user;
-            console.log("user", user);
-
-            pushProfile();
+      if (!token) {
+        alert("로그인을 먼저 하세요.");
+        window.location.href = "/signin";
+      } else {
+        window.onload = function getUser() {
+          axios({
+            method: "GET",
+            params: { token: token },
+            url: "profile2/info",
           })
-          .catch((err) => {
-            console.error("Error", err);
-          });
-      };
+            .then((res) => {
+              console.log("res");
+              user = res.data.user;
+              console.log("user", user);
 
+              pushProfile();
+            })
+            .catch((err) => {
+              console.error("Error", err);
+            });
+        };
+      }
       // 이미지 미리보기
       function previewImage(input) {
         const preview = document.getElementById("preview");
