@@ -15,15 +15,12 @@
 
   <body>
     <div class="container">
-      <div class="topBar">
-        <a class="howsParty" href="/main"> How's Party </a
-        ><a class="signin" href="/signin">login</a>
-      </div>
+      <%- include('./static/topBar') %>
 
       <span id="signup1_title"> 회원가입 </span>
       <form name="register" enctype="multipart/form-data">
         <div id="imagePreview">
-          <img id="preview" src="" alt="미리보기" />
+          <img id="preview" src="" />
         </div>
 
         <input
@@ -36,6 +33,7 @@
 
         <button
           type="button"
+          class="ImgButton"
           onclick="document.getElementById('imageInput').click()"
         >
           이미지 선택
@@ -94,6 +92,7 @@
               id="birth"
               class="birth"
               placeholder="생년월일"
+              max="<?php echo date('Y-m-d'); ?>"
             />
           </div>
           <div class="gender">
@@ -124,14 +123,16 @@
               placeholder="휴대전화 번호"
             />
           </div>
-          <div class="email">
+          <div class="emailBox">
             <form id="emailForm">
+              <img src="/public/img/email.svg" class="emailImg" />
               <input
                 type="email"
                 id="email"
                 class="email"
                 placeholder="이메일"
               />
+
               <button
                 type="button"
                 class="emailsubmit"
@@ -141,7 +142,12 @@
               </button>
             </form>
           </div>
-          <div class="emailCheck">
+          <div class="emailCheckBox">
+            <img
+              src="/public/img/cancel.svg"
+              class="emailCheckImg"
+              id="emailCheckImg"
+            />
             <input
               type="number"
               id="emailCheck"
@@ -156,37 +162,49 @@
               확인
             </button>
           </div>
-        </div>
 
-        <!-- 주소 입력 -->
-        <div class="selectedAddress">
-          <div id="popup" class="popup">
-            <div class="popup-content">
-              <span class="close-button" id="closeButton">&times;</span>
-              <input type="text" id="sample4_postcode" placeholder="우편번호" />
-              <input
-                type="button"
-                onclick="sample4_execDaumPostcode()"
-                value="우편번호 찾기"
-              /><br />
-              <input
-                type="text"
-                id="sample4_roadAddress"
-                placeholder="도로명주소"
-              />
+          <!-- 주소 입력 -->
+          <div class="selectedAddress">
+            <div id="popup" class="popup">
+              <div class="popup-content">
+                <span class="close-button" id="closeButton">&times;</span>
+                <input
+                  type="text"
+                  id="sample4_postcode"
+                  placeholder="우편번호"
+                />
+                <input
+                  type="button"
+                  onclick="sample4_execDaumPostcode()"
+                  value="우편번호 찾기"
+                /><br />
+                <input
+                  type="text"
+                  id="sample4_roadAddress"
+                  placeholder="도로명주소"
+                />
 
-              <span id="guide" style="color: #999; display: none"></span>
-              <input
-                type="text"
-                id="sample4_detailAddress"
-                placeholder="상세주소"
-              />
-              <button type="button" id="submitAddress">확인</button>
+                <span id="guide" style="color: #999; display: none"></span>
+                <input
+                  type="text"
+                  id="sample4_detailAddress"
+                  placeholder="상세주소"
+                />
+                <button type="button" id="submitAddress">확인</button>
+              </div>
             </div>
+            <img src="/public/img/map.svg" class="addressImg" />
+            <input
+              type="text"
+              placeholder="주소"
+              id="displayAddress"
+              readonly
+              class="displayAddress"
+            />
+            <button type="button" id="popupButton" class="popupButton">
+              입력
+            </button>
           </div>
-          <img src="/public/img/map.svg" alt="" />
-          <input type="text" placeholder="주소" id="displayAddress" readonly />
-          <button type="button" id="popupButton">주소 입력</button>
         </div>
 
         <button
@@ -224,12 +242,15 @@
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       return emailPattern.test(email);
     }
+    //인증번호 체크
     function emailCheckSubmit(payload) {
       const emailCheck = document.getElementById("emailCheck").value;
+      const emailCheckImg = document.getElementById("emailCheckImg");
       console.log("이메일 체크", savedPayload);
       if (emailCheck === savedPayload) {
         alert("본인 인증을 완료하였습니다.");
         sessionStorage.setItem("emailCheck", true);
+        emailCheckImg.src = "/public/img/check.svg";
       } else {
         alert("인증번호가 틀립니다.");
       }

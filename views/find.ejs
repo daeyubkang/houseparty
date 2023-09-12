@@ -14,10 +14,7 @@
   </head>
   <body>
     <div class="container">
-      <div class="topBar">
-        <a class="howsParty" href="/main"> How's Party </a
-        ><a class="signin" href="/signin">login</a>
-      </div>
+      <%- include('./static/topBar') %>
       <span id="find_title_id">아이디 찾기</span>
       <form name="findIdForm">
         <div class="top">
@@ -60,13 +57,12 @@
           >
             찾기
           </button>
+
+          <div id="findIdResult" class="findIdResult">
+            회원님 아이디는 ~~~입니다.
+          </div>
         </div>
       </form>
-
-      <div id="findIdResult" class="findIdResult">
-        회원님 아이디는 ~~~입니다.
-      </div>
-
       <span id="find_title_pw">비밀번호 재설정</span>
       <form name="updataPwForm">
         <div class="top">
@@ -100,17 +96,18 @@
               placeholder="생년월일"
             />
           </div>
-          <div class="phoneBox">
+          <div class="phoneBox2">
             <img src="/public/img/phone.svg" />
             <input
               type="number"
               name="phone_number"
               id="phone_number"
-              class="phoneNumber"
+              class="phoneNumber2"
               placeholder="휴대전화 번호"
             />
           </div>
           <div class="emailCheck">
+            <img src="/public/img/email.svg" class="emailImg" />
             <input type="email" id="email" class="email" placeholder="이메일" />
             <button
               type="button"
@@ -120,11 +117,16 @@
               전송
             </button>
           </div>
-          <div>
+          <div class="emailCheckBox">
+            <img
+              src="/public/img/cancel.svg"
+              class="emailCheckImg"
+              id="emailCheckImg"
+            />
             <input
               type="number"
-              id="emailCheck"
-              class="emailCheck"
+              id="emailCheckNum"
+              class="emailCheckNum"
               placeholder="인증번호"
             />
             <button
@@ -201,6 +203,7 @@
       if (emailCheck === savedPayload) {
         alert("본인 인증을 완료하였습니다.");
         sessionStorage.setItem("emailCheck", true);
+        emailCheckImg.src = "/public/img/check.svg";
       } else {
         alert("인증번호가 틀립니다.");
       }
