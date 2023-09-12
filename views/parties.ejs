@@ -33,6 +33,7 @@
         <a><%= parties[i].title %></a>
         <p><%= parties[i].party_num %></p>
         <button
+          id="goChatRoom"
           onclick="chatRoom(this.value)"
           value="<%= parties[i].party_num %>,<%= parties[i].id %>"
         >
@@ -214,6 +215,14 @@
             result1 = result;
             console.log(result1.data.user.id);
             sessionStorage.setItem("userId", result1.data.user.id);
+
+            const buttons = document.querySelectorAll("#goChatRoom");
+            buttons.forEach((element) => {
+              console.log(element.value.split(",")[1]);
+              if (result1.data.user.id == element.value.split(",")[1]) {
+                element.hidden = true;
+              }
+            });
           });
         } else {
           console.log("로그인 실패");
