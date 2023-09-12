@@ -493,12 +493,13 @@
           msg.appendChild(div);
         } else {
           div.classList.add("other-chat");
-          div.innerHTML = `<img src="imgURL" alt="${res[i].send_id} id="chatProfile">`;
+          div.innerHTML = `<img src="${imgURL}" alt="${nick} id="chatProfile">`;
           p.textContent = bool ? `(귓속말) ${nick} : ${message}` : `${message}`;
           div.appendChild(p);
           div.appendChild(span);
           msg.appendChild(div);
         }
+        prepareScroll();
       });
       //입장 메세지 이벤트
       socket.on("notice", (message) => {
@@ -508,14 +509,18 @@
       chatForm.addEventListener("click", (e) => {
         // e.preventDefault();
         const message = document.querySelector("#message");
-        const msg = {
-          nick: userId,
-          user: "all",
-          message: message.value,
-        };
-        socket.emit("sendMessage", msg);
-        message.value = "";
-        prepareScroll();
+        if (message.value == "") {
+          return;
+        } else {
+          const msg = {
+            nick: userId,
+            user: "all",
+            message: message.value,
+          };
+          socket.emit("sendMessage", msg);
+          message.value = "";
+          prepareScroll();
+        }
       });
 
       // 준비 함수, 약간의 시간을 두어 scroll 함수를 호출하기
