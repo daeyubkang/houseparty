@@ -49,8 +49,8 @@ app.use("/signup", singupRouter);
 const chatRouter = require("./routes/chat");
 app.use("/chat", chatRouter);
 
-// const profileRouter = require("./routes/profile");
-// app.use("/profile", profileRouter);
+const profileRouter = require("./routes/profile");
+app.use("/profile", profileRouter);
 
 const profile1Router = require("./routes/profile1");
 app.use("/profile1", profile1Router);
