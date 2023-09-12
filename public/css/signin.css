@@ -5,71 +5,83 @@ body {
   justify-content: center; /* 수평 가운데 정렬 */
   background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-.topBar {
-  width: 360px;
-  padding: 14px 0 0;
-  background-color: #fff;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
+.container > form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
 }
-.howsParty {
-  width: 85px;
-  height: 27px;
-  margin: 0 165px 12px 15px;
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #bf2c47;
-  text-decoration: none;
-}
-.signin {
-  width: 85px;
-  height: 27px;
-  position: absolute;
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-  text-decoration: none;
+
+@media screen and (max-width: 800px) {
+  .top {
+    width: 270px;
+  }
 }
 .logo {
   width: 212px;
   height: 40px;
-  margin: 34px 74px 18px;
+  margin: 65px 74px 18px;
   font-family: "Covered By Your Grace", cursive;
   font-size: 45px;
   color: #bf2c47;
   text-align: center;
 }
-.id {
-  width: 270px;
-  flex-grow: 0;
-  margin: 30px 39px;
-  padding: 15px 15px 15px 15px;
-  border-radius: 10px;
-  border: solid 1px #000;
-  background-color: rgba(217, 217, 217, 0.5);
+.top {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
 }
-.pw {
-  width: 270px;
-  flex-grow: 0;
-  margin: 0 39px 10px 39px;
+@media screen and (max-width: 800px) {
+  .top {
+    width: 270px;
+  }
+}
+.idBox {
+  width: 100%;
   padding: 15px 15px 15px 15px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+
+.top .id {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.pwBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
   border: solid 1px #000;
   background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+  border-radius: 0 0 10px 10px;
+}
+.top .pw {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .id {
+    width: 270px;
+  }
+  .pw {
+    width: 270px;
+  }
 }
 .loginButton {
   width: 270px;
@@ -80,6 +92,9 @@ body {
   border: solid 1px #fff;
   background-color: #bf2c47;
   color: white;
+}
+.loginButton:hover {
+  background-color: #791a2c;
 }
 .signup {
   width: 70px;
@@ -96,6 +111,9 @@ body {
   color: #000;
   text-decoration: none;
 }
+.signup:hover {
+  font-weight: bold;
+}
 .find {
   margin: 10px 190px 0 50px;
   font-family: Inter;
@@ -108,4 +126,10 @@ body {
   text-align: center;
   color: #000;
   text-decoration: none;
+}
+.find:hover {
+  font-weight: bold;
+}
+.loginButton:hover {
+  cursor: pointer;
 }

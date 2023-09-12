@@ -30,7 +30,9 @@
       <% for (let i = 0; i < parties.length; i++) { %>
       <li>
         <b><%= parties[i].id %></b> -
+
         <a href="/parties/<%=parties[i].party_num%><%= parties[i].title %>"></a>
+
         <p><%= parties[i].party_num %></p>
         <button
           onclick="chatRoom(this.value)"
@@ -39,7 +41,6 @@
           채팅방 이동
         </button>
       </li>
-
       <% } %>
     </ul>
 
@@ -89,11 +90,13 @@
           </div>
           <% for (let i = 0; i < parties.length; i++) { %>
           <div class="col">
+
             <div
               class="card shadow-sm hidden party-card"
               id="<%=i+1%>"
               data-value="<%=parties[i].party_num%>"
             >
+
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"

@@ -13,25 +13,44 @@
     <link rel="stylesheet" href="/public/css/signin.css" />
   </head>
   <body>
+    <%- include('./static/topBar') %>
+    <div class="container">
+      <div class="logo">How's Party</div>
+      <!-- 
     <form onsubmit="login(event)">
       <input type="text" id="userid" placeholder="ID" /><br />
       <input type="password" id="pw" placeholder="PW" /><br />
       <button type="submit">로그인</button>
-    </form>
+    </form> -->
 
-    <input type="text" name="id" id="id" class="id" placeholder="아이디" />
-    <input
-      type="password"
-      name="pw"
-      id="pw"
-      class="pw"
-      placeholder="비밀번호"
-    />
-    <button type="button" class="loginButton" onclick="login(event)">
-      로그인
-    </button>
-    <a href="/signup1" class="signup">회원가입</a>
-    <a href="/find" class="find">아이디/비밀번호 찾기</a>
+      <form onsubmit="login(event)" class="form">
+        <div class="top">
+          <div class="idBox">
+            <img src="/public/img/id.svg" />
+            <input
+              type="text"
+              name="id"
+              id="userid"
+              class="id"
+              placeholder="아이디"
+            />
+          </div>
+          <div class="pwBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="password"
+              name="pw"
+              id="pw"
+              class="pw"
+              placeholder="비밀번호"
+            />
+          </div>
+        </div>
+        <button type="submit" class="loginButton">로그인</button>
+      </form>
+      <a href="/signup1" class="signup">회원가입</a>
+      <a href="/find" class="find">아이디/비밀번호 찾기</a>
+    </div>
     <script>
       function login(e) {
         e.preventDefault(); //기본 제출 멈춤
@@ -48,7 +67,7 @@
           if (res.data.result) {
             alert(`로그인 성공`);
             sessionStorage.setItem("token", res.data.token);
-            location.href = "/";
+            location.href = "/main";
           } else {
             alert(`로그인 실패`);
             document.location.reload();

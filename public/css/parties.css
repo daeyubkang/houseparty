@@ -299,7 +299,6 @@
   border: solid 1px #000000;
   background-color: white;
   color: black;
-
 }
 .titleTags {
   display: flex;
@@ -363,5 +362,5 @@
 
 .card.shadow-sm.hidden.party-card:hover {
   transform: scale(1.05); /*1.05배 확대*/
+  cursor: pointer;
 }
-

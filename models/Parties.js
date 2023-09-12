@@ -49,8 +49,11 @@ const Model = (sequelize) => {
     },
     image: {
       type: DataTypes.STRING(50),
+
+
       allowNull: true,
     },
+    
   });
 };
 

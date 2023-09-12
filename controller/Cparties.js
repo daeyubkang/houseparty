@@ -152,7 +152,9 @@ exports.hostParty = async (req, res) => {
   const allTags = await Tags.findAll({});
   const allAmens = await Amenities.findAll({});
   //console.log(allTags);
+
   res.render("host", { allTags, allAmens, isEdit: false });
+
 };
 
 exports.hostPartyPost = async (req, res) => {

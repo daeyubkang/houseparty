@@ -15,32 +15,25 @@
 
   <body>
     <div class="container">
-      <div class="topBar">
-        <a class="howsParty" href="/main"> How's Party </a
-        ><a class="signin" href="/signin">login</a>
-      </div>
+      <%- include('./static/topBar') %>
 
       <span id="signup1_title"> 회원가입 </span>
-      <form name="register">
-        <label for="imageInput">프로필 이미지</label>
-        <div id="imagePreviewContainer" style="display: none">
-          <img
-            id="imagePreview"
-            src=""
-            alt="미리 보기 이미지"
-            style="border-radius: 50%; max-width: 150px; max-height: 150px"
-          />
+      <form name="register" enctype="multipart/form-data">
+        <div id="imagePreview">
+          <img id="preview" src="" />
         </div>
+
         <input
           type="file"
           id="imageInput"
           accept="image/*"
           style="display: none"
-          onchange="handleFileUpload(event)"
+          onchange="previewImage(this)"
         />
 
         <button
           type="button"
+          class="ImgButton"
           onclick="document.getElementById('imageInput').click()"
         >
           이미지 선택
@@ -99,6 +92,7 @@
               id="birth"
               class="birth"
               placeholder="생년월일"
+              max="<?php echo date('Y-m-d'); ?>"
             />
           </div>
           <div class="gender">
@@ -129,37 +123,88 @@
               placeholder="휴대전화 번호"
             />
           </div>
-        </div>
-
-        <!-- 주소 입력 -->
-        <div class="selectedAddress">
-          <div id="popup" class="popup">
-            <div class="popup-content">
-              <span class="close-button" id="closeButton">&times;</span>
-              <input type="text" id="sample4_postcode" placeholder="우편번호" />
+          <div class="emailBox">
+            <form id="emailForm">
+              <img src="/public/img/email.svg" class="emailImg" />
               <input
+                type="email"
+                id="email"
+                class="email"
+                placeholder="이메일"
+              />
+
+              <button
                 type="button"
-                onclick="sample4_execDaumPostcode()"
-                value="우편번호 찾기"
-              /><br />
-              <input
-                type="text"
-                id="sample4_roadAddress"
-                placeholder="도로명주소"
-              />
-
-              <span id="guide" style="color: #999; display: none"></span>
-              <input
-                type="text"
-                id="sample4_detailAddress"
-                placeholder="상세주소"
-              />
-              <button type="button" id="submitAddress">확인</button>
-            </div>
+                class="emailsubmit"
+                onclick="sendEmailVerification()"
+              >
+                전송
+              </button>
+            </form>
           </div>
-          <img src="/public/img/map.svg" alt="" />
-          <input type="text" placeholder="주소" id="displayAddress" readonly />
-          <button type="button" id="popupButton">주소 입력</button>
+          <div class="emailCheckBox">
+            <img
+              src="/public/img/cancel.svg"
+              class="emailCheckImg"
+              id="emailCheckImg"
+            />
+            <input
+              type="number"
+              id="emailCheck"
+              class="emailCheck"
+              placeholder="인증번호"
+            />
+            <button
+              type="button"
+              class="emailCheckSubmit"
+              onclick="emailCheckSubmit()"
+            >
+              확인
+            </button>
+          </div>
+
+          <!-- 주소 입력 -->
+          <div class="selectedAddress">
+            <div id="popup" class="popup">
+              <div class="popup-content">
+                <span class="close-button" id="closeButton">&times;</span>
+                <input
+                  type="text"
+                  id="sample4_postcode"
+                  placeholder="우편번호"
+                />
+                <input
+                  type="button"
+                  onclick="sample4_execDaumPostcode()"
+                  value="우편번호 찾기"
+                /><br />
+                <input
+                  type="text"
+                  id="sample4_roadAddress"
+                  placeholder="도로명주소"
+                />
+
+                <span id="guide" style="color: #999; display: none"></span>
+                <input
+                  type="text"
+                  id="sample4_detailAddress"
+                  placeholder="상세주소"
+                />
+                <button type="button" id="submitAddress">확인</button>
+              </div>
+            </div>
+            <img src="/public/img/map.svg" class="addressImg" />
+            <input
+              type="text"
+              placeholder="주소"
+              id="displayAddress"
+              readonly
+              class="displayAddress"
+            />
+            <button type="button" id="popupButton" class="popupButton">
+              입력
+            </button>
+          </div>
         </div>
 
         <button
@@ -174,23 +219,65 @@
     </div>
   </body>
   <script>
-    // 이미지 미리 보기 함수 안돼 왜 ㄷ안돼
-    function handleFileUpload(event) {
-      const selectedFile = event.target.files[0];
+    //이메일 인증하기
+    async function sendEmailVerification(event) {
+      const emailInput = document.getElementById("email");
+      const emailSubmitButton = document.querySelector(".emailsubmit");
+      const email = emailInput.value;
+      //유효성 검사
+      if (!isValidEmail(email)) {
+        alert("올바른 이메일 주소를 입력하세요.");
+        return;
+      } else {
+        const res = await axios.post("signup/EmailAuthentication", {
+          email: email,
+        });
+        alert("인증번호를 이메일로 발송하였습니다.");
+        console.log("payload", res.data.payload);
+        savedPayload = res.data.payload;
+      }
+    }
+    // 간단한 이메일 유효성 검사 함수
+    function isValidEmail(email) {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      return emailPattern.test(email);
+    }
+    //인증번호 체크
+    function emailCheckSubmit(payload) {
+      const emailCheck = document.getElementById("emailCheck").value;
+      const emailCheckImg = document.getElementById("emailCheckImg");
+      console.log("이메일 체크", savedPayload);
+      if (emailCheck === savedPayload) {
+        alert("본인 인증을 완료하였습니다.");
+        sessionStorage.setItem("emailCheck", true);
+        emailCheckImg.src = "/public/img/check.svg";
+      } else {
+        alert("인증번호가 틀립니다.");
+      }
+    }
 
-      // 선택된 파일을 이미지 미리보기로 표시
+    // 이미지 미리보기
+    function previewImage(input) {
+      const preview = document.getElementById("preview");
       const imagePreview = document.getElementById("imagePreview");
-      imagePreview.src = URL.createObjectURL(selectedFile);
-      console.log(URL.createObjectURL(selectedFile));
-      imagePreview.style.display = "block";
-      console.log(imagePreview.style.display);
-    }
 
-    // 이 함수는 이미지 선택 버튼을 클릭했을 때 호출됩니다.
-    function openFileUploader() {
-      document.getElementById("imageInput").click();
-    }
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        console.log("이미지 미리보기 실행");
 
+        reader.onload = function (e) {
+          // 선택한 이미지를 미리보기로 표시합니다.
+          preview.src = e.target.result;
+          imagePreview.style.backgroundColor = "transparent"; // 빈 원의 배경색을 투명하게 설정합니다.
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        // 이미지를 선택하지 않았을 때 빈 원을 원래대로 채웁니다.
+        imagePreview.style.backgroundColor = "#ccc";
+        preview.src = ""; // 이미지 미리보기 초기화
+      }
+    }
     // 성별 라디오
     const manRadio = document.getElementById("man");
     const womanRadio = document.getElementById("woman");
@@ -234,15 +321,22 @@
           const formData = new FormData();
           formData.append("image", selectedImage);
 
+          // const res = await axios({
+          //   method: "post",
+          //   url: "/upload",
+          //   data: formData,
+          // }).then((res) => {});
+
           // 이미지를 업로드할 엔드포인트로 POST 요청 보내기
-          const res = await axios.post("/upload", formData, {
+          const res = await axios.post("signup/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
             },
           });
-
-          // 업로드 성공 시 서버에서 받은 응답 처리
-          console.log("location", res);
+          console.log(res.data.file.location);
+          const imgURL = res.data.file.location;
+          console.log(imgURL);
+          return imgURL;
 
           alert("이미지 업로드가 완료되었습니다.");
         } catch (error) {
@@ -256,33 +350,63 @@
     // server
     async function registerFunc() {
       const form = document.forms["register"];
+      const emailCheck = sessionStorage.getItem("emailCheck");
+      console.log("id", form.id.value);
+      console.log("pw", form.pw.value);
+      console.log("name", form.name.value);
+      console.log("gender", form.gender.value);
+      console.log("phone_number", form.phone_number.value);
+      console.log("birth", form.birth.value);
+      console.log("email", form.email.value);
+      console.log("location", document.getElementById("displayAddress").value);
+      console.log("image", document.getElementById("imageInput").files[0]);
       // const imageUrl =
       console.log(form.gender.value);
-      try {
-        const res = await axios({
-          method: "POST",
-          url: "/signup",
-          data: {
-            id: form.id.value,
-            pw: form.pw.value,
-            name: form.name.value,
-            gender: form.gender.value,
-            phone_number: form.phone_number.value,
-            birth: form.birth.value,
-            location: form.displayAddress.value,
-            // hobby: form.favorite.value,
-            image: document.getElementById("imageInput").files[0],
-            // imageUrl,
-          },
-        });
-        console.log(res);
-        await uploadImage();
-        if (res.data) {
-          alert("회원가입을 축하드립니다");
-          // document.location.href = "/signin";
+      //회원가입 조건 분류
+      if (form.pw.value !== form.pwCheck.value) {
+        alert("비밀번호가 서로 다릅니다.");
+      } else if (
+        form.id.value === "" ||
+        form.pw.value === "" ||
+        form.name.value === "" ||
+        form.gender.value === "" ||
+        form.phone_number.value === "" ||
+        form.birth.value === ""
+      ) {
+        alert("필수항목을 다 입력해주세요.");
+      } else if (!emailCheck || emailCheck !== "true") {
+        alert("본인 인증을 해주세요.");
+      } else {
+        try {
+          const imgURL = await uploadImage();
+          console.log(imgURL);
+          const res = await axios({
+            method: "POST",
+            url: "/signup",
+            data: {
+              id: form.id.value,
+              pw: form.pw.value,
+              name: form.name.value,
+              gender: form.gender.value,
+              phone_number: form.phone_number.value,
+              birth: form.birth.value,
+              email: form.email.value,
+              location: document.getElementById("displayAddress").value,
+              image: document.getElementById("imageInput").files[0],
+            },
+          });
+          console.log(res);
+          await uploadImage();
+          if (res.data) {
+            console.log(res.data);
+            alert("회원가입을 축하드립니다");
+            sessionStorage.setItem("token_signup", res.data.token_signup);
+            // window.location.href = "/signup2";
+            // document.location.href = "/signin";
+          }
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
       }
     }
 
@@ -317,6 +441,12 @@
         document.getElementById("sample4_detailAddress").value;
     });
     // 2. 입력 값 db에 넣기
+    // close 버튼 클릭 시 팝ㄷ업 닫기
+    closeButton.addEventListener("click", () => {
+      popup.style.display = "none";
+      topBar.style.position = "fixed"; // topBar의 position을 다시 relative로 설정합니다.
+      topBar.style.zIndex = "0"; // 기본적으로 다른 콘텐츠 아래에 나타나도록 설정합니다.
+    });
 
     // 팝업 외부 클릭 시 팝업 닫기
     window.addEventListener("click", (event) => {

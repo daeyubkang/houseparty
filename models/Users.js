@@ -34,12 +34,16 @@ const Model = (sequelize) => {
       allowNull: true,
     },
     hobby: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     birth: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY, // DATEONLY 데이터 유형 사용
       allowNull: true,
+    },
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
     },
     imgURL: {
       type: DataTypes.STRING,
