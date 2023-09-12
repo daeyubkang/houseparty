@@ -1,4 +1,4 @@
-const { Parties } = require("../models");
+const { Parties, Tags } = require("../models");
 const { Op } = require("sequelize");
 
 exports.search = async (req, res) => {
@@ -23,10 +23,9 @@ exports.search = async (req, res) => {
       [Op.or]: findWhere,
     },
   });
-
-  const tag = await Parties.findAll({
-    attributes: ["tag"],
+  const allTags = await Tags.findAll({
+    attributes: ["tag_num", "tag_name", "tag_category", "tag_category_num"],
   });
   console.log("검색결과", partiesSearch);
-  res.render("partiesSearch", { parties: partiesSearch, tag: tag });
+  res.render("partiesSearch", { parties: partiesSearch, allTags: allTags });
 };
