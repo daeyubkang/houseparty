@@ -55,6 +55,9 @@ app.use("/chat", chatRouter);
 const profile1Router = require("./routes/profile1");
 app.use("/profile1", profile1Router);
 
+const profile2Router = require("./routes/profile2");
+app.use("/profile2", profile2Router);
+
 const verifyRouter = require("./routes/verify");
 app.use("/verify", verifyRouter);
 
