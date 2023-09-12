@@ -393,6 +393,7 @@
               email: form.email.value,
               location: document.getElementById("displayAddress").value,
               image: document.getElementById("imageInput").files[0],
+              imgURL,
             },
           });
           console.log(res);
@@ -401,7 +402,7 @@
             console.log(res.data);
             alert("회원가입을 축하드립니다");
             sessionStorage.setItem("token_signup", res.data.token_signup);
-            window.location.href = "/signup2";
+            // window.location.href = "/signup2";
             // document.location.href = "/signin";
           }
         } catch (err) {

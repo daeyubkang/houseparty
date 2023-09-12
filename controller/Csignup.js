@@ -29,7 +29,7 @@ exports.signupPost = async (req, res) => {
       location,
       birth,
       email,
-      imageUrl,
+      imgURL,
     } = req.body;
     let secretPw = bcryptPassword(pw);
     const user = await Users.create({
@@ -41,7 +41,7 @@ exports.signupPost = async (req, res) => {
       location,
       birth,
       email,
-      imageUrl,
+      imgURL,
     });
 
     const token_signup = jwt.sign({ id }, SECRET);
