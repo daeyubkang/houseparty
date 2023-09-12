@@ -13,11 +13,8 @@
     <link rel="stylesheet" href="/public/css/signin.css" />
   </head>
   <body>
+    <%- include('./static/topBar') %>
     <div class="container">
-      <div class="topBar">
-        <a class="howsParty" href="/main"> How's Party </a
-        ><a class="signin" href="/signin">login</a>
-      </div>
       <div class="logo">How's Party</div>
       <!-- 
     <form onsubmit="login(event)">
@@ -70,7 +67,7 @@
           if (res.data.result) {
             alert(`로그인 성공`);
             sessionStorage.setItem("token", res.data.token);
-            location.href = "/";
+            location.href = "/main";
           } else {
             alert(`로그인 실패`);
             document.location.reload();

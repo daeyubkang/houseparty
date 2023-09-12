@@ -29,50 +29,6 @@ body {
   background-color: #791a2c;
 }
 
-.topBar {
-  width: 100%;
-  min-width: 360px;
-  padding: 14px 0 0;
-  background-color: #fff;
-  position: fixed;
-  z-index: 1000;
-  max-width: 1000px;
-  top: 0;
-  display: flex;
-  justify-content: space-between; /* 요소를 양쪽 끝으로 배치 */
-  align-items: center; /* 세로 중앙 정렬 */
-}
-.topBar .howsParty {
-  width: 85px;
-  height: 27px;
-  margin: 0 165px 12px 15px;
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #bf2c47;
-  text-decoration: none;
-}
-.topBar .signin {
-  width: 85px;
-  height: 27px;
-  margin: 0 0 12px 0;
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-  text-decoration: none;
-}
-
 #signup1_title {
   width: 80px;
   height: 24px;
@@ -217,15 +173,18 @@ body {
 .bottom .gender #womanLabel {
   border-radius: 0 10px 10px 0;
 }
-
+#manLabel:hover {
+  cursor: pointer;
+}
 .man-selected {
   color: #bf2c47; /* 남자 선택 시 배경색상 */
 }
-
 .woman-selected {
   color: #bf2c47; /* 여자 선택 시 배경색상 */
 }
-
+#womanLabel:hover {
+  cursor: pointer;
+}
 .phoneBox {
   padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
   width: 100%;

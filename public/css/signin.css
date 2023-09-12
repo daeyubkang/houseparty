@@ -19,49 +19,6 @@ body {
   width: 500px;
 }
 
-.topBar {
-  width: 100%;
-  min-width: 360px;
-  padding: 14px 0 0;
-  background-color: #fff;
-  position: fixed;
-  z-index: 1000;
-  max-width: 1000px;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.howsParty {
-  width: 85px;
-  height: 27px;
-  margin: 0 165px 12px 15px;
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #bf2c47;
-  text-decoration: none;
-}
-.signin {
-  width: 85px;
-  height: 27px;
-  margin: 0 0 12px 0;
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-  text-decoration: none;
-}
 @media screen and (max-width: 800px) {
   .top {
     width: 270px;
@@ -70,7 +27,7 @@ body {
 .logo {
   width: 212px;
   height: 40px;
-  margin: 34px 74px 18px;
+  margin: 65px 74px 18px;
   font-family: "Covered By Your Grace", cursive;
   font-size: 45px;
   color: #bf2c47;
