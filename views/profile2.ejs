@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>profile2</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" href="../public/css/profile2.css" />
   </head>
   <body>
-    <h1>프로필 수정</h1>
-    <div class="content">
+    <div class="container">
+      <%- include('./static/topBar') %>
+      <span id="profile2_title">프로필 수정</span>
       <form name="editProfile" enctype="multipart/form-data">
         <div class="img">
           <div id="imagePreview">
-            <img id="preview" src="" alt="미리보기" />
+            <img id="preview" src="" />
           </div>
 
           <input
@@ -26,35 +28,110 @@
 
           <button
             type="button"
+            class="ImgButton"
             onclick="document.getElementById('imageInput').click()"
           >
             이미지 선택
           </button>
         </div>
-        <div class="name">
-          <input type="text" id="name" placeholder="이름" value="" />
-        </div>
-        <div class="birth">
-          <input type="date" id="birth" placeholder="생년월일" />
-        </div>
-        <div class="gender">
-          <input type="radio" name="gender" id="man" vlaue="남자" /><label
-            for="man"
-            >남자</label
-          >
-          <input type="radio" name="gender" id="woman" vvalue="여자" /><label
-            for="woman"
-            >여자</label
-          >
-        </div>
-        <div>
-          <input type="text" id="phone_number" placeholder="전화번호" />
-        </div>
-        <div class="email">
-          <input type="text" id="email" placeholder="이메일" />
-        </div>
+        <br />
+        <div class="top">
+          <div class="nameBox">
+            <img src="/public/img/id.svg" />
+            <input
+              type="text"
+              id="name"
+              class="name"
+              placeholder="이름"
+              value=""
+            />
+          </div>
+          <div class="birthBox">
+            <img src="/public/img/birth.svg" />
+            <input
+              type="date"
+              id="birth"
+              class="birth"
+              placeholder="생년월일"
+            />
+          </div>
+          <div class="gender">
+            <input
+              type="radio"
+              name="gender"
+              id="man"
+              class="man"
+              vlaue="남자"
+            /><label for="man" id="manLabel">남자</label>
+            <input
+              type="radio"
+              name="gender"
+              id="woman"
+              class="woman"
+              vvalue="여자"
+            /><label for="woman" id="womanLabel">여자</label>
+          </div>
+          <div class="phoneBox">
+            <img src="/public/img/phone.svg" />
+            <input
+              type="text"
+              id="phone_number"
+              class="phoneNumber"
+              placeholder="전화번호"
+            />
+          </div>
+          <div class="emailBox">
+            <img src="/public/img/email.svg" class="emailImg" />
+            <input type="text" id="email" class="email" placeholder="이메일" />
+          </div>
+          <div class="selectedAddress">
+            <div id="popup" class="popup">
+              <div class="popup-content">
+                <span class="close-button" id="closeButton">&times;</span>
+                <input
+                  type="text"
+                  id="sample4_postcode"
+                  placeholder="우편번호"
+                />
+                <input
+                  type="button"
+                  onclick="sample4_execDaumPostcode()"
+                  value="우편번호 찾기"
+                /><br />
+                <input
+                  type="text"
+                  id="sample4_roadAddress"
+                  placeholder="도로명주소"
+                />
 
-        <button type="button" id="editBtn" onclick="editProfileFunc()">
+                <span id="guide" style="color: #999; display: none"></span>
+                <input
+                  type="text"
+                  id="sample4_detailAddress"
+                  placeholder="상세주소"
+                />
+                <button type="button" id="submitAddress">확인</button>
+              </div>
+            </div>
+            <img src="/public/img/map.svg" class="addressImg" />
+            <input
+              type="text"
+              placeholder="주소"
+              id="displayAddress"
+              readonly
+              class="displayAddress"
+            />
+            <button type="button" id="popupButton" class="popupButton">
+              입력
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="editBtn"
+          class="nextButton"
+          onclick="editProfileFunc()"
+        >
           수정하기
         </button>
       </form>
@@ -65,25 +142,28 @@
       // get
       const token = sessionStorage.getItem("token");
       console.log("token", token);
-
-      window.onload = function getUser() {
-        axios({
-          method: "GET",
-          params: { token: token },
-          url: "profile2/info",
-        })
-          .then((res) => {
-            console.log("res");
-            user = res.data.user;
-            console.log("user", user);
-
-            pushProfile();
+      if (!token) {
+        alert("로그인을 먼저 하세요.");
+        window.location.href = "/signin";
+      } else {
+        window.onload = function getUser() {
+          axios({
+            method: "GET",
+            params: { token: token },
+            url: "profile2/info",
           })
-          .catch((err) => {
-            console.error("Error", err);
-          });
-      };
+            .then((res) => {
+              console.log("res");
+              user = res.data.user;
+              console.log("user", user);
 
+              pushProfile();
+            })
+            .catch((err) => {
+              console.error("Error", err);
+            });
+        };
+      }
       // 이미지 미리보기
       function previewImage(input) {
         const preview = document.getElementById("preview");
@@ -131,29 +211,57 @@
           } catch (error) {
             console.error("이미지 업로드 중 오류 발생:", error);
           }
-        } else {
-          alert("이미지를 선택해주세요.");
         }
       }
+      // 성별 라디오
+      const manRadio = document.getElementById("man");
+      const womanRadio = document.getElementById("woman");
+      const manLabel = document.querySelector('label[for="man"]');
+      const womanLabel = document.querySelector('label[for="woman"]');
+
+      manRadio.addEventListener("change", function () {
+        if (manRadio.checked) {
+          manLabel.classList.add("man-selected");
+          womanLabel.classList.remove("woman-selected");
+          console.log("man checked");
+        } else {
+          manLabel.classList.remove("man-selected");
+        }
+      });
+
+      womanRadio.addEventListener("change", function () {
+        if (womanRadio.checked) {
+          womanLabel.classList.add("woman-selected");
+          manLabel.classList.remove("man-selected");
+          console.log("woman checked");
+        } else {
+          womanLabel.classList.remove("woman-selected");
+        }
+      });
 
       // -------- input 태그에 정보 넣기 -------------
       async function pushProfile() {
         // user 데이터가 존재하는지 확인
         if (user) {
           // 사용자 데이터에서 필요한 정보 추출
-          const { name, birth, gender, phone_number, email } = user;
+          const { name, birth, gender, phone_number, email, location, imgURL } =
+            user;
 
           // 각 input 요소에 사용자 데이터 설정
           document.getElementById("name").value = name || ""; // 이름
           document.getElementById("birth").value = birth || ""; // 생년월일
           // 성별 설정
           if (gender === "남자") {
-            document.getElementById("man").checked = true;
+            manLabel.classList.add("man-selected");
+            womanLabel.classList.remove("woman-selected");
           } else if (gender === "여자") {
-            document.getElementById("woman").checked = true;
+            womanLabel.classList.add("woman-selected");
+            manLabel.classList.remove("man-selected");
           }
           document.getElementById("phone_number").value = phone_number || ""; // 전화번호
           document.getElementById("email").value = email || ""; // 이메일
+          document.getElementById("displayAddress").value = location;
+          document.getElementById("preview").src = imgURL;
         }
       }
 
@@ -180,15 +288,119 @@
               phone_number: form.phone_number.value,
               birth: form.birth.value,
               email: form.email.value,
-              // location: document.getElementById("displayAddress").value,
+              location: document.getElementById("displayAddress").value,
               // image: document.getElementById("imageInput").files[0],
               imgURL,
             },
           });
+          alert("수정이 완료되었습니다.");
+          location.href = "/main";
         } catch (err) {
           console.log(err);
         }
       }
+      // 주소 입력
+      // 버튼과 팝업 요소 가져오기
+      const popupButton = document.getElementById("popupButton");
+      const popup = document.getElementById("popup");
+      const closeButton = document.getElementById("closeButton");
+      const topBar = document.querySelector(".topBar");
+
+      // 버튼 클릭 시 팝업 열기
+      popupButton.addEventListener("click", () => {
+        popup.style.display = "block";
+        topBar.style.position = "static";
+        topBar.style.backgroundColor = "transparent"; // 먼저 배경색을 투명하게 설정합니다.
+        topBar.style.zIndex = "1"; // z-index를 설정하여 topBar가 다른 콘텐츠 위에 나타나도록 합니다.
+      });
+
+      // 확인 버튼 클릭 시 팝업 닫기
+      const submitAddress = document.querySelector("#submitAddress");
+      const displayAddress = document.querySelector("#displayAddress");
+      // 1. input에 입력된 데이터 보여주기
+      submitAddress.addEventListener("click", () => {
+        popup.style.display = "none";
+        topBar.style.position = "fixed"; // topBar의 position을 다시 relative로 설정합니다.
+        topBar.style.zIndex = "0"; // 기본적으로 다른 콘텐츠 아래에 나타나도록 설정합니다.
+
+        // 입력 받은 데이터 input 태그에 추가
+        displayAddress.value =
+          document.getElementById("sample4_roadAddress").value +
+          " " +
+          document.getElementById("sample4_detailAddress").value;
+      });
+      // 2. 입력 값 db에 넣기
+      // close 버튼 클릭 시 팝ㄷ업 닫기
+      closeButton.addEventListener("click", () => {
+        popup.style.display = "none";
+        topBar.style.position = "fixed"; // topBar의 position을 다시 relative로 설정합니다.
+        topBar.style.zIndex = "0"; // 기본적으로 다른 콘텐츠 아래에 나타나도록 설정합니다.
+      });
+
+      // 팝업 외부 클릭 시 팝업 닫기
+      window.addEventListener("click", (event) => {
+        if (event.target === popup) {
+          popup.style.display = "none";
+          topBar.style.position = "fixed"; // topBar의 position을 다시 relative로 설정합니다.
+          topBar.style.zIndex = "0"; // 기본적으로 다른 콘텐츠 아래에 나타나도록 설정합니다.
+        }
+      });
+
+      // 지도 api
+      function sample4_execDaumPostcode() {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ""; // 참고 항목 변수
+
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+              extraRoadAddr += data.bname;
+            }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if (data.buildingName !== "" && data.apartment === "Y") {
+              extraRoadAddr +=
+                extraRoadAddr !== ""
+                  ? ", " + data.buildingName
+                  : data.buildingName;
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById("sample4_postcode").value = data.zonecode;
+            document.getElementById("sample4_roadAddress").value =
+              roadAddr + `(${data.bname})`;
+
+            var guideTextBox = document.getElementById("guide");
+            // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+            if (data.autoRoadAddress) {
+              var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+              guideTextBox.innerHTML =
+                "(예상 도로명 주소 : " + expRoadAddr + ")";
+              guideTextBox.style.display = "block";
+            } else if (data.autoJibunAddress) {
+              var expJibunAddr = data.autoJibunAddress;
+              guideTextBox.innerHTML =
+                "(예상 지번 주소 : " + expJibunAddr + ")";
+              guideTextBox.style.display = "block";
+            } else {
+              guideTextBox.innerHTML = "";
+              guideTextBox.style.display = "none";
+            }
+          },
+        }).open();
+      }
+      //-------------날짜 선택 제한---------------//
+      var now_utc = Date.now(); //지금 날짜를 밀리초로
+      //getTimezoneoffset()은 현재 시간과의 차이를 분 단위로 반환
+      var timeOff = new Date().getTimezoneOffset() * 6000; //분단위를 밀리초로 반환
+      //new Date(now_utc-timeoff).toISOString()은 '0000-00-00T00:00:00.00Z'를 반환
+      var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+      document.getElementById("birth").setAttribute("max", today);
     </script>
   </body>
 </html>

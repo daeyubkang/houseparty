@@ -68,6 +68,7 @@ body {
   border: 0;
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
+  margin-left: 10px;
 }
 
 .birthBox {
@@ -85,6 +86,8 @@ body {
   border: 0;
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
+  margin-left: 10px;
+  font-weight: bold;
 }
 
 .top .gender input[type="radio"] {
@@ -147,6 +150,7 @@ body {
   border: 0;
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
+  margin-left: 10px;
 }
 .emailBox {
   padding-left: 30px; /* 이미지의 가로 크기에 맞게 조절 */
@@ -166,6 +170,7 @@ body {
   border: 0;
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
+  margin-left: 10px;
 }
 .nextButton {
   width: 300px;
@@ -195,6 +200,7 @@ body {
   border: 0;
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
+  margin-left: 10px;
 }
 .addressImg {
   width: 15px;
