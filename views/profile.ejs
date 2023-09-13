@@ -11,7 +11,8 @@
   <body>
     <div class="container">
       <%- include('./static/topBar') %>
-      <span id="profile2_title">마이페이지</span>
+
+      <span id="profile2_title">회원 정보</span>
       <form name="editProfile" enctype="multipart/form-data">
         <div class="img">
           <div id="imagePreview">
@@ -68,13 +69,15 @@
             <span type="text" id="displayAddress" class="displayAddress"></span>
           </div>
         </div>
+      </form>
+      <div class="buttons">
         <button
           type="button"
           id="editBtn"
           class="nextButton"
           onclick="editProfileFunc()"
         >
-          프로필 수정하기
+          프로필 수정
         </button>
         <br />
         <button
@@ -83,7 +86,7 @@
           class="nextButton"
           onclick="editHobbyFunc()"
         >
-          관심사 수정하기
+          관심사 수정
         </button>
         <br />
         <button
@@ -92,9 +95,9 @@
           class="nextButton"
           onclick="editPWFunc()"
         >
-          비밀번호 변경하기
+          비밀번호 변경
         </button>
-      </form>
+      </div>
     </div>
 
     <script>
