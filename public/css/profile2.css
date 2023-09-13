@@ -14,6 +14,10 @@ body {
   align-items: center;
   width: 500px;
 }
+.preview {
+  max-width: 200px;
+  max-height: 200px;
+}
 .ImgButton {
   text-align: center;
   color: #fff;
