@@ -2,15 +2,19 @@
 
 /* a태그 초기화 */
 a {
-  color: black;
-  text-decoration: none;
-  outline: none;
+  text-decoration: none; /* 밑줄 제거 */
+  color: inherit; /* 기본 텍스트 색상 사용 */
+  /* 다른 스타일을 원하는 대로 추가 */
 }
 
 a:hover,
 a:active {
   text-decoration: none;
   color: black;
+}
+
+b {
+  font-weight: inherit;
 }
 
 .hidden {
@@ -26,6 +30,7 @@ body {
   display: flex;
   margin-left: 20px;
   margin-top: 20px;
+  position: fixed;
 }
 
 .topBar > p {
