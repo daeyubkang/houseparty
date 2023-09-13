@@ -74,7 +74,11 @@ body {
   background-color: rgb(217 217 217 / 0%);
   width: 100%;
 }
-
+.top .birth2 {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
 .phoneBox {
   width: 100%;
   padding: 15px 15px 15px 15px;

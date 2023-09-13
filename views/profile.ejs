@@ -31,24 +31,11 @@
         <div class="top">
           <div class="nameBox">
             <img src="/public/img/id.svg" />
-            <input
-              type="text"
-              id="name"
-              class="name"
-              placeholder="이름"
-              value=""
-              readonly
-            />
+            <span type="text" id="name" class="name"></span>
           </div>
           <div class="birthBox">
             <img src="/public/img/birth.svg" />
-            <input
-              type="date"
-              id="birth"
-              class="birth"
-              placeholder="생년월일"
-              readonly
-            />
+            <span type="date" id="birth" class="birth"> </span>
           </div>
           <div class="gender">
             <input
@@ -70,33 +57,15 @@
           </div>
           <div class="phoneBox">
             <img src="/public/img/phone.svg" />
-            <input
-              type="text"
-              id="phone_number"
-              class="phoneNumber"
-              placeholder="전화번호"
-              readonly
-            />
+            <span type="text" id="phone_number" class="phoneNumber"></span>
           </div>
           <div class="emailBox">
             <img src="/public/img/email.svg" class="emailImg" />
-            <input
-              type="text"
-              id="email"
-              class="email"
-              readonly
-              placeholder="이메일"
-            />
+            <span type="text" id="email" class="email"></span>
           </div>
           <div class="selectedAddress">
             <img src="/public/img/map.svg" class="addressImg" />
-            <input
-              type="text"
-              placeholder="주소"
-              id="displayAddress"
-              readonly
-              class="displayAddress"
-            />
+            <span type="text" id="displayAddress" class="displayAddress"></span>
           </div>
         </div>
         <button
@@ -178,8 +147,8 @@
             user;
 
           // 각 input 요소에 사용자 데이터 설정
-          document.getElementById("name").value = name || ""; // 이름
-          document.getElementById("birth").value = birth || ""; // 생년월일
+          document.getElementById("name").textContent = name || ""; // 이름
+          document.getElementById("birth").textContent = birth || ""; // 생년월일
           // 성별 설정
           if (gender === "남자") {
             manLabel.classList.add("man-selected");
@@ -188,9 +157,10 @@
             womanLabel.classList.add("woman-selected");
             manLabel.classList.remove("man-selected");
           }
-          document.getElementById("phone_number").value = phone_number || ""; // 전화번호
-          document.getElementById("email").value = email || ""; // 이메일
-          document.getElementById("displayAddress").value = location;
+          document.getElementById("phone_number").textContent =
+            phone_number || ""; // 전화번호
+          document.getElementById("email").textContent = email || ""; // 이메일
+          document.getElementById("displayAddress").textContent = location;
           document.getElementById("preview").src = imgURL;
         }
       }

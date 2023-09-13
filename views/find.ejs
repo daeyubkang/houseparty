@@ -90,9 +90,9 @@
             <img src="/public/img/birth.svg" />
             <input
               type="date"
-              name="birth"
-              id="birth"
-              class="birth"
+              name="birth2"
+              id="birth2"
+              class="birth2"
               placeholder="생년월일"
             />
           </div>
@@ -244,7 +244,7 @@
       if (
         form.name.value === "" ||
         form.id.value === "" ||
-        form.birth.value === "" ||
+        form.birth2.value === "" ||
         form.phone_number.value === ""
       ) {
         alert("항목을 다 입력해주세요.");
@@ -257,7 +257,7 @@
           const res = await axios.post("/find/updatePw", {
             name: form.name.value,
             id: form.id.value,
-            birth: form.birth.value,
+            birth: form.birth2.value,
             phone_number: form.phone_number.value,
             pw: form.pw.value,
           });
@@ -267,5 +267,14 @@
         }
       }
     }
+
+    //-------------날짜 선택 제한---------------//
+    var now_utc = Date.now(); //지금 날짜를 밀리초로
+    //getTimezoneoffset()은 현재 시간과의 차이를 분 단위로 반환
+    var timeOff = new Date().getTimezoneOffset() * 6000; //분단위를 밀리초로 반환
+    //new Date(now_utc-timeoff).toISOString()은 '0000-00-00T00:00:00.00Z'를 반환
+    var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+    document.getElementById("birth").setAttribute("max", today);
+    document.getElementById("birth2").setAttribute("max", today);
   </script>
 </html>
