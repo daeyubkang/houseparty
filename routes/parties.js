@@ -7,13 +7,10 @@ router.post("/verify", verifyController.verify);
 
 router.get("/", controller.index);
 
-//구  게시글작성
-router.get("/write", controller.write);
-router.post("/write", controller.writePost);
-
 //진짜  게시글작성
 router.get("/host", controller.hostParty);
 router.post("/host", controller.hostPartyPost);
+router.post("/host/upload");
 
 router.get("/parties", controller.search);
 

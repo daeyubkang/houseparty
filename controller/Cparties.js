@@ -2,61 +2,20 @@ const { Users, Parties, Amenities, Tags } = require("../models");
 
 exports.index = async (req, res) => {
   try {
-    const Partiess = await Parties.findAll({
-      attributes: [
-        "title",
-        "id",
-        "party_num",
-        "start_time",
-        "tag",
-        "createdAt",
-      ],
+    const parties = await Parties.findAll({
+      include: [Tags, Amenities],
     });
     const allTags = await Tags.findAll({
       attributes: ["tag_num", "tag_name", "tag_category", "tag_category_num"],
     });
     // console.log("게시글 불러오기 성공", Partiess);
-    res.render("parties", { parties: Partiess, allTags: allTags });
+    res.render("parties", { parties, allTags: allTags });
   } catch (error) {
     console.log(error);
   }
 };
 
-exports.write = (req, res) => {
-  res.render("write");
-};
 
-exports.writePost = async (req, res) => {
-  try {
-    //console.log(req.body);
-    const {
-      id,
-      title,
-      description,
-      head_count,
-      date,
-      image,
-      tag,
-      start_time,
-      party_location,
-    } = req.body;
-    const Partiess = await Parties.create({
-      id,
-      title,
-      description,
-      date,
-      head_count,
-      image,
-      tag,
-      start_time,
-      party_location,
-    });
-    // console.log(Partiess);
-    res.send(Partiess);
-  } catch (error) {
-    console.log(error);
-  }
-};
 ///////////////////////
 // exports.search = async (req, res) => {
 //   try {
@@ -173,6 +132,7 @@ exports.hostPartyPost = async (req, res) => {
       tags,
       party_location,
       amenities,
+      imgURL,
     } = req.body;
     const party = await Parties.create({
       id,
@@ -184,6 +144,7 @@ exports.hostPartyPost = async (req, res) => {
       head_count,
       image,
       party_location,
+      imgURL,
     });
     //받은(선택된) 태그값을 파티 정보에 추가
     const selectedTagNames = tags;
