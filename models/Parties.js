@@ -44,10 +44,10 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    imgURL: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // imgURL: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
   });
 };
 

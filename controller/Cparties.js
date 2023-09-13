@@ -144,7 +144,7 @@ exports.hostPartyPost = async (req, res) => {
       head_count,
       image,
       party_location,
-      imgURL,
+      //imgURL,
     });
     //받은(선택된) 태그값을 파티 정보에 추가
     const selectedTagNames = tags;
