@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/main.css" />
+    <link rel="stylesheet" href="/public/css/static/resetTag.css" />
     <link
       rel="canonical"
       href="https://getbootstrap.com/docs/5.3/examples/album/"
@@ -18,9 +19,54 @@
     />
   </head>
   <body>
-    <%- include('./static/topBar') %>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginBar = document.querySelector(".loginOrLogoutBtn");
+        const loginCheck = sessionStorage.getItem("token");
+        if (loginCheck) {
+          const logoutButton = document.createElement("a");
+          logoutButton.href = "#"; //클릭시 logout함수 호출
+          logoutButton.textContent = "로그아웃";
+          logoutButton.classList.add("logout");
+          loginBar.appendChild(logoutButton);
+          logoutButton.addEventListener("click", logout);
+        } else {
+          const logintButton = document.createElement("a");
+          logintButton.href = "/signin";
+          logintButton.textContent = "로그인";
+          logintButton.classList.add("signin");
+          loginBar.appendChild(logintButton);
+        }
+        function logout() {
+          sessionStorage.removeItem("token");
+          window.location.href = "/main";
+        }
+      });
+    </script>
+    <div class="topBar">
+      <p><a class="howsParty" href="/main"> How's Party </a></p>
+      <div class="topBar-right">
+        <p>
+          <a href="/parties"
+            ><img src="../../public/img/parties.svg" alt="" /><b>파티목록</b></a
+          >
+        </p>
+        <p>
+          <a href="/chat"
+            ><img src="../../public/img/chat.svg" alt="" /><b>채팅</b></a
+          >
+        </p>
+        <p>
+          <a href="/profile"
+            ><img src="../../public/img/user.svg" alt="" /><b>마이페이지</b></a
+          >
+        </p>
+        <p class="loginOrLogoutBtn"></p>
+      </div>
+    </div>
+
     <img src="/public/img/mainhome.png" alt="home image" class="mainHome" />
-    <%- include('./static/bottomBar') %>
+
     <script>
       (function () {
         let result1 = "";

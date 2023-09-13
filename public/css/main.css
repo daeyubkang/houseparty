@@ -1,37 +1,86 @@
-@media screen and (max-width: 800px) {
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 수직 가운데 정렬 */
-    justify-content: center; /* 수평 가운데 정렬 */
-    margin: 0;
-    background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
-  }
+@import url("https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap");
 
-  .mainHome {
-    width: 360px;
-    height: 437px;
-    margin: 40px 0 -45px;
-    object-fit: contain;
-    content: url("/public/img/mainhome.png");
+/* a태그 초기화 */
+a {
+  color: black;
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  width: 100%;
+  display: block;
+}
+
+.topBar {
+  display: flex;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.topBar > p {
+  width: 50%;
+  margin-top: 5px;
+}
+.topBar > .topBar-right {
+  width: 50%;
+  display: flex;
+}
+.topBar > .topBar-right > p {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topBar > .topBar-right > p > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topBar .topBar-right > p:last-child {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.topBar > .topBar-right img {
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+
+.howsParty {
+  color: #c94040;
+  font-family: "Covered By Your Grace", cursive;
+  font-size: 25px;
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .topBar-right b:nth-child(-n + 3) {
+    display: none;
   }
 }
-@media screen and (min-width: 800px) {
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 50px 0 0 0;
-    background-color: #ffffff;
-    min-height: 100vh;
+
+@media screen and (max-width: 390px) {
+  .howsParty {
+    color: #c94040;
+    font-family: "Covered By Your Grace", cursive;
+    font-size: 20px;
+    margin-left: 20px;
   }
-  .mainHome {
-    width: 80%; /* 부모 요소에 꽉 차도록 설정 */
-    height: auto; /* 이미지 비율 유지 */
-    margin: 50px 0 -45px;
-    content: url("/public/img/mainhome2.svg");
+  .topBar > p {
+    width: 40%;
+    margin-top: 5px;
   }
-}
-.logo:hover {
-  cursor: pointer;
 }
