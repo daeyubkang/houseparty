@@ -131,6 +131,7 @@
       }
       #chatProfile {
         width: 50px;
+        height: 50px;
         border-radius: 50%;
         background-color: beige;
         text-align: center;
@@ -215,6 +216,7 @@
       const partiesDataId = partiesData.split(",")[1];
 
       (function () {
+        userId = sessionStorage.getItem("userId");
         console.log(partiesDataId);
         console.log(userId);
 
@@ -493,7 +495,7 @@
           msg.appendChild(div);
         } else {
           div.classList.add("other-chat");
-          div.innerHTML = `<img src="${imgURL}" alt="${nick} id="chatProfile">`;
+          div.innerHTML = `<img src="${imgURL}" alt="${nick}" id="chatProfile">`;
           p.textContent = bool ? `(귓속말) ${nick} : ${message}` : `${message}`;
           div.appendChild(p);
           div.appendChild(span);
