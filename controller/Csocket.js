@@ -15,11 +15,21 @@ exports.connection = (io, socket) => {
       const participant = chatList[i].dataValues.participant_id.split(",");
       for (let j = 0; j < participant.length; j++) {
         if (participant[j] == userName) {
+          let otherId = "";
+          participant.forEach((element) => {
+            if (element[0] != "게" && element != userName) {
+              otherId = element;
+            }
+          });
+          const userImg = await Users.findOne({
+            where: { id: otherId },
+          });
           roomList.push({
             roomName: chatList[i].dataValues.roomID,
             participant_num: participant.length,
             participant: participant,
             partiesId: chatList[i].dataValues.participant_id,
+            imgURL: userImg.imgURL,
           });
         }
       }
@@ -74,6 +84,9 @@ exports.connection = (io, socket) => {
         console.log("beforeChat", beforeChat);
         let send_before_chat = [];
         for (let i = 0; i < beforeChat.length; i++) {
+          const imgURL = await Users.findOne({
+            where: { id: beforeChat[i].dataValues.send_id },
+          });
           console.log("beforeChat", beforeChat[i].dataValues.send_message);
           let send_time = beforeChat[i].dataValues.createdAt;
           send_time += 9;
@@ -95,6 +108,7 @@ exports.connection = (io, socket) => {
             send_id: beforeChat[i].dataValues.send_id,
             send_message: beforeChat[i].dataValues.send_message,
             send_time: formattedDate,
+            imgURL: imgURL.imgURL,
           });
         }
         cb({ beforeChat: send_before_chat, chatData: chatroomExist });
@@ -122,7 +136,7 @@ exports.connection = (io, socket) => {
     }
   );
 
-  socket.on("sendMessage", (message) => {
+  socket.on("sendMessage", async (message) => {
     const currentDate = new Date();
 
     // 연도에서 끝의 2자리만 가져오기
@@ -147,12 +161,16 @@ exports.connection = (io, socket) => {
       send_id: message.nick,
       send_message: message.message,
     });
+    const userImg = await Users.findOne({
+      where: { id: message.nick },
+    });
     if (message.user === "all") {
       io.to(socket.room).emit(
         "newMessage",
         message.message,
         message.nick,
         formattedDate,
+        userImg.imgURL,
         false
       );
     } else {
@@ -161,6 +179,7 @@ exports.connection = (io, socket) => {
         message.message,
         message.nick,
         formattedDate,
+        userImg.imgURL,
         true
       );
       //자기자신에게 메세지 띄우기
@@ -169,6 +188,7 @@ exports.connection = (io, socket) => {
         message.message,
         message.nick,
         formattedDate,
+        userImg.imgURL,
         true
       );
     }

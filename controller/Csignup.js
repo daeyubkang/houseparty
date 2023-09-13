@@ -14,7 +14,7 @@ const bcryptPassword = (password) => {
 };
 
 exports.index = (req, res) => {
-  res.render("signup");
+  res.render("signup1");
 };
 
 exports.signupPost = async (req, res) => {
@@ -29,7 +29,7 @@ exports.signupPost = async (req, res) => {
       location,
       birth,
       email,
-      imageUrl,
+      imgURL,
     } = req.body;
     let secretPw = bcryptPassword(pw);
     const user = await Users.create({
@@ -41,7 +41,7 @@ exports.signupPost = async (req, res) => {
       location,
       birth,
       email,
-      imageUrl,
+      imgURL,
     });
 
     const token_signup = jwt.sign({ id }, SECRET);
@@ -135,4 +135,19 @@ exports.EmailAuthentication = async (req, res) => {
       }
     });
   }
+};
+
+exports.checkId = async (req, res) => {
+  const id = req.body.id;
+  console.log("id", req.body);
+  const userIds = await Users.findAll({
+    attributes: ["id"],
+  });
+  let flag = true;
+  userIds.forEach((element) => {
+    if (element.dataValues.id == id) {
+      flag = false;
+    }
+  });
+  res.send({ result: flag });
 };

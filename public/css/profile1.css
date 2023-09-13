@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  background-color: #fff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container > form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+}
+#profile1_title {
+  width: 130px;
+  height: 24px;
+  margin: 40px 143px 26px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+.top {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+@media screen and (max-width: 800px) {
+  .top {
+    width: 270px;
+  }
+}
+.oldPwBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  border-bottom: 0;
+  display: flex;
+  border-radius: 10px 10px 0 0;
+}
+.top .oldPw {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.oldPwCheck {
+  width: 100px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 0.2s;
+  background-color: #bf2c47;
+  border: 0px;
+}
+.oldPwCheck:hover {
+  background-color: #791a2c;
+}
+
+.newPwBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  height: 37.6px;
+  display: flex;
+  border-radius: 0 0 10px 10px;
+}
+.top .newPw {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.changePw {
+  width: 300px;
+  flex-grow: 0;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px;
+  border: solid 1px #fff;
+  background-color: #bf2c47;
+  color: white;
+}
+.changePw:hover {
+  background-color: #791a2c;
+}

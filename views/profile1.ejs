@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>비밀번호 변경</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../public/css/profile1.css" />
+  </head>
+  <body>
+    <div class="container">
+      <%- include('./static/topBar') %>
+      <span id="profile1_title">비밀번호 변경</span>
+      <form id="changeProfile">
+        <div class="top">
+          <div class="oldPwBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="text"
+              id="oldPassword"
+              class="oldPw"
+              placeholder="기존 비밀번호"
+            />
+            <button type="button" class="oldPwCheck" onclick="checkPassword()">
+              비밀번호 확인
+            </button>
+          </div>
+          <div class="newPwBox">
+            <img src="/public/img/pw.svg" />
+            <input
+              type="password"
+              id="newPassword"
+              class="newPw"
+              placeholder="새로운 비밀번호"
+            />
+          </div>
+          <br />
+          <button type="button" class="changePw" onclick="changePassword()">
+            비밀번호 변경
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+
+  <script>
+    const token = sessionStorage.getItem("token");
+    console.log(token);
+    if (!token) {
+      alert("로그인을 먼저 하세요.");
+      window.location.href = "/signin";
+    }
+    async function checkPassword() {
+      const form = document.forms["changeProfile"];
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "/profile1/checkPW",
+          data: {
+            token,
+            oldPW: form.oldPassword.value,
+          },
+        });
+        console.log(res);
+        const result = res.data.result;
+        console.log("result", result);
+        if (result === true) {
+          console.log("비밀번호가 일치합니다");
+          sessionStorage.setItem("PwCheck", true);
+          alert(`${res.data.message}`);
+        } else {
+          console.log("비밀번호가 일치하지 않습니다");
+          alert(`${res.data.message}`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    async function changePassword() {
+      const form = document.forms["changeProfile"];
+      const PwCheck = sessionStorage.getItem("PwCheck");
+      if (!PwCheck || PwCheck !== "true") {
+        alert("기존 비밀번호 확인을 먼저 해주세요.");
+      } else {
+        try {
+          const res = await axios({
+            method: "POST",
+            url: "/profile1/editPW",
+            data: {
+              token,
+              oldPW: form.oldPassword.value,
+              newPW: form.newPassword.value,
+            },
+          });
+          console.log(res);
+          if (res.data) {
+            alert("비밀번호 변경 완료");
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  </script>
+</html>

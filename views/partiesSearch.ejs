@@ -44,14 +44,14 @@
           </div>
         </form>
         <div class="tag">
-          <% for (let i = 0; i < tag.length; i++) { %>
+          <% for (let i = 0; i < allTags.length; i++){ %>
           <button
             class="tagButton"
             id="tagButton"
-            value="<%= tag[i].tag %>"
-            onclick="tagSearchFunc(`<%= tag[i].tag %>`)"
+            value="<%= allTags[i].tag_name %>"
+            onclick="tagSearchFunc(`<%= allTags[i].tag_name %>`)"
           >
-            #<%= tag[i].tag %>
+            <%= allTags[i].tag_name %>
           </button>
           <% } %>
         </div>

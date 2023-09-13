@@ -41,4 +41,6 @@ router.post("/upload", imageUpload.single("image"), controllerImg.uploadImage);
 
 router.post("/EmailAuthentication", controller.EmailAuthentication);
 
+router.post("/checkId", controller.checkId);
+
 module.exports = router;

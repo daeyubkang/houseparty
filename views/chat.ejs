@@ -107,6 +107,7 @@
       #lists li {
         margin-top: 20px;
         width: 60vw;
+        max-width: 800px;
         display: flex;
         align-items: center;
       }
@@ -128,13 +129,27 @@
         margin-left: 6px;
         margin-right: 6px;
       }
+      #chatProfile {
+        width: 50px;
+        border-radius: 50%;
+        background-color: beige;
+        text-align: center;
+        font-size: medium;
+        margin-left: 8px;
+      }
+      #chatListProfile {
+        width: 10vw;
+        max-width: 100px;
+        height: 10vw;
+        max-height: 100px;
+        border-radius: 50%;
+        background-color: beige;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
-    <div class="topBar">
-      <a class="howsParty" href="/main"> How's Party </a>
-      <a class="signin" href="/login">login</a>
-    </div>
+    <%- include('./static/topBar') %>
     <br />
 
     <div id="album" class="album py-5 bg-body-tertiary">
@@ -151,7 +166,7 @@
 
         <div id="main">
           <h2 id="userTitle"></h2>
-          <ul id="lists" style="width: max-conte"></ul>
+          <ul id="lists"></ul>
         </div>
 
         <div id="body" hidden>
@@ -188,39 +203,7 @@
       </div>
     </div>
 
-    <div class="bottombar">
-      <div class="leftBottomBar">
-        <a href="/parties" class="a">
-          <div class="select">
-            <img src="/public/img/parties.svg" class="selectimg" />
-            <span class="bottom partiesName"> 목록 </span>
-          </div></a
-        >
-        <a href="/location" class="a">
-          <div class="select">
-            <img src="/public/img/map.svg" class="selectimg" />
-            <span class="bottom locationName"> 지도 </span>
-          </div></a
-        >
-      </div>
-      <a href="/main" class="logo">
-        <button class="logo">H</button>
-      </a>
-      <div class="rightBottomBar">
-        <a href="/chat" class="a">
-          <div class="select">
-            <img src="/public/img/chat.svg" class="selectimg" />
-            <span class="bottom chatName"> 채팅 </span>
-          </div></a
-        >
-        <a href="/profile" class="a">
-          <div class="select">
-            <img src="/public/img/profile.svg" class="selectimg" />
-            <span class="bottom profileName"> 마이페이지 </span>
-          </div></a
-        >
-      </div>
-    </div>
+    <%- include('./static/bottomBar') %>
 
     <!-- chat original code -->
 
@@ -257,6 +240,8 @@
           });
         } else {
           console.log("로그인 실패");
+          alert("로그인 하세요");
+          location.href = "/main";
         }
         //룸리스트
         userId = sessionStorage.getItem("userId");
@@ -276,13 +261,24 @@
               }
             }
 
+            console.log(roomList.participant.length);
             const li = document.createElement("li");
-            li.innerHTML = `<div id="chatListdiv" class="ms-2 me-auto">
+            if (roomList.roomName[0] == "단") {
+              li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
+                                <div class="fw-bold">${par}</div>
+                                  ${roomList.roomName}
+                                </div>
+                                <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+                              `;
+            } else {
+              li.innerHTML = `<img src="${roomList.imgURL}" alt="${par}" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
         <div class="fw-bold">${par}</div>
         ${roomList.roomName}
       </div>
       <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
       `;
+            }
+
             // li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
             lists.appendChild(li);
           });
@@ -368,15 +364,16 @@
                 if (res[i].send_id === userId) {
                   //내가입력한 텍스트
                   div.classList.add("my-chat");
-                  p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
+                  p.textContent = `${res[i].send_message}`;
                   span.innerHTML = `${res[i].send_time}`;
                   div.appendChild(span);
                   div.appendChild(p);
                   msg.appendChild(div);
                 } else {
                   div.classList.add("other-chat");
-                  p.textContent = `${res[i].send_id} : ${res[i].send_message}`;
                   span.innerHTML = `${res[i].send_time}`;
+                  div.innerHTML = `<img src="${res[i].imgURL}" alt="${res[i].send_id}" id="chatProfile">`;
+                  p.textContent = `${res[i].send_message}`;
                   div.appendChild(p);
                   div.appendChild(span);
                   msg.appendChild(div);
@@ -481,7 +478,7 @@
       });
 
       //메세지 띄우기
-      socket.on("newMessage", (message, nick, time, bool) => {
+      socket.on("newMessage", (message, nick, time, imgURL, bool) => {
         console.log(message, nick);
         const div = document.createElement("div");
         const p = document.createElement("p");
@@ -490,21 +487,19 @@
         if (userId === nick) {
           //내가입력한 텍스트
           div.classList.add("my-chat");
-          p.textContent = bool
-            ? `(귓속말) ${nick} : ${message}`
-            : `${nick} : ${message}`;
+          p.textContent = bool ? `(귓속말) ${nick} : ${message}` : `${message}`;
           div.appendChild(span);
           div.appendChild(p);
           msg.appendChild(div);
         } else {
           div.classList.add("other-chat");
-          p.textContent = bool
-            ? `(귓속말) ${nick} : ${message}`
-            : `${nick} : ${message}`;
+          div.innerHTML = `<img src="${imgURL}" alt="${nick} id="chatProfile">`;
+          p.textContent = bool ? `(귓속말) ${nick} : ${message}` : `${message}`;
           div.appendChild(p);
           div.appendChild(span);
           msg.appendChild(div);
         }
+        prepareScroll();
       });
       //입장 메세지 이벤트
       socket.on("notice", (message) => {
@@ -514,14 +509,18 @@
       chatForm.addEventListener("click", (e) => {
         // e.preventDefault();
         const message = document.querySelector("#message");
-        const msg = {
-          nick: userId,
-          user: "all",
-          message: message.value,
-        };
-        socket.emit("sendMessage", msg);
-        message.value = "";
-        prepareScroll();
+        if (message.value == "") {
+          return;
+        } else {
+          const msg = {
+            nick: userId,
+            user: "all",
+            message: message.value,
+          };
+          socket.emit("sendMessage", msg);
+          message.value = "";
+          prepareScroll();
+        }
       });
 
       // 준비 함수, 약간의 시간을 두어 scroll 함수를 호출하기

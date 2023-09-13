@@ -36,6 +36,8 @@ db.Parties.belongsTo(db.Users);
 db.Chat.hasMany(db.ChatMessage);
 db.ChatMessage.belongsTo(db.Chat);
 
+//다대다
+
 db.Parties.belongsToMany(db.Amenities, { through: "PartyAmenities" });
 db.Amenities.belongsToMany(db.Parties, { through: "PartyAmenities" });
 

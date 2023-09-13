@@ -3,88 +3,173 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>profile</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="../public/css/profile.css" />
   </head>
   <body>
-    <h1>Profile</h1>
     <div class="container">
-      <img src="" alt="이미지" id="porfile_photo" />
-      <div class="content">
-        <div class="editProfile">
-          프로필 수정 (비밀번호 변경, 성별, 이름, 전화번호, 주소 변경)
-        </div>
-        <div class="hobby">관심사 수정</div>
-        <div class="parties">내가 참여할 파티 내역</div>
-      </div>
-    </div>
+      <%- include('./static/topBar') %>
+      <span id="profile2_title">마이페이지</span>
+      <form name="editProfile" enctype="multipart/form-data">
+        <div class="img">
+          <div id="imagePreview">
+            <img id="preview" src="" />
+          </div>
 
-    <div class="bottombar">
-      <div class="leftBottomBar">
-        <a href="/parties" class="a">
-          <div class="select">
-            <img src="/public/img/parties.svg" class="selectimg" />
-            <span class="bottom partiesName"> 목록 </span>
-          </div></a
+          <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            style="display: none"
+            onchange="previewImage(this)"
+            readonly
+          />
+        </div>
+        <br />
+        <div class="top">
+          <div class="nameBox">
+            <img src="/public/img/id.svg" />
+            <span type="text" id="name" class="name"></span>
+          </div>
+          <div class="birthBox">
+            <img src="/public/img/birth.svg" />
+            <span type="date" id="birth" class="birth"> </span>
+          </div>
+          <div class="gender">
+            <input
+              type="radio"
+              name="gender"
+              id="man"
+              class="man"
+              readonly
+              vlaue="남자"
+            /><label for="man" id="manLabel">남자</label>
+            <input
+              type="radio"
+              name="gender"
+              id="woman"
+              class="woman"
+              readonly
+              vvalue="여자"
+            /><label for="woman" id="womanLabel">여자</label>
+          </div>
+          <div class="phoneBox">
+            <img src="/public/img/phone.svg" />
+            <span type="text" id="phone_number" class="phoneNumber"></span>
+          </div>
+          <div class="emailBox">
+            <img src="/public/img/email.svg" class="emailImg" />
+            <span type="text" id="email" class="email"></span>
+          </div>
+          <div class="selectedAddress">
+            <img src="/public/img/map.svg" class="addressImg" />
+            <span type="text" id="displayAddress" class="displayAddress"></span>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="editBtn"
+          class="nextButton"
+          onclick="editProfileFunc()"
         >
-        <a href="/location" class="a">
-          <div class="select">
-            <img src="/public/img/map.svg" class="selectimg" />
-            <span class="bottom locationName"> 지도 </span>
-          </div></a
+          프로필 수정하기
+        </button>
+        <br />
+        <button
+          type="button"
+          id="editBtn"
+          class="nextButton"
+          onclick="editPWFunc()"
         >
-      </div>
-      <a href="/main" class="logo">
-        <button class="logo">H</button>
-      </a>
-      <div class="rightBottomBar">
-        <a href="/chat" class="a">
-          <div class="select">
-            <img src="/public/img/chat.svg" class="selectimg" />
-            <span class="bottom chatName"> 채팅 </span>
-          </div></a
-        >
-        <a href="/profile" class="a">
-          <div class="select">
-            <img src="/public/img/profile.svg" class="selectimg" />
-            <span class="bottom profileName"> 마이페이지 </span>
-          </div></a
-        >
-      </div>
+          비밀번호 변경하기
+        </button>
+      </form>
     </div>
 
     <script>
-      (function () {
-        let result1 = "";
-        const local = sessionStorage.getItem("token");
-        console.log(local);
-        const currentUrl = window.location.href;
-        console.log(currentUrl);
-        if (local != null) {
+      let user;
+      // get
+      const token = sessionStorage.getItem("token");
+      console.log("token", token);
+      if (!token) {
+        alert("로그인을 먼저 하세요.");
+        window.location.href = "/signin";
+      } else {
+        window.onload = function getUser() {
           axios({
-            method: "post",
-            url: `/verify`,
-            data: {
-              token: local,
-            },
-          }).then((result) => {
-            result1 = result;
-            console.log(result1.data.user.id);
-          });
+            method: "GET",
+            params: { token: token },
+            url: "profile/info",
+          })
+            .then((res) => {
+              console.log("res");
+              user = res.data.user;
+              console.log("user", user);
+
+              pushProfile();
+            })
+            .catch((err) => {
+              console.error("Error", err);
+            });
+        };
+      }
+      // 이미지 미리보기
+      function previewImage(input) {
+        const preview = document.getElementById("preview");
+        const imagePreview = document.getElementById("imagePreview");
+
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          console.log("이미지 미리보기 실행");
+
+          reader.onload = function (e) {
+            // 선택한 이미지를 미리보기로 표시합니다.
+            preview.src = e.target.result;
+            imagePreview.style.backgroundColor = "transparent"; // 빈 원의 배경색을 투명하게 설정합니다.
+          };
+
+          reader.readAsDataURL(input.files[0]);
         } else {
-          console.log("로그인 실패");
+          // 이미지를 선택하지 않았을 때 빈 원을 원래대로 채웁니다.
+          imagePreview.style.backgroundColor = "#ccc";
+          preview.src = ""; // 이미지 미리보기 초기화
         }
-      })();
+      }
 
-      function EditImage() {
-        const image = document.querySelector("#profile_photo");
-        // 프로필 페이지 눌렀을 때 그 토큰의 아이디에 해당되는 imgURL 불러와서 src 에 넣기
+      // -------- input 태그에 정보 넣기 -------------
+      async function pushProfile() {
+        // user 데이터가 존재하는지 확인
+        if (user) {
+          // 사용자 데이터에서 필요한 정보 추출
+          const { name, birth, gender, phone_number, email, location, imgURL } =
+            user;
 
-        // 기존 이미지 삭제
+          // 각 input 요소에 사용자 데이터 설정
+          document.getElementById("name").textContent = name || ""; // 이름
+          document.getElementById("birth").textContent = birth || ""; // 생년월일
+          // 성별 설정
+          if (gender === "남자") {
+            manLabel.classList.add("man-selected");
+            womanLabel.classList.remove("woman-selected");
+          } else if (gender === "여자") {
+            womanLabel.classList.add("woman-selected");
+            manLabel.classList.remove("man-selected");
+          }
+          document.getElementById("phone_number").textContent =
+            phone_number || ""; // 전화번호
+          document.getElementById("email").textContent = email || ""; // 이메일
+          document.getElementById("displayAddress").textContent = location;
+          document.getElementById("preview").src = imgURL;
+        }
+      }
 
-        // 새로운 이미지 업로드
-
-        // 새로운 이미지 URL 가져오기
+      function editProfileFunc() {
+        location.href = "/profile2";
+      }
+      function editPWFunc() {
+        location.href = "/profile1";
       }
     </script>
   </body>
