@@ -81,6 +81,15 @@
           type="button"
           id="editBtn"
           class="nextButton"
+          onclick="editHobbyFunc()"
+        >
+          관심사 수정하기
+        </button>
+        <br />
+        <button
+          type="button"
+          id="editBtn"
+          class="nextButton"
           onclick="editPWFunc()"
         >
           비밀번호 변경하기
@@ -170,6 +179,9 @@
       }
       function editPWFunc() {
         location.href = "/profile1";
+      }
+      function editHobbyFunc() {
+        location.href = "/profile4";
       }
     </script>
   </body>

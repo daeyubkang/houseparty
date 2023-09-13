@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="../public/css/profile4.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="select travel" id="travelSelect">
+        <div class="icon travel">
+          <img src="/public/img/travel.svg" />
+        </div>
+        <button class="choose" id="travel" value="여행">여행</button>
+      </div>
+      <div class="select alchol" id="alcholSelect">
+        <div class="icon alchol">
+          <img src="/public/img/alchol.svg" />
+        </div>
+        <button class="choose" id="alchol" value="술">술</button>
+      </div>
+      <div class="select pajamas" id="pajamasSelect">
+        <div class="icon pajamas">
+          <img src="/public/img/pajamas.svg" />
+        </div>
+        <button class="choose" id="pajamas" value="파자마">파자마</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="select game" id="gameSelect">
+        <div class="icon game">
+          <img src="/public/img/game.svg" />
+        </div>
+        <button class="choose" id="game" value="게임">게임</button>
+      </div>
+      <div class="select pet" id="petSelect">
+        <div class="icon pet">
+          <img src="/public/img/pet.svg" />
+        </div>
+        <button class="choose" id="pet" value="애완동물">애완동물</button>
+      </div>
+      <div class="select sports" id="sportsSelect">
+        <div class="icon sports">
+          <img src="/public/img/sports.svg" />
+        </div>
+        <button class="choose" id="sports" value="운동">운동</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="select music" id="musicSelect">
+        <div class="icon music">
+          <img src="/public/img/music.svg" />
+        </div>
+        <button class="choose" id="music" value="음악">음악</button>
+      </div>
+      <div class="select cook" id="cookSelect">
+        <div class="icon cook">
+          <img src="/public/img/cook.svg" />
+        </div>
+        <button class="choose" id="cook" value="요리">요리</button>
+      </div>
+      <div class="select photo" id="photoSelect">
+        <div class="icon photo">
+          <img src="/public/img/photo.svg" value="photo" />
+        </div>
+        <button class="choose" id="photo" value="사진">사진</button>
+      </div>
+    </div>
+    <button
+      type="button"
+      id="nextButton"
+      class="nextButton"
+      onclick="editHobby()"
+    >
+      수정하기
+    </button>
+
+    <script>
+      let user;
+      // get
+      const token = sessionStorage.getItem("token");
+      console.log("token", token);
+      if (!token) {
+        alert("로그인을 먼저 하세요.");
+        window.location.href = "/signin";
+      } else {
+        window.onload = function getUser() {
+          axios({
+            method: "GET",
+            params: { token: token },
+            url: "profile4/info",
+          })
+            .then((res) => {
+              console.log("res");
+              user = res.data.user;
+              console.log("user", user);
+
+              pushProfile();
+            })
+            .catch((err) => {
+              console.error("Error", err);
+            });
+        };
+      }
+
+      // -------- input 태그에 정보 넣기 -------------
+      async function pushProfile() {
+        // user 데이터가 존재하는지 확인
+        if (user) {
+          // 사용자 데이터에서 필요한 정보 추출
+          const { hobby } = user;
+          // hobby가 문자열인 경우 쉼표로 분리하여 배열로 변환
+          const hobbyArray =
+            typeof hobby === "string"
+              ? hobby.split(",").map((item) => item.trim())
+              : hobby;
+          // 모든 select 요소에 대한 이벤트 리스너를 추가.
+          const selectElements = document.querySelectorAll(".select");
+
+          selectElements.forEach((select) => {
+            const button = select.querySelector(".choose");
+            if (button && hobbyArray.includes(button.value)) {
+              select.classList.add("active");
+            }
+          });
+        }
+      }
+
+      const token_signup = sessionStorage.getItem("token");
+      console.log(token_signup);
+
+      // 모든 select 요소에 대한 이벤트 리스너를 추가.
+      const nextBtn = document.querySelector("#nextButton");
+
+      const selectElements = document.querySelectorAll(".select");
+
+      selectElements.forEach((select) => {
+        select.addEventListener("click", () => {
+          select.classList.toggle("active");
+        });
+      });
+
+      // "다음" 버튼 클릭 시 선택한 값을 POST 요청으로 보냅니다.
+      document
+        .getElementById("nextButton")
+        .addEventListener("click", function () {
+          console.log("이벤트 리스터 실행");
+          const selectedValues = Array.from(selectElements)
+            .filter((select) => select.classList.contains("active"))
+            .map((select) => select.querySelector(".choose").value);
+
+          if (selectedValues.length > 0) {
+            editHobby(selectedValues);
+          } else {
+            alert("하나 이상의 취미를 선택하세요.");
+          }
+        });
+
+      async function editHobby(selectedHobbies) {
+        try {
+          console.log("postHobby 실행", selectedHobbies);
+          const hobbiesString = selectedHobbies.join(", ");
+          console.log(hobbiesString);
+          const res = await axios({
+            method: "POST",
+            url: "/profile4/hobby",
+            data: {
+              hobby: hobbiesString,
+              token: token_signup,
+            },
+          });
+          console.log(res);
+          if (res.data) {
+            alert("수정이 완료되었습니다.");
+            document.location.href = "/profile";
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      // document
+      //   .getElementById("nextButton")
+      //   .addEventListener("click", function () {
+      //     window.location.href = "/signup2"; // 페이지 이동
+      //   });
+
+      // 선택된 데이터 값
+      const selectedHobby = [];
+
+      // 데이터 추가 함수
+      // function addData() {}
+
+      // 데이터 삭제 함수
+      function removeData() {
+        if (dataArray.length > 0) {
+          dataArray.pop();
+          updateDataDisplay();
+        }
+      }
+      // 데이터 표시 업데이트 함수
+      function updateDataDisplay() {
+        const dataDisplay = document.getElementById("dataDisplay");
+        dataDisplay.innerHTML = "데이터 배열: [" + dataArray.join(", ") + "]";
+      }
+    </script>
+  </body>
+</html>
