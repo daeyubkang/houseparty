@@ -1,7 +1,7 @@
 "use strict";
 
 const Sequelize = require("sequelize");
-const env = process.env.NODE_ENV || "production";
+const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
 const sequelize = new Sequelize(
@@ -21,6 +21,7 @@ db.ChatMessage = require("./ChatMessage")(sequelize);
 
 db.Amenities = require("./Amenities")(sequelize);
 db.Tags = require("./Tags")(sequelize);
+db.Images = require("./Images")(sequelize);
 
 // const model = require('./User');
 // const temp = model(sequelize);
@@ -35,6 +36,11 @@ db.Parties.belongsTo(db.Users);
 
 db.Chat.hasMany(db.ChatMessage);
 db.ChatMessage.belongsTo(db.Chat);
+
+db.Images.belongsTo(db.Parties, {
+  foreignKey: "party_num",
+  onDelete: "CASCADE",
+});
 
 //다대다
 
