@@ -12,39 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/public/css/host.css" />
-    <style>
-      body {
-        overflow-x: hidden;
-        width: 100%;
-      }
-      /* Custom CSS to set a fixed width for buttons */
-      .btn-primary.maintag {
-        width: 70px; /* Adjust the width as needed */
-        height: 30px;
-        padding: 1px; /* Adjust the padding as needed */
-        margin: 1px; /* Add some margin for spacing */
-        display: flex; /* Enable flexbox layout */
-        align-items: center; /* Vertically center align text */
-        justify-content: center; /* Horizontally center align text */
-      }
-
-      /* Custom CSS to adjust font size for long tags */
-      .small-font {
-        font-size: 13px; /* Adjust the font size as needed */
-      }
-
-      .row {
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 0;
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: calc(-1 * var(--bs-gutter-y));
-        /* 가로 스크롤바의 주범 */
-        /* margin-right: calc(-0.1 * var(--bs-gutter-x)); */
-        margin-right: 0;
-        margin-left: calc(-0.5 * var(--bs-gutter-x));
-      }
-    </style>
+    <style></style>
   </head>
   <body>
     <!-- 부트스트랩 CDN -->
@@ -334,7 +302,13 @@
 
     <% } else { %>
     <h1>새 파티 열기</h1>
-    <form class="row g-3 was-validated" novalidate onsubmit="postParty(event)">
+
+    <form
+      class="row g-3 was-validated"
+      novalidate
+      onsubmit="postParty(event)"
+      enctype="multipart/form-data"
+    >
       <div class="col-md-4">
         <label for="title" class="form-label">제목</label>
         <input
@@ -394,12 +368,14 @@
         <div class="invalid-feedback"></div>
       </div>
 
-      <label class="form-label">내 파티를 설명하는 태그를 골라주세요</label>
+      <label class="form-label"
+        >내 파티를 설명하는 태그를 골라주세요(필수)</label
+      >
       <div class="container">
         <div class="row">
           <% let exampleCounter = 1; %> <% for(let i = 0; i < allTags.length;
           i++){ %> <% if(allTags[i].tag_category_num == 0){ %>
-          <div class="col-3 col-md-1 col-lg-1">
+          <div class="col-4 col-md-1 col-lg-1">
             <button
               name="tags"
               class="btn btn-primary maintag <%= allTags[i].tag_name.length > 3 ? 'small-font' : '' %>"
@@ -424,6 +400,7 @@
             <% for(let i = 0; i < allTags.length; i++){ %> <%
             if(allTags[i].tag_category === "술"){ %>
             <button
+              class="small tags"
               type="button"
               name="tags"
               role="checkbox"
@@ -442,6 +419,7 @@
             <% for(let i = 0; i < allTags.length; i++){ %> <%
             if(allTags[i].tag_category === "언어"){ %>
             <button
+              class="small tags"
               type="button"
               name="tags"
               role="checkbox"
@@ -460,6 +438,7 @@
             <% for(let i = 0; i < allTags.length; i++){ %> <%
             if(allTags[i].tag_category === "문화생활"){ %>
             <button
+              class="small tags"
               type="button"
               name="tags"
               role="checkbox"
@@ -479,6 +458,7 @@
             <% for(let i = 0; i < allTags.length; i++){ %> <%
             if(allTags[i].tag_category === "게임"){ %>
             <button
+              class="small tags"
               type="button"
               name="tags"
               role="checkbox"
@@ -497,6 +477,7 @@
             <% for(let i = 0; i < allTags.length; i++){ %> <%
             if(allTags[i].tag_category === "식사"){ %>
             <button
+              class="small tags"
               type="button"
               name="tags"
               role="checkbox"
@@ -509,7 +490,25 @@
           </div>
         </div>
       </div>
-
+      <br />
+      <label class="form-label">원하는 나이/성별이 있나요?(선택사항)</label>
+      <div class="row">
+        <% for(let i = 0; i < allTags.length; i++){ %> <%
+        if(allTags[i].tag_category_num == 6){ %>
+        <div class="col-4 col-md-1 col-lg-1">
+          <button
+            name="tags"
+            class="btn btn-primary maintag <%= allTags[i].tag_name.length > 3 ? 'small-font' : '' %>"
+            type="button"
+            value="<%= allTags[i].tag_name %>"
+            aria-checked="false"
+          >
+            <%= allTags[i].tag_name %>
+          </button>
+        </div>
+        <% } %> <% } %>
+      </div>
+      <div><br /></div>
       <label class="form-label">장소에 관련된 규칙을 선택해주세요:</label>
 
       <div class="row">
@@ -517,6 +516,7 @@
           <% for(let i = 0; i < allAmens.length; i++){ %> <%
           if(allAmens[i].amen_category === "규칙"){ %>
           <button
+            class="small amens"
             type="button"
             name="amenities"
             role="checkbox"
@@ -529,6 +529,7 @@
         </div>
       </div>
 
+      <div><br /></div>
       <label class="form-label">장소에 구비된 시설을 선택해주세요:</label>
 
       <div class="row">
@@ -536,6 +537,7 @@
           <% for(let i = 0; i < allAmens.length; i++){ %> <%
           if(allAmens[i].amen_category === "시설"){ %>
           <button
+            class="small amens"
             type="button"
             name="amenities"
             role="checkbox"
@@ -547,9 +549,35 @@
           <%}%> <% } %>
         </div>
       </div>
+      <br />
+      <br />
+
+      <!-- 이미지 업로드 -->
+      <div id="imagePreview">
+        <img id="preview" src="" />
+      </div>
+
+      <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+        style="display: none"
+        onchange="previewImage()"
+        multiple
+      />
+
+      <button
+        type="button"
+        class="ImgButton"
+        onclick="document.getElementById('imageInput').click()"
+      >
+        이미지 선택
+      </button>
 
       <div class="col-12">
-        <button class="btn btn-primary" type="submit">작성 완료</button>
+        <button class="btn btn-primary" type="submit" id="submit">
+          작성 완료
+        </button>
       </div>
     </form>
     <% } %>
@@ -639,10 +667,66 @@
           }
         });
       });
+      // 이미지 여러개 미리보기
+      function previewImage() {
+        const imagePreview = document.getElementById("imagePreview");
+        const imageFiles = document.querySelector("input[type=file]").files;
+
+        function readAndPreview(file) {
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              var image = new Image();
+              image.height = 100;
+              image.title = file.name;
+              image.src = this.result;
+              imagePreview.appendChild(image);
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+        if (imageFiles) {
+          [].forEach.call(imageFiles, readAndPreview);
+        }
+      }
+
+      // 업로드 이미지
+      async function uploadImage() {
+        const imageInput = document.getElementById("imageInput");
+        const selectedImages = imageInput.files;
+        console.log("selectedImages", selectedImages);
+        if (selectedImages) {
+          try {
+            const formData = new FormData();
+            selectedImages.forEach((image) => {
+              formData.append("image", image);
+            });
+
+            // 이미지를 업로드할 엔드포인트로 POST 요청 보내기
+            const res = await axios.post("host/upload", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
+              },
+            });
+            console.log(res.data.file.location);
+            const imgURL = res.data.file.location;
+            console.log(imgURL);
+            return imgURL;
+
+            alert("이미지 업로드가 완료되었습니다.");
+          } catch (error) {
+            console.error("이미지 업로드 중 오류 발생:", error);
+          }
+        } else {
+          alert("이미지를 선택해주세요.");
+        }
+      }
 
       //게시글 업로드
       async function postParty(e) {
         e.preventDefault();
+        const imgURL = await uploadImage();
+        console.log("imgURL", imgURL);
         const data = {
           id,
           title: document.querySelector("#title").value,
@@ -653,6 +737,7 @@
           head_count: document.querySelector("#headCount").value,
           tags: [],
           amenities: [],
+          // imgURL,
         };
 
         //선택된 태그를 Array에 Push
@@ -683,6 +768,7 @@
 
           // });
           console.log("result:", result);
+          await uploadImage();
           if (result.data) {
             alert("글쓰기 완료");
             document.location.href = "/parties";

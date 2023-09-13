@@ -301,8 +301,27 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
 .titleTags {
   display: flex;
+  flex-direction: column;
+}
+
+.card-tags {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.card-tags::-webkit-scrollbar {
+  display: none;
+}
+
+.tags {
+  border-radius: 10%;
+  background-color: #bf2c4750;
+  margin-right: 3px;
 }
 
 .album {

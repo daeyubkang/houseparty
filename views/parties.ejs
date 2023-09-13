@@ -24,31 +24,6 @@
       <a class="howsParty" href="/main"> How's Party </a
       ><a class="signin" href="/signin">login</a>
     </div>
-    <h1>Parties</h1>
-    <button onclick="write1()">글쓰기</button>
-    <ul>
-      <% for (let i = 0; i < parties.length; i++) { %>
-      <li>
-        <b><%= parties[i].id %></b> -
-
-        <a href="/parties/<%=parties[i].party_num%><%= parties[i].title %>"></a>
-
-        <p><%= parties[i].party_num %></p>
-        <button
-          id="goChatRoom"
-          onclick="chatRoom(this.value)"
-          value="<%= parties[i].party_num %>,<%= parties[i].id %>"
-        >
-          채팅방 이동
-        </button>
-      </li>
-      <% } %>
-    </ul>
-
-    <div class="topBar">
-      <a class="howsParty" href="/main"> How's Party </a
-      ><a class="signin" href="/login">login</a>
-    </div>
     <div class="album py-5 bg-body-tertiary">
       <div class="container">
         <form class="searchForm" id="searchForm">
@@ -112,8 +87,12 @@
               </svg>
               <div class="card-body">
                 <div class="titleTags">
-                  <p class="card-text"><%= parties[i].title %></p>
-                  <h6 class="tags"><%= parties[i].tag %></h6>
+                  <p class="card-title"><%= parties[i].title %></p>
+                  <div class="card-tags">
+                    <% parties[i].tags.forEach((tag) => { %>
+                    <div class="tags"><%= tag.tag_name %></div>
+                    <% }); %>
+                  </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
