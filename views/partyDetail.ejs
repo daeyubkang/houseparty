@@ -14,6 +14,15 @@
     <!-- 파티의 party_num을 hidden값으로 받아옴 -->
     <div hidden id="partyNum" data-value="<%= party.party_num %>"></div>
 
+    <!-- 파티 참여신청 -->
+    <button
+      id="goChatRoom"
+      onclick="chatRoom(this.value)"
+      value="<%= party.party_num %>,<%= party.id %>"
+    >
+      파티 참여신청
+    </button>
+
     파티 제목: <%= party.title %>
     <br />
     설명: <%= party.description %>
@@ -52,6 +61,7 @@
             sessionStorage.setItem("userId", result.data.user.id);
             const postedBy = document.querySelector("#postedBy");
             const body = document.querySelector("body");
+            const joinParty = document.querySelector("#goChatRoom");
             console.log(postedBy.dataset.value);
             if (result.data.user.id === postedBy.dataset.value) {
               body.insertAdjacentHTML(
@@ -59,6 +69,7 @@
                 `<button id="editParty" type="button" onclick="editParty()">파티 수정</button>
                 <button id="deteleParty" type="button" onclick= "deleteParty()">파티 삭제</button>`
               );
+              joinParty.setAttribute("hidden", "true");
             }
           });
         } else {
@@ -94,6 +105,11 @@
         } catch (err) {
           console.log(err);
         }
+      }
+
+      async function chatRoom(e) {
+        console.log(e);
+        location.href = `/chat?partiesNum=${e}`;
       }
     </script>
   </body>
