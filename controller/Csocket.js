@@ -21,9 +21,11 @@ exports.connection = (io, socket) => {
               otherId = element;
             }
           });
+          console.log(otherId);
           const userImg = await Users.findOne({
             where: { id: otherId },
           });
+          console.log(userImg);
           roomList.push({
             roomName: chatList[i].dataValues.roomID,
             participant_num: participant.length,

@@ -407,26 +407,12 @@
         }
         console.log("invite", otherID, partyNum);
         const ID = `단톡 게시글번호:${partyNum}`;
-        socket.emit(
-          "create",
-          ID,
-          userId,
-          partyNum,
-          `단톡 ${userId}`,
-          async () => {
-            console.log("방장 단톡 생성 완료");
-            await socket.emit(
-              "create",
-              ID,
-              otherID,
-              partyNum,
-              `단톡 ${userId}`,
-              () => {
-                console.log("초대 단톡 생성 완료");
-              }
-            );
-          }
-        );
+        socket.emit("create", ID, userId, partyNum, `단톡 ${userId}`, () => {
+          console.log("방장 단톡 생성 완료");
+          socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
+            console.log("초대 단톡 생성 완료");
+          });
+        });
 
         const msg = {
           nick: userId,
