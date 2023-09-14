@@ -42,9 +42,10 @@ body {
 .topBar {
   display: flex;
   margin-left: 20px;
-  width: 70%;
+  width: 100%;
   position: fixed;
   z-index: 1000;
+  margin-right: 20px;
 }
 
 .topBar > p {
@@ -103,6 +104,9 @@ body {
   .topBar > p {
     width: 40%;
     margin-top: 5px;
+  }
+  .topBar > .topBar-right > p > a {
+    font-size: 10px;
   }
 }
 
