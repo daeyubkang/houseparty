@@ -33,14 +33,17 @@
       /* 스크롤바 생성 */
       #msg {
         margin-top: 5px;
-        height: 85%;
+        height: 81%;
         overflow-y: scroll;
+      }
+      #main {
+        height: 78vh;
       }
       #body {
         margin-top: 5px;
         width: 69vw;
         max-width: 800px;
-        height: 70vh;
+        height: 78vh;
         position: relative;
         background: #7d8d86;
         overflow-y: scroll;
@@ -163,47 +166,56 @@
     <%- include('./static/topBar') %>
     <br />
 
-    <div id="album" class="album py-5 bg-body-tertiary">
-      <div class="container">
-        <div id="main">
-          <h2 id="userTitle"></h2>
-          <ul id="lists"></ul>
-        </div>
+    <!-- <div id="album" class="album py-5 bg-body-tertiary"> -->
+    <!-- <div class="container"> -->
+    <div id="full" style="display: flex">
+      <div id="main">
+        <ul>
+          <li>1</li>
+          <li>2</li>
+          <li>1</li>
+          <li>2</li>
+          <li>1</li>
+          <li>2</li>
+          <li>1</li>
+          <li>2</li>
+        </ul>
+      </div>
+      <div id="main">
+        <h2 id="userTitle"></h2>
+        <ul id="lists"></ul>
+      </div>
 
-        <div id="body" hidden>
-          <div id="exitButton" style="background-color: darkgray"></div>
-          <div id="msg">
-            <div id="notice"></div>
-            <div id="messages"></div>
-            <!-- <div class="my-chat">
+      <div id="body" hidden>
+        <div id="exitButton" style="background-color: darkgray"></div>
+        <div id="msg">
+          <div id="notice"></div>
+          <div id="messages"></div>
+          <!-- <div class="my-chat">
               <p>채팅테스트(나)</p>
           </div>
           <div class="other-chat">
               <p>채팅테스트(상대방)</p>
           </div> -->
-          </div>
-          <div id="chat">
-            <button
-              class="btn btn-danger"
-              id="invite"
-              onclick="invite()"
-              hidden
-            >
-              초대
-            </button>
-            <input
-              class="col-form-label"
-              type="text"
-              id="message"
-              placeholder="메세지 입력"
-            />
-            <button class="btn btn-warning" id="chatFormButton">
-              <i class="fa-solid fa-paper-plane"></i>
-            </button>
-          </div>
+        </div>
+        <div id="chat">
+          <button class="btn btn-danger" id="invite" onclick="invite()" hidden>
+            초대
+          </button>
+          <input
+            class="col-form-label"
+            type="text"
+            id="message"
+            placeholder="메세지 입력"
+          />
+          <button class="btn btn-warning" id="chatFormButton">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
         </div>
       </div>
     </div>
+    <!-- </div> -->
+    <!-- </div> -->
 
     <%- include('./static/bottomBar') %>
 
