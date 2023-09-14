@@ -21,13 +21,16 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
-
+    <!-- <link rel="stylesheet" href="/public/css/main.css" /> -->
     <style>
       /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
       #msg::-webkit-scrollbar {
         display: none;
       }
       #body::-webkit-scrollbar {
+        display: none;
+      }
+      #main::-webkit-scrollbar {
         display: none;
       }
       /* 스크롤바 생성 */
@@ -39,6 +42,8 @@
       #main {
         height: 78vh;
         width: 80%;
+        overflow-y: scroll;
+        margin-left: 5px;
       }
       #body {
         margin-top: 5px;
@@ -48,6 +53,9 @@
         position: relative;
         background: #7d8d86;
         overflow-y: scroll;
+        margin-left: 5px;
+        border: none;
+        border-radius: 10px;
       }
       #chat {
         position: absolute;
@@ -115,6 +123,8 @@
         align-items: center;
         border-bottom: solid 1px black;
         padding-bottom: 20px;
+        height: 13vh;
+        margin-right: 22px;
       }
       #lists button {
         width: 80px;
@@ -154,23 +164,27 @@
       }
       #userTitle {
         display: flex;
+        margin-top: 10px;
       }
       #participantNum {
         border-radius: 40%;
         opacity: 40%;
       }
       #full {
-        width: 80%;
+        width: 86%;
         justify-content: space-around;
+        margin-top: 100px;
+        background-color: white;
+        margin-left: 7%;
       }
       @media screen and (max-width: 800px) {
         #full {
           flex-direction: column;
           align-items: center;
-          width: 550px;
+          width: 86vw;
         }
         #partymain {
-          width: 60%;
+          width: 81%;
         }
         #chatmain {
           width: 70%;
@@ -184,6 +198,7 @@
         #partymain {
           height: 78vh;
           width: 30%;
+          margin-left: 5px;
         }
         #chatmain {
           width: 70%;
@@ -219,11 +234,13 @@
             참여 파티
           </h5>
         </h2>
-        <ul id="myRoomTitle" class="list-group"></ul>
+        <ul id="myRoomTitle" class="list-group" style="margin-top: 10px"></ul>
       </div>
       <div id="main" class="chatmain">
         <h2 id="userTitle"></h2>
-        <ul id="lists"></ul>
+        <ul id="lists">
+          <div style="margin-top: 10px"></div>
+        </ul>
       </div>
 
       <div id="body" hidden>
@@ -257,12 +274,6 @@
         </div>
       </div>
     </div>
-    <!-- </div> -->
-    <!-- </div> -->
-
-    <%- include('./static/bottomBar') %>
-
-    <!-- chat original code -->
 
     <script>
       let socket = io();
@@ -276,9 +287,10 @@
         console.log(partiesDataId);
         console.log(userId);
 
-        document.querySelector(
-          "#userTitle"
-        ).innerHTML = `<b>${userId}</b> <h5 style="margin-top: 15px;font-size: small; margin-left: 5px;">님의 채팅목록</h5>`;
+        document.querySelector("#userTitle").innerHTML = `<b style="
+    font-size: x-large;
+    font-weight: bold;
+">${userId}</b> <h5 style="margin-top: 15px;font-size: small; margin-left: 5px;">님의 채팅목록</h5>`;
         let result1 = "";
         const local = sessionStorage.getItem("token");
         console.log(local);
@@ -348,7 +360,7 @@
               li.innerHTML = `<img src="${roomList.imgURL}" alt="${par}" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
           <div class="fw-bold">[1:1] ${par}</div>
           <a style=" text-decoration: none;
-      color: darkgray;" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
+      color: darkgray; margin-top: 5px;" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
         </div>
         <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
         `;
@@ -481,7 +493,7 @@
           >
             채팅 목록 보기
           </button>
-          <button style="opacity:60%;width: 100px;height: 34px;margin-left: 59%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom(\'${name}\')" class="btn btn-danger">나가기</button>`;
+          <button style="opacity:60%;width: 100px;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom(\'${name}\')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
         socket.emit(
           "create",

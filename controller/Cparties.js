@@ -3,13 +3,13 @@ const { Users, Parties, Amenities, Tags, Images } = require("../models");
 exports.index = async (req, res) => {
   try {
     const parties = await Parties.findAll({
-      include: [Tags, Amenities],
+      include: [Tags, Amenities, Images],
     });
     const allTags = await Tags.findAll({
       attributes: ["tag_num", "tag_name", "tag_category", "tag_category_num"],
     });
     // console.log("게시글 불러오기 성공", Partiess);
-    res.render("parties", { parties, allTags: allTags });
+    res.render("parties", { parties, allTags });
   } catch (error) {
     console.log(error);
   }
