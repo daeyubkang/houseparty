@@ -11,11 +11,11 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link rel="stylesheet" href="../public/css/profile.css" />
   </head>
   <body>
     <div class="container">
       <%- include('./static/topBar') %>
+      <link rel="stylesheet" href="../public/css/profile.css" />
 
       <span id="profile2_title">회원 정보</span>
       <form name="editProfile" enctype="multipart/form-data">
@@ -111,7 +111,7 @@
       const token = sessionStorage.getItem("token");
       console.log("token", token);
       if (!token) {
-        alert("로그인을 먼저 하세요.");
+        alert("로그인 후 사용바랍니다.");
         window.location.href = "/signin";
       } else {
         window.onload = function getUser() {

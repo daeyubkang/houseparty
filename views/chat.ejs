@@ -218,7 +218,7 @@
       }
     </style>
   </head>
-  <body>
+  <body style="margin-bottom: 50px">
     <%- include('./static/topBar') %>
     <br />
 
@@ -314,7 +314,7 @@
           });
         } else {
           console.log("로그인 실패");
-          alert("로그인 하세요");
+          alert("로그인 후 사용바랍니다.");
           location.href = "/signin";
         }
         let myRoomList = [];

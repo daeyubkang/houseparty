@@ -11,11 +11,11 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link rel="stylesheet" href="../public/css/profile2.css" />
   </head>
   <body>
     <div class="container">
       <%- include('./static/topBar') %>
+      <link rel="stylesheet" href="../public/css/profile2.css" />
       <span id="profile2_title">프로필 수정</span>
       <form name="editProfile" enctype="multipart/form-data">
         <div class="img">
@@ -66,14 +66,14 @@
               name="gender"
               id="man"
               class="man"
-              vlaue="남자"
+              value="남자"
             /><label for="man" id="manLabel">남자</label>
             <input
               type="radio"
               name="gender"
               id="woman"
               class="woman"
-              vvalue="여자"
+              value="여자"
             /><label for="woman" id="womanLabel">여자</label>
           </div>
           <div class="phoneBox">
@@ -283,6 +283,7 @@
           console.log("editProfile");
           console.log(token);
           console.log(form.name.value);
+          console.log(form.gender.value);
           const res = axios({
             method: "POST",
             url: "/profile2/edit",
