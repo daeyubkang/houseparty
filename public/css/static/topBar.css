@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Gowun+Dodum&family=Julius+Sans+One&display=swap");
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
 /* a태그 초기화 */
 a {
@@ -13,17 +14,16 @@ a:active {
   color: black;
 }
 
-.hidden {
-  display: none;
-}
-
 body {
   width: 100%;
   display: block;
+  font-family: "Gowun Dodum", sans-serif;
 }
 
 .topBarBg {
+  margin-top: 18px;
   width: 100%;
+  height: 80px;
 }
 
 .topBar {
@@ -41,12 +41,17 @@ body {
 .topBar > .topBar-right {
   width: 50%;
   display: flex;
+  margin-right: 20px;
 }
 .topBar > .topBar-right > p {
   width: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.topBar > .topBar-right .loginOrLogoutBtn > a {
+  color: #c94040;
 }
 
 .topBar > .topBar-right > p > a {
@@ -88,5 +93,8 @@ body {
   .topBar > p {
     width: 40%;
     margin-top: 5px;
+  }
+  .topBar > .topBar-right > p > a {
+    font-size: 10px;
   }
 }
