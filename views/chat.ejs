@@ -6,7 +6,6 @@
     <title>Document</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/public/css/main.css" />
     <!-- 아이콘 링크 -->
     <script
       src="https://kit.fontawesome.com/3191b0c349.js"
@@ -22,6 +21,7 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/public/css/main.css" />
     <style>
       /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
       #msg::-webkit-scrollbar {
@@ -185,7 +185,6 @@
         #partymain {
           height: 78vh;
           width: 30%;
-          background: rgba(217, 217, 217, 0.3);
         }
         #chatmain {
           width: 70%;
@@ -194,6 +193,10 @@
           display: flex;
           padding-left: 2rem;
         }
+      }
+      a:hover {
+        color: black;
+        text-decoration: underline;
       }
     </style>
   </head>
@@ -205,10 +208,19 @@
     <!-- <div class="container"> -->
     <div id="full" style="display: flex">
       <div id="partymain">
-        <ul id="myRoomTitle" class="list-group">
-          <li>1</li>
-          <li>2</li>
-        </ul>
+        <h2>
+          <h5
+            style="
+              margin-top: 15px;
+              font-size: medium;
+              margin-left: 5px;
+              font-weight: bold;
+            "
+          >
+            참여 파티
+          </h5>
+        </h2>
+        <ul id="myRoomTitle" class="list-group"></ul>
       </div>
       <div id="chatmain" class="chatmain">
         <h2 id="userTitle"></h2>
@@ -312,18 +324,44 @@
             if (roomList.roomName[0] == "단") {
               myRoomList.push(roomList.roomID);
               li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-                                <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
-                                <a style="color: gray" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
-                                </div>
-                                <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
-                              `;
+                                  <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
+                                  <a id="a1" style="text-decoration: none;
+      color: darkgray;" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
+                                  </div>
+                                  <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+                                `;
+              let a1 = li.querySelector("a");
+              a1.addEventListener("mouseover", function () {
+                // hover 시 적용할 스타일을 여기에 정의하세요
+                a1.style.textDecoration = "underline";
+                a1.style.color = "black";
+                a1.style.fontWeight = "bold";
+              });
+              a1.addEventListener("mouseout", function () {
+                // hover 종료 시 원래 스타일로 돌아가게 하려면
+                a1.style.textDecoration = "none";
+                a1.style.color = "darkgray";
+              });
             } else {
               li.innerHTML = `<img src="${roomList.imgURL}" alt="${par}" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-        <div class="fw-bold">[1:1] ${par}</div>
-        <a style="color: gray" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
-      </div>
-      <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
-      `;
+          <div class="fw-bold">[1:1] ${par}</div>
+          <a style=" text-decoration: none;
+      color: darkgray;" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
+        </div>
+        <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+        `;
+              let a1 = li.querySelector("a");
+              a1.addEventListener("mouseover", function () {
+                // hover 시 적용할 스타일을 여기에 정의하세요
+                a1.style.textDecoration = "underline";
+                a1.style.color = "black";
+                a1.style.fontWeight = "bold";
+              });
+              a1.addEventListener("mouseout", function () {
+                // hover 종료 시 원래 스타일로 돌아가게 하려면
+                a1.style.textDecoration = "none";
+                a1.style.color = "darkgray";
+              });
             }
             // li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
             lists.appendChild(li);
@@ -394,7 +432,20 @@
             li.className +=
               "list-group-item d-flex justify-content-between align-items-center";
             li.innerHTML = `<span style="font-weight: bold;">${i.title} </span><span style="margin-left: 10px;
-    margin-right: 10px;">D-${daysRemaining}</span><a href="/parties/${i.num}"> 이동</a>`;
+      margin-right: 10px;">D-${daysRemaining}</span><a href="/parties/${i.num}" style="text-decoration: none;
+      color: darkgray;"> 자세히</a>`;
+            let a1 = li.querySelector("a");
+            a1.addEventListener("mouseover", function () {
+              // hover 시 적용할 스타일을 여기에 정의하세요
+              a1.style.textDecoration = "underline";
+              a1.style.color = "black";
+              a1.style.fontWeight = "bold";
+            });
+            a1.addEventListener("mouseout", function () {
+              // hover 종료 시 원래 스타일로 돌아가게 하려면
+              a1.style.textDecoration = "none";
+              a1.style.color = "darkgray";
+            });
             myRoomTitle.appendChild(li);
           }
         });
@@ -422,13 +473,13 @@
         document.querySelector(
           "#exitButton"
         ).innerHTML = `<button style="width: 20%;opacity:60%;height: 34px;margin-left: 1%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px;"
-          id="chatListButton"
-          onclick="chatList()"
-          class="btn btn-secondary"
-        >
-          채팅 목록 보기
-        </button>
-        <button style="opacity:60%;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 10px;margin-bottom: 5px"; onclick="exitChatRoom('게시글번호1,eee,qwe')" class="btn btn-danger">나가기</button>`;
+            id="chatListButton"
+            onclick="chatList()"
+            class="btn btn-secondary"
+          >
+            채팅 목록 보기
+          </button>
+          <button style="opacity:60%;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 10px;margin-bottom: 5px"; onclick="exitChatRoom('게시글번호1,eee,qwe')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
         socket.emit(
           "create",
