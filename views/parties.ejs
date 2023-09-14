@@ -67,12 +67,13 @@
               class="card shadow-sm hidden party-card"
               id="<%=i+1%>"
               data-value="<%=parties[i].party_num%>"
+              data-value2="<%=parties[i].id%>"
             >
               <% if (parties[i].images && parties[i].images.length > 0) { %>
               <img
                 src="<%=parties[i].images[0].img_URL%>"
                 width="100%"
-                height="100%"
+                height="225px"
               />
               <% } else { %>
               <svg
@@ -275,8 +276,9 @@
       for (let i = 0; i < partyLength.dataset.value; i++) {
         const cardLink = document.getElementById(`${i + 1}`);
         cardLink.addEventListener("click", () => {
-          //console.log(cardLink.dataset.value);
-          window.location.href = `/parties/${cardLink.dataset.value}`;
+          console.log(cardLink.dataset.value);
+          console.log(cardLink.dataset.value2);
+          window.location.href = `/parties/${cardLink.dataset.value}/${cardLink.dataset.value2}`;
         });
       }
     </script>

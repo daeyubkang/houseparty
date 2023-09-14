@@ -13,10 +13,6 @@ a:active {
   color: black;
 }
 
-.hidden {
-  display: none;
-}
-
 body {
   width: 100%;
   display: block;
