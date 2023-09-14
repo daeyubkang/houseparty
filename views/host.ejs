@@ -703,7 +703,7 @@
             const formData = new FormData();
             selectedImages.forEach((image) => {
               formData.append("image", image);
-              console.log("selectedImage", image);
+              console.log("selectedImages", image);
             });
 
             // 이미지를 업로드할 엔드포인트로 POST 요청 보내기
@@ -773,7 +773,7 @@
           await uploadImages();
           if (result.data) {
             alert("글쓰기 완료");
-            // document.location.href = "/parties";
+            document.location.href = "/parties";
           }
         } catch (err) {
           console.log(err);
