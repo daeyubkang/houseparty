@@ -10,7 +10,6 @@
       href="https://cdn-icons-png.flaticon.com/512/1395/1395020.png"
     />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/public/css/partiesSearch.css" />
     <link
       rel="canonical"
       href="https://getbootstrap.com/docs/5.3/examples/album/"
@@ -23,10 +22,8 @@
     />
   </head>
   <body>
-    <div class="topBar">
-      <a class="howsParty" href="/main"> How's Party </a
-      ><a class="signin" href="/login">login</a>
-    </div>
+    <%- include('./static/topBar') %>
+    <link rel="stylesheet" href="/public/css/partiesSearch.css" />
     <div class="album py-5 bg-body-tertiary">
       <div class="container">
         <form class="searchForm" id="searchForm">
