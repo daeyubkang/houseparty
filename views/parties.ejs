@@ -71,6 +71,13 @@
               id="<%=i+1%>"
               data-value="<%=parties[i].party_num%>"
             >
+              <% if (parties[i].images && parties[i].images.length > 0) { %>
+              <img
+                src="<%=parties[i].images[0].img_URL%>"
+                width="100%"
+                height="100%"
+              />
+              <% } else { %>
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"
@@ -85,6 +92,8 @@
                 <rect width="100%" height="100%" fill="#55595c"></rect>
                 <text x="50%" y="50%" fill="#eceeef" dy=".3em">사진</text>
               </svg>
+              <% } %>
+
               <div class="card-body">
                 <div class="titleTags">
                   <p class="card-title"><%= parties[i].title %></p>
@@ -128,6 +137,7 @@
               </div>
             </div>
           </div>
+
           <% } %>
         </div>
       </div>
@@ -176,6 +186,7 @@
         >
       </div>
     </div>
+
     <script>
       // //카드 마우스 효과 실행
       // const cards = document.querySelectorAll(".card");
