@@ -285,7 +285,11 @@ exports.findTitle = async (req, res) => {
     const partyname = await Parties.findOne({
       where: { party_num: value },
     });
-    array.push({ title: partyname.title, num: partyname.party_num });
+    array.push({
+      title: partyname.title,
+      num: partyname.party_num,
+      dDay: partyname.date,
+    });
   }
   res.send({ result: array });
 };

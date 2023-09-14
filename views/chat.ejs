@@ -205,13 +205,7 @@
     <!-- <div class="container"> -->
     <div id="full" style="display: flex">
       <div id="partymain">
-        <ul id="myRoomTitle">
-          <li>1</li>
-          <li>2</li>
-          <li>1</li>
-          <li>2</li>
-          <li>1</li>
-          <li>2</li>
+        <ul id="myRoomTitle" class="list-group">
           <li>1</li>
           <li>2</li>
         </ul>
@@ -315,8 +309,8 @@
             console.log(roomList.participant.length);
             console.log(roomList);
             const li = document.createElement("li");
-            myRoomList.push(roomList.roomID);
             if (roomList.roomName[0] == "단") {
+              myRoomList.push(roomList.roomID);
               li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
                                 <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
                                 <a style="color: gray" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
@@ -387,8 +381,20 @@
           console.log(result.data.result);
           const myRoomTitle = document.querySelector("#myRoomTitle");
           for (let i of result.data.result) {
+            const targetDate = new Date(i.dDay);
+            // 현재 날짜를 구하기
+            const currentDate = new Date();
+            // 두 날짜 간의 시간 차이 계산 (밀리초 단위)
+            const timeDiff = targetDate - currentDate;
+            // 밀리초를 일로 변환
+            const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            console.log(`D-${daysRemaining}`);
+
             const li = document.createElement("li");
-            li.innerHTML = `제목: ${i.title} <a href="/parties/${i.num}">게시글 상세페이지</a>`;
+            li.className +=
+              "list-group-item d-flex justify-content-between align-items-center";
+            li.innerHTML = `<span style="font-weight: bold;">${i.title} </span><span style="margin-left: 10px;
+    margin-right: 10px;">D-${daysRemaining}</span><a href="/parties/${i.num}"> 이동</a>`;
             myRoomTitle.appendChild(li);
           }
         });
