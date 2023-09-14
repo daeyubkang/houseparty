@@ -26,13 +26,25 @@ exports.connection = (io, socket) => {
             where: { id: otherId },
           });
           console.log(userImg);
-          roomList.push({
-            roomName: chatList[i].dataValues.roomID,
-            participant_num: participant.length,
-            participant: participant,
-            partiesId: chatList[i].dataValues.participant_id,
-            imgURL: userImg.imgURL,
-          });
+          if (!userImg) {
+            roomList.push({
+              roomID: chatList[i].dataValues.party_num,
+              roomName: chatList[i].dataValues.roomID,
+              participant_num: participant.length,
+              participant: participant,
+              partiesId: chatList[i].dataValues.participant_id,
+              imgURL: false,
+            });
+          } else {
+            roomList.push({
+              roomID: chatList[i].dataValues.party_num,
+              roomName: chatList[i].dataValues.roomID,
+              participant_num: participant.length,
+              participant: participant,
+              partiesId: chatList[i].dataValues.participant_id,
+              imgURL: userImg.imgURL,
+            });
+          }
         }
       }
     }
@@ -196,9 +208,29 @@ exports.connection = (io, socket) => {
     }
   });
 
-  socket.on("disconnect", () => {
-    if (socket.room) {
-      socket.leave(socket.room);
+  socket.on("disconnect1", async (userId, roomname, cb) => {
+    try {
+      socket.leave(roomname);
+      let participant = await Chat.findOne({
+        where: { roomID: roomname },
+      });
+      participant = participant.dataValues.participant_id.split(",");
+      let participantID = [];
+      for (let i = 0; i < participant.length; i++) {
+        if (participant[i] != userId) {
+          participantID.push(participant[i]);
+        }
+      }
+      const edit_participant = participantID.toString();
+      console.log(edit_participant, "sddsdsdss", getUsersInRoom(socket.room));
+      Chat.update(
+        { participant_id: edit_participant },
+        { where: { roomID: roomname } }
+      );
+      cb({ result: true });
+    } catch (error) {
+      console.log(error);
+      cb({ result: false });
     }
   });
 

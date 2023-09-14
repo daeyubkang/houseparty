@@ -32,12 +32,13 @@
       }
       /* 스크롤바 생성 */
       #msg {
-        height: 91%;
+        margin-top: 5px;
+        height: 85%;
         overflow-y: scroll;
       }
       #body {
-        margin-top: 20px;
-        width: 80vw;
+        margin-top: 5px;
+        width: 69vw;
         max-width: 800px;
         height: 70vh;
         position: relative;
@@ -110,6 +111,8 @@
         max-width: 800px;
         display: flex;
         align-items: center;
+        border-bottom: solid 1px black;
+        padding-bottom: 20px;
       }
       #lists button {
         width: 80px;
@@ -147,6 +150,13 @@
         background-color: beige;
         text-align: center;
       }
+      #userTitle {
+        display: flex;
+      }
+      #participantNum {
+        border-radius: 40%;
+        opacity: 40%;
+      }
     </style>
   </head>
   <body>
@@ -155,22 +165,13 @@
 
     <div id="album" class="album py-5 bg-body-tertiary">
       <div class="container">
-        <button
-          id="chatListButton"
-          hidden
-          onclick="chatList()"
-          class="btn btn-secondary"
-        >
-          채팅 목록 보기
-        </button>
-        <br />
-
         <div id="main">
           <h2 id="userTitle"></h2>
           <ul id="lists"></ul>
         </div>
 
         <div id="body" hidden>
+          <div id="exitButton" style="background-color: darkgray"></div>
           <div id="msg">
             <div id="notice"></div>
             <div id="messages"></div>
@@ -222,7 +223,7 @@
 
         document.querySelector(
           "#userTitle"
-        ).innerHTML = `${userId}님의 채팅목록`;
+        ).innerHTML = `<b>${userId}</b> <h5 style="margin-top: 15px;font-size: small; margin-left: 5px;">님의 채팅목록</h5>`;
         let result1 = "";
         const local = sessionStorage.getItem("token");
         console.log(local);
@@ -264,18 +265,19 @@
             }
 
             console.log(roomList.participant.length);
+            console.log(roomList);
             const li = document.createElement("li");
             if (roomList.roomName[0] == "단") {
               li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-                                <div class="fw-bold">${par}</div>
-                                  ${roomList.roomName}
+                                <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
+                                <a style="color: gray" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
                                 </div>
                                 <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
                               `;
             } else {
               li.innerHTML = `<img src="${roomList.imgURL}" alt="${par}" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-        <div class="fw-bold">${par}</div>
-        ${roomList.roomName}
+        <div class="fw-bold">[1:1] ${par}</div>
+        <a style="color: gray" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
       </div>
       <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
       `;
@@ -337,6 +339,16 @@
         console.log(name);
         const roomName = name;
         const userName = userId;
+        document.querySelector(
+          "#exitButton"
+        ).innerHTML = `<button style="width: 20%;opacity:60%;height: 34px;margin-left: 1%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px;"
+          id="chatListButton"
+          onclick="chatList()"
+          class="btn btn-secondary"
+        >
+          채팅 목록 보기
+        </button>
+        <button style="opacity:60%;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 10px;margin-bottom: 5px"; onclick="exitChatRoom('게시글번호1,eee,qwe')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
         socket.emit(
           "create",
@@ -409,17 +421,21 @@
         const ID = `단톡 게시글번호:${partyNum}`;
         socket.emit("create", ID, userId, partyNum, `단톡 ${userId}`, () => {
           console.log("방장 단톡 생성 완료");
-          socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
-            console.log("초대 단톡 생성 완료");
-          });
+          invite2(otherID);
         });
+      }
 
-        const msg = {
-          nick: userId,
-          user: "all",
-          message: `${otherID} 단톡방 초대 완료! 채팅목록을 확인해주세요!`,
-        };
-        socket.emit("sendMessage", msg);
+      function invite2(otherID) {
+        const ID = `단톡 게시글번호:${partyNum}`;
+        socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
+          console.log("초대 단톡 생성 완료");
+          const msg = {
+            nick: userId,
+            user: "all",
+            message: `${otherID} 단톡방 초대 완료! 채팅목록을 확인해주세요!`,
+          };
+          socket.emit("sendMessage", msg);
+        });
       }
 
       // let roomName1 = "";
@@ -510,6 +526,23 @@
           prepareScroll();
         }
       });
+
+      function exitChatRoom(roomname) {
+        const msg = {
+          nick: userId,
+          user: "all",
+          message: `${userId}님이 퇴장하였습니다.`,
+        };
+        socket.emit("sendMessage", msg);
+        socket.emit("disconnect1", userId, roomname, (res) => {
+          if (res) {
+            console.log("나가기 완료", res);
+            location.href = "/chat";
+          } else {
+            console.log("나가기 실패");
+          }
+        });
+      }
 
       // 준비 함수, 약간의 시간을 두어 scroll 함수를 호출하기
       function prepareScroll() {
