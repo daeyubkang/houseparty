@@ -214,7 +214,9 @@ exports.connection = (io, socket) => {
       let participant = await Chat.findOne({
         where: { roomID: roomname },
       });
+      console.log("111111", participant);
       participant = participant.dataValues.participant_id.split(",");
+      console.log("222222", participant);
       let participantID = [];
       for (let i = 0; i < participant.length; i++) {
         if (participant[i] != userId) {
@@ -222,14 +224,14 @@ exports.connection = (io, socket) => {
         }
       }
       const edit_participant = participantID.toString();
-      // console.log(edit_participant, "sddsdsdss", getUsersInRoom(socket.room));
-      Chat.update(
+      console.log(edit_participant, "sddsdsdss", getUsersInRoom(socket.room));
+      await Chat.update(
         { participant_id: edit_participant },
         { where: { roomID: roomname } }
       );
       cb({ result: true });
     } catch (error) {
-      // console.log(error);
+      console.error(error);
       cb({ result: false });
     }
   });

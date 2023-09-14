@@ -481,7 +481,7 @@
           >
             채팅 목록 보기
           </button>
-          <button style="opacity:60%;width: 100px;height: 34px;margin-left: 59%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom('게시글번호1,eee,qwe')" class="btn btn-danger">나가기</button>`;
+          <button style="opacity:60%;width: 100px;height: 34px;margin-left: 59%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom(\'${name}\')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
         socket.emit(
           "create",
@@ -660,21 +660,45 @@
         }
       });
 
-      function exitChatRoom(roomname) {
-        const msg = {
-          nick: userId,
-          user: "all",
-          message: `${userId}님이 퇴장하였습니다.`,
-        };
-        socket.emit("sendMessage", msg);
-        socket.emit("disconnect1", userId, roomname, (res) => {
+      // function exitChatRoom(roomname) {
+      //   const msg = {
+      //     nick: userId,
+      //     user: "all",
+      //     message: `${userId}님이 퇴장하였습니다.`,
+      //   };
+      //   socket.emit("sendMessage", msg)
+      //   socket.emit("disconnect1", userId, roomname, (res) => {
+      //     if (res) {
+      //       console.log("나가기 완료", res);
+      //       location.href = "/chat";
+      //     } else {
+      //       console.log("나가기 실패");
+      //     }
+      //   });
+      // }
+
+      async function exitChatRoom(roomname) {
+        try {
+          const msg = {
+            nick: userId,
+            user: "all",
+            message: `${userId}님이 퇴장하였습니다.`,
+          };
+          await socket.emit("sendMessage", msg);
+          const res = await new Promise((resolve) => {
+            socket.emit("disconnect1", userId, roomname, (result) => {
+              resolve(result);
+            });
+          });
           if (res) {
             console.log("나가기 완료", res);
             location.href = "/chat";
           } else {
             console.log("나가기 실패");
           }
-        });
+        } catch (error) {
+          console.error(error);
+        }
       }
 
       // 준비 함수, 약간의 시간을 두어 scroll 함수를 호출하기
