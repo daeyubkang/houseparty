@@ -32,7 +32,7 @@
         >
           파티 참여신청
         </button>
-
+        <% if(party.images && party.images.length > 0){ %>
         <div id="carouselExampleIndicators" class="carousel slide">
           <div class="carousel-indicators">
             <button
@@ -70,6 +70,10 @@
             </div>
             <% } %>
           </div>
+          <% } else { %>
+          <h2>사진이없습니다</h2>
+          <% } %>
+
           <button
             class="carousel-control-prev"
             type="button"
