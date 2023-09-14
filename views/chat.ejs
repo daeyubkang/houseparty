@@ -171,7 +171,6 @@
         }
         #partymain {
           width: 60%;
-          background: rgba(217, 217, 217, 0.3);
         }
         #chatmain {
           width: 70%;
@@ -222,13 +221,16 @@
         </h2>
         <ul id="myRoomTitle" class="list-group"></ul>
       </div>
-      <div id="chatmain" class="chatmain">
+      <div id="main" class="chatmain">
         <h2 id="userTitle"></h2>
         <ul id="lists"></ul>
       </div>
 
       <div id="body" hidden>
-        <div id="exitButton" style="background-color: darkgray"></div>
+        <div
+          id="exitButton"
+          style="background-color: darkgray; display: flex"
+        ></div>
         <div id="msg">
           <div id="notice"></div>
           <div id="messages"></div>
@@ -472,14 +474,14 @@
         const userName = userId;
         document.querySelector(
           "#exitButton"
-        ).innerHTML = `<button style="width: 20%;opacity:60%;height: 34px;margin-left: 1%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px;"
+        ).innerHTML = `<button style="width: 150px;opacity:60%;height: 34px;margin-left: 1%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px;"
             id="chatListButton"
             onclick="chatList()"
             class="btn btn-secondary"
           >
             채팅 목록 보기
           </button>
-          <button style="opacity:60%;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 10px;margin-bottom: 5px"; onclick="exitChatRoom('게시글번호1,eee,qwe')" class="btn btn-danger">나가기</button>`;
+          <button style="opacity:60%;width: 100px;height: 34px;margin-left: 59%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom('게시글번호1,eee,qwe')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
         socket.emit(
           "create",
