@@ -189,13 +189,17 @@ exports.hostPartyPost = async (req, res) => {
 
 exports.partyDetail = async (req, res) => {
   const party_num = req.params.partyNum;
+  const party_id = req.params.partyId;
   console.log("Param Party Num: ", party_num);
   const party = await Parties.findByPk(party_num, {
     include: [Amenities, Tags, Images],
   });
+  const user = await Users.findOne({
+    where: { id: party_id },
+  });
   //console.log("clicked Party: ", party);
 
-  res.render("partyDetail", { party });
+  res.render("partyDetail", { party, user });
 };
 
 exports.editParty = async (req, res, next) => {
