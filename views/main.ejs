@@ -6,21 +6,120 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/main.css" />
-    <link
+    <!-- <link
       rel="canonical"
       href="https://getbootstrap.com/docs/5.3/examples/album/"
-    />
-    <link
+    /> -->
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
-    />
+    /> -->
   </head>
   <body>
-    <%- include('./static/topBar') %>
-    <img src="/public/img/mainhome.png" alt="home image" class="mainHome" />
-    <%- include('./static/bottomBar') %>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginBar = document.querySelector(".loginOrLogoutBtn");
+        const loginCheck = sessionStorage.getItem("token");
+        if (loginCheck) {
+          const logoutButton = document.createElement("a");
+          logoutButton.href = "#"; //클릭시 logout함수 호출
+          logoutButton.textContent = "로그아웃";
+          logoutButton.classList.add("logout");
+          loginBar.appendChild(logoutButton);
+          logoutButton.addEventListener("click", logout);
+        } else {
+          const logintButton = document.createElement("a");
+          logintButton.href = "/signin";
+          logintButton.textContent = "로그인";
+          logintButton.classList.add("signin");
+          loginBar.appendChild(logintButton);
+        }
+        function logout() {
+          sessionStorage.removeItem("token");
+          window.location.href = "/main";
+        }
+      });
+    </script>
+
+    <div class="topBarBg">
+      <div class="topBar">
+        <p><a class="howsParty" href="/main"> How's Party </a></p>
+        <div class="topBar-right">
+          <p>
+            <a href="/parties"
+              ><img src="/public/img/parties.svg" alt="" /><b>파티목록</b></a
+            >
+          </p>
+          <p>
+            <a href="/chat"
+              ><img src="/public/img/chat.svg" alt="" /><b>채팅</b></a
+            >
+          </p>
+          <p>
+            <a href="/profile"
+              ><img src="/public/img/user.svg" alt="" /><b>마이페이지</b></a
+            >
+          </p>
+          <p class="loginOrLogoutBtn"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="content01">
+        <span>
+          <div class="text-wrap">
+            <h5></h5>
+            <h1>
+              환영합니다! <br />
+              How's Party
+            </h1>
+            <h4>
+              파티를 더 즐겁게 즐기고 싶나요?<br />
+              “How’s Party”는 파티를 더욱 기억에 남게 만들기 위한 곳입니다.
+            </h4>
+          </div>
+          <img src="/public/img/Group 76.png" alt="3" />
+        </span>
+      </div>
+      <div class="content02">
+        <div class="left">
+          <img src="/public/img/Group 80.png" alt="2" />
+        </div>
+        <div class="right">
+          <div>
+            여기서 우리와 함께하는 동안, 파티 계획, 재미있는 게임, 맛있는 음식
+            및 음료 아이디어, 그리고 손쉬운 장식 아이디어를 찾아보세요. 또한
+            여러분만의 독특한 아이디어를 공유하고 다른 파티 열려고 하는 분들에게
+            영감을 주세요.
+          </div>
+        </div>
+      </div>
+      <div class="content03">
+        <div class="left">
+          <div>
+            파티는 공유와 즐거움의 시간입니다. "How's Party"에서 파티를 준비하고
+            더욱 즐겁게 만들어보세요. 함께 즐거운 시간을 보내는 방법을 공유하고,
+            새로운 친구를 사귀고, 파티를 더욱 특별하게 만들어보세요.
+          </div>
+        </div>
+        <div class="right">
+          <img src="/public/img/Group 81.png" alt="2" />
+        </div>
+      </div>
+      <div class="content04">
+        <div class="text-wrap">
+          "Let's Party Like<br />
+          Never Before!"
+        </div>
+        <button class="custom-btn btn-12">
+          <span>회원가입</span><span>시작하기</span>
+        </button>
+      </div>
+    </div>
+
     <script>
       (function () {
         let result1 = "";
@@ -44,6 +143,40 @@
           console.log("로그인 실패");
         }
       })();
+
+      // scroll event
+      document.addEventListener("DOMContentLoaded", function () {
+        const navBarBg = document.querySelector(".topBarBg");
+        const topBarText = document.querySelectorAll(".topBarText");
+        const howsPartyLink = document.querySelector(".howsParty");
+
+        document.addEventListener("DOMContentLoaded", function () {
+          window.addEventListener("scroll", function () {
+            const navBarBg = document.querySelector(".topBarBg");
+            const howsPartyLink = document.querySelector(".howsParty");
+
+            if (window.scrollY > 0) {
+              navBarBg.style.backgroundColor = "#fff"; // 스크롤 내릴 때 배경색 변경
+              howsPartyLink.style.color = "#c94040"; // 스크롤 내릴 때 글자색 변경
+              topBarText.style.color = "#c94040"; // 스크롤 내릴 때 글자색 변경
+            } else {
+              navBarBg.style.backgroundColor = "transparent"; // 스크롤 올릴 때 배경색 원래대로
+              howsPartyLink.style.color = "#fff"; // 스크롤 올릴 때 글자색 원래대로
+              topBarText.style.color = "#fff"; // 스크롤 올릴 때 글자색 원래대로
+            }
+          });
+        });
+      });
+
+      // button event
+      document.addEventListener("DOMContentLoaded", function () {
+        const signUpButton = document.querySelector(".custom-btn.btn-12");
+
+        signUpButton.addEventListener("click", function () {
+          // /signup 페이지로 이동
+          window.location.href = "/signup";
+        });
+      });
     </script>
   </body>
 </html>
