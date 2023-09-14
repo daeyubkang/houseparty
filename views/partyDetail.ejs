@@ -5,42 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>파티 상세페이지</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- 부트스트랩 CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/public/css/partyDetail.css" />
   </head>
   <body>
-    <h1>파티 상세페이지</h1>
+    <div class="container">
+      <!-- 부트스트랩 CDN -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+      <h1>파티 상세페이지</h1>
 
-    <!-- 파티글 작성자의 id를 hidden값으로 받아옴 -->
-    <div hidden id="postedBy" data-value="<%= party.id %>"></div>
-    <!-- 파티의 party_num을 hidden값으로 받아옴 -->
-    <div hidden id="partyNum" data-value="<%= party.party_num %>"></div>
+      <!-- 파티글 작성자의 id를 hidden값으로 받아옴 -->
+      <div hidden id="postedBy" data-value="<%= party.id %>"></div>
+      <!-- 파티의 party_num을 hidden값으로 받아옴 -->
+      <div hidden id="partyNum" data-value="<%= party.party_num %>"></div>
 
-    <!-- 파티 참여신청 -->
-    <button
-      id="goChatRoom"
-      onclick="chatRoom(this.value)"
-      value="<%= party.party_num %>,<%= party.id %>"
-    >
-      파티 참여신청
-    </button>
+      <!-- 파티 참여신청 -->
+      <button
+        id="goChatRoom"
+        onclick="chatRoom(this.value)"
+        value="<%= party.party_num %>,<%= party.id %>"
+      >
+        파티 참여신청
+      </button>
 
-    파티 제목: <%= party.title %>
-    <br />
-    설명: <%= party.description %>
-    <br />파티 날짜: <%= party.date %> <br />
+      <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="0"
+            class="active"
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+          <% for(let i = 1; i < party.images.length; i++){ %>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="<%=i%>"
+            aria-label="Slide <%=i+1%>"
+          ></button>
+          <% } %>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="<%=party.images[0].img_URL%>"
+              class="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <% for(let i = 1; i < party.images.length; i++){%>
+          <div class="carousel-item">
+            <img
+              src="<%=party.images[i].img_URL%>"
+              class="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <% } %>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>파티 제목: <%= party.title %></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col tags">
+          파티 태그:
+        <% party.tags.forEach((tag) => { %>
+          <div class="tag"><%= tag.tag_name %></div>
+        <% }); %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">설명: <%= party.description %></div>
+      </div>
 
-    파티 태그:
-    <ul>
-      <% party.tags.forEach((tag) => { %>
-      <li><%= tag.tag_name %></li>
-      <% }); %>
-    </ul>
+      <br />파티 날짜: <%= party.date %> <br />
 
-    파티 규칙/시설:
-    <ul>
-      <% party.amenities.forEach((amenity) => { %>
-      <li><%= amenity.amen_name %></li>
-      <% }); %>
-    </ul>
+      
+
+      파티 규칙/시설:
+      <ul>
+        <% party.amenities.forEach((amenity) => { %>
+        <li><%= amenity.amen_name %></li>
+        <% }); %>
+      </ul>
+    </div>
 
     <script>
       (function () {

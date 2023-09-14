@@ -37,6 +37,9 @@ db.Parties.belongsTo(db.Users);
 db.Chat.hasMany(db.ChatMessage);
 db.ChatMessage.belongsTo(db.Chat);
 
+db.Parties.hasMany(db.Images, {
+  foreignKey: "party_num",
+});
 db.Images.belongsTo(db.Parties, {
   foreignKey: "party_num",
   onDelete: "CASCADE",

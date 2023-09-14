@@ -191,7 +191,7 @@ exports.partyDetail = async (req, res) => {
   const party_num = req.params.partyNum;
   console.log("Param Party Num: ", party_num);
   const party = await Parties.findByPk(party_num, {
-    include: [Amenities, Tags],
+    include: [Amenities, Tags, Images],
   });
   //console.log("clicked Party: ", party);
 
