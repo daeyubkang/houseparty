@@ -171,7 +171,7 @@ exports.connection = (io, socket) => {
     // console.log(message);
     // console.log(socket.room);
     ChatMessage.create({
-      chat_key: socket.room,
+      chat_key: message.room,
       send_id: message.nick,
       send_message: message.message,
     });
@@ -179,7 +179,7 @@ exports.connection = (io, socket) => {
       where: { id: message.nick },
     });
     if (message.user === "all") {
-      io.to(socket.room).emit(
+      io.to(message.room).emit(
         "newMessage",
         message.message,
         message.nick,

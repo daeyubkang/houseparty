@@ -392,6 +392,8 @@
           findTitle(myRoomList2);
         });
 
+        let roomid123;
+
         // if (partiesDataId) {
         //   let roomName1 = "";
         //   roomName1 = `게시글번호${partiesId},${partiesDataId},${userId}`;
@@ -487,6 +489,7 @@
       function roomEnter(name) {
         console.log(name);
         const roomName = name;
+        roomid123 = name;
         const userName = userId;
         document.querySelector(
           "#exitButton"
@@ -495,7 +498,7 @@
             onclick="chatList()"
             class="btn btn-secondary"
           >
-            채팅 목록 보기
+            채팅 목록
           </button>
           <button style="opacity:60%;width: 100px;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom(\'${name}\')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
@@ -557,7 +560,39 @@
         );
       }
 
-      function invite() {
+      // function invite() {
+      //   const par = participantID.split(",");
+      //   let otherID = "";
+      //   for (let i = 1; i < par.length; i++) {
+      //     if (par[i] != userId) {
+      //       otherID = par[i];
+      //       break;
+      //     }
+      //   }
+      //   console.log("invite", otherID, partyNum);
+      //   const ID = `단톡 게시글번호:${partyNum}`;
+      //   socket.emit("create", ID, userId, partyNum, `단톡 ${userId}`, () => {
+      //     console.log("방장 단톡 생성 완료");
+      //     invite2(otherID);
+      //   });
+      // }
+
+      // function invite2(otherID) {
+      //   console.log(roomid123);
+      //   const ID = `단톡 게시글번호:${partyNum}`;
+      //   socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
+      //     console.log("초대 단톡 생성 완료");
+      //     const msg = {
+      //       nick: userId,
+      //       user: "all",
+      //       message: `${otherID} 단톡방 초대 완료! 채팅목록을 확인해주세요!`,
+      //       room: roomid123,
+      //     };
+      //     socket.emit("sendMessage", msg);
+      //   });
+      // }
+
+      async function invite() {
         const par = participantID.split(",");
         let otherID = "";
         for (let i = 1; i < par.length; i++) {
@@ -568,23 +603,61 @@
         }
         console.log("invite", otherID, partyNum);
         const ID = `단톡 게시글번호:${partyNum}`;
-        socket.emit("create", ID, userId, partyNum, `단톡 ${userId}`, () => {
-          console.log("방장 단톡 생성 완료");
-          invite2(otherID);
-        });
+
+        try {
+          await new Promise((resolve, reject) => {
+            socket.emit(
+              "create",
+              ID,
+              userId,
+              partyNum,
+              `단톡 ${userId}`,
+              () => {
+                console.log("방장 단톡 생성 완료");
+                resolve();
+              }
+            );
+          });
+          await invite2(otherID);
+        } catch (error) {
+          console.error("Error in invite:", error);
+        }
       }
 
-      function invite2(otherID) {
+      async function invite2(otherID) {
+        console.log(roomid123);
         const ID = `단톡 게시글번호:${partyNum}`;
-        socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
-          console.log("초대 단톡 생성 완료");
+
+        try {
+          await new Promise((resolve, reject) => {
+            socket.emit(
+              "create",
+              ID,
+              otherID,
+              partyNum,
+              `단톡 ${userId}`,
+              () => {
+                console.log("초대 단톡 생성 완료");
+                resolve();
+              }
+            );
+          });
+
           const msg = {
             nick: userId,
             user: "all",
             message: `${otherID} 단톡방 초대 완료! 채팅목록을 확인해주세요!`,
+            room: roomid123,
           };
-          socket.emit("sendMessage", msg);
-        });
+
+          await new Promise((resolve, reject) => {
+            socket.emit("sendMessage", msg, () => {
+              resolve();
+            });
+          });
+        } catch (error) {
+          console.error("Error in invite2:", error);
+        }
       }
 
       // let roomName1 = "";
@@ -660,6 +733,7 @@
       });
 
       chatForm.addEventListener("click", (e) => {
+        console.log(roomid123);
         // e.preventDefault();
         const message = document.querySelector("#message");
         if (message.value == "") {
@@ -669,6 +743,7 @@
             nick: userId,
             user: "all",
             message: message.value,
+            room: roomid123,
           };
           socket.emit("sendMessage", msg);
           message.value = "";
@@ -699,6 +774,7 @@
             nick: userId,
             user: "all",
             message: `${userId}님이 퇴장하였습니다.`,
+            room: roomid123,
           };
           await socket.emit("sendMessage", msg);
           const res = await new Promise((resolve) => {
