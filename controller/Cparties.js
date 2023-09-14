@@ -15,7 +15,6 @@ exports.index = async (req, res) => {
   }
 };
 
-
 ///////////////////////
 // exports.search = async (req, res) => {
 //   try {
@@ -277,4 +276,16 @@ exports.deleteParty = async (req, res) => {
   } else {
     res.send("삭제 실패");
   }
+};
+
+exports.findTitle = async (req, res) => {
+  console.log("hello findTitle: ", req.body.roomID);
+  let array = [];
+  for (const value of req.body.roomID) {
+    const partyname = await Parties.findOne({
+      where: { party_num: value },
+    });
+    array.push({ title: partyname.title, num: partyname.party_num });
+  }
+  res.send({ result: array });
 };

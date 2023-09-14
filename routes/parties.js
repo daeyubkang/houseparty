@@ -24,4 +24,7 @@ router.put("/host/:partyNum", controller.editPartyPost);
 //게시글 삭제
 router.delete("/:partyNum", controller.deleteParty);
 
+//게시글 조회
+router.post("/findTitle", controller.findTitle);
+
 module.exports = router;

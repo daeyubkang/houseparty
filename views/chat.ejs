@@ -170,13 +170,7 @@
     <!-- <div class="container"> -->
     <div id="full" style="display: flex">
       <div id="main">
-        <ul>
-          <li>1</li>
-          <li>2</li>
-          <li>1</li>
-          <li>2</li>
-          <li>1</li>
-          <li>2</li>
+        <ul id="myRoomTitle">
           <li>1</li>
           <li>2</li>
         </ul>
@@ -258,10 +252,11 @@
           alert("로그인 하세요");
           location.href = "/main";
         }
+        let myRoomList = [];
         //룸리스트
         userId = sessionStorage.getItem("userId");
         console.log(userId);
-        socket.emit("roomList", userId, (roomList) => {
+        socket.emit("roomList", userId, async (roomList) => {
           console.log("roomList", roomList);
           const lists = document.querySelector("#lists");
           lists.textContent = "";
@@ -279,6 +274,7 @@
             console.log(roomList.participant.length);
             console.log(roomList);
             const li = document.createElement("li");
+            myRoomList.push(roomList.roomID);
             if (roomList.roomName[0] == "단") {
               li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
                                 <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
@@ -294,10 +290,15 @@
       <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
       `;
             }
-
             // li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
             lists.appendChild(li);
           });
+
+          console.log("중복 제거 룸 리스트1", myRoomList);
+          const myRoomList2 = [...new Set(myRoomList)];
+          console.log(myRoomList2);
+
+          findTitle(myRoomList2);
         });
 
         // if (partiesDataId) {
@@ -330,6 +331,26 @@
       if (partiesDataId) {
         const roomName1 = `게시글번호${partiesId},${partiesDataId},${userId}`;
         roomEnter(roomName1);
+      }
+
+      //게시글 제목 조회 함수
+      function findTitle(room) {
+        console.log("게시글 제목 조회", room);
+        axios({
+          method: "post",
+          url: `/parties/findTitle`,
+          data: {
+            roomID: room,
+          },
+        }).then((result) => {
+          console.log(result.data.result);
+          const myRoomTitle = document.querySelector("#myRoomTitle");
+          for (let i of result.data.result) {
+            const li = document.createElement("li");
+            li.innerHTML = `제목: ${i.title} <a href="/parties/${i.num}">게시글 상세페이지</a>`;
+            myRoomTitle.appendChild(li);
+          }
+        });
       }
 
       function chatList() {
