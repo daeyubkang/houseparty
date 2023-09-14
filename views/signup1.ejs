@@ -17,11 +17,11 @@
     <div class="container">
       <%- include('./static/topBar') %>
 
-      <span id="signup1_title"> 회원가입 </span>
       <form name="register" enctype="multipart/form-data">
         <div class="left">
+          <span id="signup1_title"> 회원가입 </span>
           <div id="imagePreview">
-            <img id="preview" src="" />
+            <img id="preview" src="" style="border-radius: 10px" />
           </div>
 
           <input
@@ -42,7 +42,7 @@
 
           <div class="top">
             <div class="idBox">
-              <img src="/public/img/id.svg" />
+              <img src="/public/img/id.svg" style="margin-right: 15px" />
               <input
                 type="text"
                 name="id"
@@ -61,7 +61,7 @@
               </button>
             </div>
             <div class="pwBox">
-              <img src="/public/img/pw.svg" />
+              <img src="/public/img/pw.svg" style="margin-right: 15px" />
               <input
                 type="password"
                 name="pw"
@@ -71,7 +71,7 @@
               />
             </div>
             <div class="pwCheckBox">
-              <img src="/public/img/pw.svg" />
+              <img src="/public/img/pw.svg" style="margin-right: 15px" />
               <input
                 type="password"
                 name="pwCheck"
@@ -85,7 +85,7 @@
         </div>
         <div class="bottom">
           <div class="nameBox">
-            <img src="/public/img/id.svg" />
+            <img src="/public/img/id.svg" style="margin-right: 15px" />
             <input
               type="text"
               name="name"
@@ -95,7 +95,7 @@
             />
           </div>
           <div class="birthBox">
-            <img src="/public/img/birth.svg" />
+            <img src="/public/img/birth.svg" style="margin-right: 15px" />
             <input
               type="date"
               name="birth"
@@ -124,7 +124,7 @@
             <label for="woman" id="womanLabel">여자</label>
           </div>
           <div class="phoneBox">
-            <img src="/public/img/phone.svg" />
+            <img src="/public/img/phone.svg" style="margin-right: 15px" />
             <input
               type="number"
               name="phone_number"
@@ -135,7 +135,11 @@
           </div>
           <div class="emailBox">
             <form id="emailForm">
-              <img src="/public/img/email.svg" class="emailImg" />
+              <img
+                src="/public/img/email.svg"
+                class="emailImg"
+                style="margin-right: 15px"
+              />
               <input
                 type="email"
                 id="email"
@@ -157,6 +161,7 @@
               src="/public/img/cancel.svg"
               class="emailCheckImg"
               id="emailCheckImg"
+              style="margin-right: 15px"
             />
             <input
               type="number"
@@ -203,7 +208,11 @@
                 <button type="button" id="submitAddress">확인</button>
               </div>
             </div>
-            <img src="/public/img/map.svg" class="addressImg" />
+            <img
+              src="/public/img/map.svg"
+              class="addressImg"
+              style="margin-right: 15px"
+            />
             <input
               type="text"
               placeholder="주소"

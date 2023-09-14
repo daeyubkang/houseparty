@@ -29,7 +29,8 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    margin-top: 100px;
+    width: 500px;
     height: 450px;
     border-radius: 10px;
     background-color: rgba(217, 217, 217, 0.3);
@@ -63,7 +64,7 @@ body {
     }
   }
   .idBox {
-    width: 70%;
+    width: 80%;
     padding: 15px 15px 15px 15px;
     border-radius: 10px 10px 0 0;
 
@@ -78,7 +79,7 @@ body {
     width: 100%;
   }
   .pwBox {
-    width: 70%;
+    width: 80%;
     padding: 15px 15px 15px 15px;
 
     background-color: rgba(217, 217, 217, 0.5);
@@ -100,7 +101,7 @@ body {
     }
   }
   .loginButton {
-    width: 50%;
+    width: 45%;
     flex-grow: 0;
     margin: 35px 39px 10px 48px;
     padding: 15px 15px 15px 15px;
@@ -171,7 +172,8 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    margin-top: 100px;
+    width: 750px;
     height: 450px;
     border-radius: 10px;
     background-color: rgb(255, 255, 255);
@@ -199,13 +201,9 @@ body {
     margin-bottom: 30px;
     width: 100%;
   }
-  @media screen and (max-width: 800px) {
-    .top {
-      width: 270px;
-    }
-  }
+
   .idBox {
-    width: 70%;
+    width: 45%;
     padding: 15px 15px 15px 15px;
     border-radius: 10px 10px 0 0;
 
@@ -220,7 +218,7 @@ body {
     width: 100%;
   }
   .pwBox {
-    width: 70%;
+    width: 45%;
     padding: 15px 15px 15px 15px;
 
     background-color: rgba(217, 217, 217, 0.5);
@@ -242,7 +240,7 @@ body {
     }
   }
   .loginButton {
-    width: 50%;
+    width: 25%;
     flex-grow: 0;
     margin: 35px 39px 10px 48px;
     padding: 15px 15px 15px 15px;
