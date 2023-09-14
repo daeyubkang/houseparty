@@ -22,16 +22,21 @@ body {
 .topBarBg {
   width: 100%;
   height: 80px;
-  background-color: #fff;
-  position: unset;
-  margin-bottom: 80px;
+
+  z-index: 1;
 }
 
 .topBar {
-  margin-top: 18px;
-  left: 0;
+  padding-top: 25px;
+  padding-left: 20px;
+
+  background-color: #fff;
+  position: unset;
+  margin-bottom: 80px;
+
+
+
   display: flex;
-  margin-left: 20px;
   width: 100%;
 }
 

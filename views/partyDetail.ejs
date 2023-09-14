@@ -14,89 +14,19 @@
   </head>
   <body>
     <%- include('./static/topBar') %>
-    <div class="album py-5 bg-body-tertiary">
+    <div class="album py-4 bg-body-tertiary">
       <div class="container">
         <!-- 부트스트랩 CDN -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-        <h1>파티 상세페이지</h1>
 
         <!-- 파티글 작성자의 id를 hidden값으로 받아옴 -->
         <div hidden id="postedBy" data-value="<%= party.id %>"></div>
         <!-- 파티의 party_num을 hidden값으로 받아옴 -->
         <div hidden id="partyNum" data-value="<%= party.party_num %>"></div>
 
-        <!-- 파티 참여신청 -->
-        <button
-          id="goChatRoom"
-          onclick="chatRoom(this.value)"
-          value="<%= party.party_num %>,<%= party.id %>"
-        >
-          파티 참여신청
-        </button>
-        <% if(party.images && party.images.length > 0){ %>
-        <div id="carouselExampleIndicators" class="carousel slide">
-          <div class="carousel-indicators">
-            <button
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide-to="0"
-              class="active"
-              aria-current="true"
-              aria-label="Slide 1"
-            ></button>
-            <% for(let i = 1; i < party.images.length; i++){ %>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide-to="<%=i%>"
-              aria-label="Slide <%=i+1%>"
-            ></button>
-            <% } %>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img
-                src="<%=party.images[0].img_URL%>"
-                class="d-block w-100"
-                alt="..."
-              />
-            </div>
-            <% for(let i = 1; i < party.images.length; i++){%>
-            <div class="carousel-item">
-              <img
-                src="<%=party.images[i].img_URL%>"
-                class="d-block w-100"
-                alt="..."
-              />
-            </div>
-            <% } %>
-          </div>
-          <% } else { %>
-          <h2>사진이없습니다</h2>
-          <% } %>
-
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
         <div class="row">
           <div class="col">
-            <h1><%= party.title %></h1>
+            <h1 class="title"><%= party.title %></h1>
           </div>
         </div>
         <div class="row">
@@ -108,20 +38,107 @@
         </div>
         <div class="row">
           <div class="col">
-            <h6>파티 날짜: <%= party.date %></h6>
+            <% const date = new Date(party.date); %>
+            <h6>
+              <%= date.getFullYear() %>년 <%= date.getMonth() + 1 %>월 <%=
+              date.getDate() %>일
+            </h6>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <h6>파티 시작시간</h6>
+            <h6>
+              <%= party.start_time.split(":")[0]%>시 <%=
+              party.start_time.split(":")[1]%>분 시작
+            </h6>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <h6>파티 위치</h6>
+            <h6>
+              <% const locationParts = user.location.split(' '); %><% if
+              (locationParts.length >= 3) { %> <%= locationParts[0] %> <%=
+              locationParts[1] %> <% } %>
+            </h6>
           </div>
         </div>
-        <hr />
+        <div class="row">
+          <div class="col">
+            <h6>정원 <%= party.head_count %>명</h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" style="display: flex">
+            <% if(party.images && party.images.length > 0){ %>
+            <div id="carouselExampleIndicators" class="carousel slide">
+              <div class="carousel-indicators">
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="0"
+                  class="active"
+                  aria-current="true"
+                  aria-label="Slide 1"
+                ></button>
+                <% for(let i = 1; i < party.images.length; i++){ %>
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="<%=i%>"
+                  aria-label="Slide <%=i+1%>"
+                ></button>
+                <% } %>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    src="<%=party.images[0].img_URL%>"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <% for(let i = 1; i < party.images.length; i++){%>
+                <div class="carousel-item">
+                  <img
+                    src="<%=party.images[i].img_URL%>"
+                    class="d-block w-100"
+                    alt="..."
+                  />
+                </div>
+                <% } %>
+              </div>
+              <% } else { %>
+              <h2>사진이없습니다</h2>
+              <% } %>
+
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <h3>설명</h3>
           <div class="col"><%= party.description %></div>
@@ -146,18 +163,29 @@
             <%} }); %>
           </div>
         </div>
-
+        <hr />
         <div class="row">
           <h3>파티장</h3>
-          <div class="col"><img src="<%=user.imgURL%>" alt="" /></div>
-          <div class="col">
+          <div class="col hostPic">
+            <img class="profile" src="<%=user.imgURL%>" alt="" />
+          </div>
+          <div class="col hostInfo">
             <h4 style="font-weight: bold"><%= user.id %></h4>
             <h5><%= user.birth %></h5>
-            <h5><%= user.hobby %></h5>
+            <h5 style="font-size: 15px"><%= user.hobby %></h5>
           </div>
         </div>
       </div>
     </div>
+    <!-- 파티 참여신청 -->
+    <div id="button"></div>
+    <button
+      id="goChatRoom"
+      onclick="chatRoom(this.value)"
+      value="<%= party.party_num %>,<%= party.id %>"
+    >
+      파티 참여신청
+    </button>
 
     <script>
       (function () {
@@ -177,14 +205,14 @@
             console.log(result.data.user.id);
             sessionStorage.setItem("userId", result.data.user.id);
             const postedBy = document.querySelector("#postedBy");
-            const body = document.querySelector("body");
+            const button = document.querySelector("#button");
             const joinParty = document.querySelector("#goChatRoom");
             console.log(postedBy.dataset.value);
             if (result.data.user.id === postedBy.dataset.value) {
-              body.insertAdjacentHTML(
-                "afterbegin",
+              button.insertAdjacentHTML(
+                "beforeend",
                 `<button id="editParty" type="button" onclick="editParty()">파티 수정</button>
-                <button id="deteleParty" type="button" onclick= "deleteParty()">파티 삭제</button>`
+                <button id="deleteParty" type="button" onclick="deleteParty()">파티 삭제</button>`
               );
               joinParty.setAttribute("hidden", "true");
             }
@@ -199,28 +227,21 @@
         const currentUserId = sessionStorage.getItem("userId");
         console.log(postedBy.dataset.value, currentUserId);
         document.location.href = `/parties/host/${partyNum.dataset.value}`;
-        // try {
-        //   const res = await axios({
-        //     method: "GET",
-        //     url: `/parties/host/${partyNum.dataset.value}`,
-        //   });
-        //   console.log("res", res);
-        // } catch (err) {
-        //   console.log(err);
-        // }
       }
 
       async function deleteParty() {
-        const partyNum = document.querySelector("#partyNum");
-        try {
-          const res = await axios({
-            method: "DELETE",
-            url: `/parties/${partyNum.dataset.value}`,
-          });
-          alert(res.data);
-          document.location.href = "/parties";
-        } catch (err) {
-          console.log(err);
+        if (confirm("정말 삭제하시겠습니까?")) {
+          const partyNum = document.querySelector("#partyNum");
+          try {
+            const res = await axios({
+              method: "DELETE",
+              url: `/parties/${partyNum.dataset.value}`,
+            });
+            alert(res.data);
+            document.location.href = "/parties";
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
 

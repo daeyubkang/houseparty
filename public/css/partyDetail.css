@@ -8,44 +8,25 @@
     margin: 0;
     background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
   }
+  .album {
+    width: 90%;
+  }
 
-  .topBar {
-    width: 360px;
-    padding: 14px 0 0;
-    background-color: #fff;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
+  .carousel {
+    margin-bottom: 30px;
   }
-  .howsParty {
-    width: 85px;
-    height: 27px;
-    margin: 0 165px 12px 15px;
-    font-family: Inter;
-    font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #bf2c47;
-    text-decoration: none;
+  #button {
+    display: flex;
+    width: 90vw;
   }
-  .signin {
-    width: 85px;
-    height: 27px;
-    position: absolute;
-    font-family: Inter;
-    font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #000;
-    text-decoration: none;
+
+  #goChatRoom {
+    width: 90%;
+    height: 50px;
+    font-size: 25px;
+    border: none;
+    color: white;
+    background-color: #bf2c47;
   }
 }
 
@@ -58,50 +39,84 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 50px 0 0 0;
     background-color: #ffffff;
     min-height: 100vh;
   }
-
-  .topBar {
-    width: 100%;
-    padding: 14px 0;
-    background-color: #fff;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    right: 0;
+  #button {
     display: flex;
-    justify-content: space-between; /* 양쪽 끝으로 정렬 */
+    width: 80vw;
   }
-  .howsParty {
-    margin: 0 15px 12px; /* 여백 조정 */
-    font-family: Inter;
-    font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #bf2c47;
-    text-decoration: none;
+
+  .album {
+    width: 80%;
   }
-  .signin {
-    width: 85px;
-    margin: 0 15px 12px; /* 여백 조정 */
-    font-family: Inter;
-    font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #000;
-    text-decoration: none;
+  #goChatRoom {
+    width: 80%;
+    height: 50px;
+    font-size: 25px;
+    border: none;
+    color: white;
+    background-color: #bf2c47;
   }
+
+  .car {
+    display: flex;
+  }
+  .carousel {
+    width: 50%;
+    margin: auto;
+    max-height: 100%;
+    margin-bottom: 30px;
+  }
+}
+#editParty {
+  border: none;
+  background-color: rgb(70, 0, 128);
+  color: white;
+  width: 50%;
+  height: 40px;
+  font-size: 18px;
+}
+
+#deleteParty {
+  border: none;
+  width: 50%;
+  height: 40px;
+  font-size: 18px;
+  background-color: rgb(134, 9, 9);
+  color: white;
+}
+
+.topBar {
+  background-color: white;
+}
+.hostPic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hostInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+h3 {
+  color: #bf2c47;
+}
+.profile {
+  width: 30vw;
+  max-width: 300px;
+  height: 30vw;
+  max-height: 300px;
+  border-radius: 50%;
+  background-color: beige;
+  text-align: center;
+  margin-left: 10%;
 }
 
 body {
@@ -132,7 +147,6 @@ body {
   margin-top: calc(-1 * var(--bs-gutter-y));
   /* 가로 스크롤바의 주범 */
   /* margin-right: calc(-0.1 * var(--bs-gutter-x)); */
-  margin-right: 0;
   margin-left: calc(-0.5 * var(--bs-gutter-x));
 }
 

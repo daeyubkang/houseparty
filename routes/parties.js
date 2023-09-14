@@ -46,13 +46,11 @@ router.post(
 );
 
 router.get("/parties", controller.search);
-
-//게시글별 파티 상세페이지
-router.get("/:partyNum/:partyId", controller.partyDetail);
-
 //게시글 수정
 router.get("/host/:partyNum", controller.editParty);
 router.put("/host/:partyNum", controller.editPartyPost);
+//게시글별 파티 상세페이지
+router.get("/:partyNum/:partyId", controller.partyDetail);
 
 //게시글 삭제
 router.delete("/:partyNum", controller.deleteParty);

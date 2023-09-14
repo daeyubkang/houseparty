@@ -22,7 +22,7 @@ const Model = (sequelize) => {
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(10000),
       allowNull: false,
     },
     date: {
