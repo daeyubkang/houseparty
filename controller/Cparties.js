@@ -1,4 +1,4 @@
-const { Users, Parties, Amenities, Tags } = require("../models");
+const { Users, Parties, Amenities, Tags, Images } = require("../models");
 
 exports.index = async (req, res) => {
   try {
@@ -131,8 +131,9 @@ exports.hostPartyPost = async (req, res) => {
       tags,
       party_location,
       amenities,
-      imgURL,
+      imgURLs,
     } = req.body;
+
     const party = await Parties.create({
       id,
       title,
@@ -143,8 +144,15 @@ exports.hostPartyPost = async (req, res) => {
       head_count,
       image,
       party_location,
-      //imgURL,
     });
+
+    const images = await Images.bulkCreate(
+      imgURLs.map((imgURL) => ({
+        img_URL: imgURL,
+        party_num: party.party_num,
+      }))
+    );
+
     //받은(선택된) 태그값을 파티 정보에 추가
     const selectedTagNames = tags;
     if (selectedTagNames.length > 0) {
@@ -161,6 +169,16 @@ exports.hostPartyPost = async (req, res) => {
       });
       await party.addAmenities(selectedAmenities);
     }
+
+    //받은(업로드한) 이미지URL값을 파티 정보에 추가
+    // const uploadedImgURLs = imgURLs;
+    // if (uploadedImgURLs.length > 0) {
+    //   const uploadedURLs = await Images.findAll({
+    //     where: { img_URL: uploadedImgURLs },
+    //   });
+    //   await party.addImages(uploadedURLs);
+    // }
+
     console.log("tags: ", tags);
     console.log("amenities: ", amenities);
     res.send(party);
@@ -173,7 +191,7 @@ exports.partyDetail = async (req, res) => {
   const party_num = req.params.partyNum;
   console.log("Param Party Num: ", party_num);
   const party = await Parties.findByPk(party_num, {
-    include: [Amenities, Tags],
+    include: [Amenities, Tags, Images],
   });
   //console.log("clicked Party: ", party);
 

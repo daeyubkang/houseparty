@@ -560,6 +560,7 @@
       <input
         type="file"
         id="imageInput"
+        name="image"
         accept="image/*"
         style="display: none"
         onchange="previewImage()"
@@ -691,27 +692,33 @@
       }
 
       // 업로드 이미지
-      async function uploadImage() {
+      async function uploadImages() {
         const imageInput = document.getElementById("imageInput");
-        const selectedImages = imageInput.files;
-        console.log("selectedImages", selectedImages);
+        const selectedImages = Array.from(imageInput.files);
+        const imgURLs = [];
+
         if (selectedImages) {
           try {
             const formData = new FormData();
             selectedImages.forEach((image) => {
               formData.append("image", image);
+              console.log("selectedImage", image);
             });
 
             // 이미지를 업로드할 엔드포인트로 POST 요청 보내기
-            const res = await axios.post("host/upload", formData, {
+            const res = await axios.post("/parties/host/upload", formData, {
               headers: {
                 "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
               },
             });
-            console.log(res.data.file.location);
-            const imgURL = res.data.file.location;
-            console.log(imgURL);
-            return imgURL;
+            console.log("res.data.files", res.data.files);
+
+            for (const file of res.data.files) {
+              imgURLs.push(file.location);
+            }
+
+            console.log("imgURLs", imgURLs);
+            return imgURLs;
 
             alert("이미지 업로드가 완료되었습니다.");
           } catch (error) {
@@ -725,53 +732,47 @@
       //게시글 업로드
       async function postParty(e) {
         e.preventDefault();
-        const imgURL = await uploadImage();
-        console.log("imgURL", imgURL);
-        const data = {
-          id,
-          title: document.querySelector("#title").value,
-          description: document.querySelector("#description").value,
-          date: document.querySelector("#date").value,
-          startTime: document.querySelector("#startTime").value,
-          // endTime: document.querySelector("#endTime").value,
-          head_count: document.querySelector("#headCount").value,
-          tags: [],
-          amenities: [],
-          // imgURL,
-        };
-
-        //선택된 태그를 Array에 Push
-        const selectedTags = document.querySelectorAll(".selected-tags");
-        selectedTags.forEach((select) => {
-          data.tags.push(select.value);
-        });
-
-        //선택된 어메니티를 Array에 Push
-        const selectedAmenities = document.querySelectorAll(
-          ".selected-amenities"
-        );
-        selectedAmenities.forEach((select) => {
-          data.amenities.push(select.value);
-        });
-
         try {
+          const imgURLs = await uploadImages();
+          console.log("imgURLs", imgURLs);
+          const data = {
+            id,
+            title: document.querySelector("#title").value,
+            description: document.querySelector("#description").value,
+            date: document.querySelector("#date").value,
+            startTime: document.querySelector("#startTime").value,
+            // endTime: document.querySelector("#endTime").value,
+            head_count: document.querySelector("#headCount").value,
+            tags: [],
+            amenities: [],
+            imgURLs,
+          };
+
+          //선택된 태그를 Array에 Push
+          const selectedTags = document.querySelectorAll(".selected-tags");
+          selectedTags.forEach((select) => {
+            data.tags.push(select.value);
+          });
+
+          //선택된 어메니티를 Array에 Push
+          const selectedAmenities = document.querySelectorAll(
+            ".selected-amenities"
+          );
+          selectedAmenities.forEach((select) => {
+            data.amenities.push(select.value);
+          });
+
           const result = await axios({
             method: "POST",
             url: "/parties/host",
             data,
           });
 
-          //amenities.push(selected.value);
-
-          // const amenitiesbu = querySelectorAll('button[name="amenities"]');
-          // checkboxes.forEach( => {
-
-          // });
           console.log("result:", result);
-          await uploadImage();
+          await uploadImages();
           if (result.data) {
             alert("글쓰기 완료");
-            document.location.href = "/parties";
+            // document.location.href = "/parties";
           }
         } catch (err) {
           console.log(err);
