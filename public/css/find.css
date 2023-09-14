@@ -1,0 +1,261 @@
+body {
+  margin: 0;
+  background-color: #fff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container > form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+}
+
+#find_title_id {
+  width: 180px;
+  height: 24px;
+  margin: 20px 143px 20px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+
+.top {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+@media screen and (max-width: 800px) {
+  .top {
+    width: 270px;
+  }
+}
+
+.nameBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px 10px 0 0;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.top .name {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.birthBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  border-bottom: 0;
+  display: flex;
+}
+
+.top .birth {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.top .birth2 {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.phoneBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 10px 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.phoneBox2 {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 0 0;
+  border-bottom: 0;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.top .phoneNumber {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.top .phoneNumber2 {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.findId {
+  width: 300px;
+  flex-grow: 0;
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px;
+  border: solid 1px #fff;
+  background-color: #bf2c47;
+  color: white;
+}
+.findId:hover {
+  background-color: #791a2c;
+}
+.findIdResult {
+  padding: 10px;
+  border-radius: 15px;
+  background-color: rgba(217, 217, 217, 0.5);
+  color: gray;
+  display: flex;
+}
+
+.top .findIdResult {
+  border: 0;
+  margin-top: 15px;
+  width: 80%;
+  min-width: 270px;
+}
+#find_title_pw {
+  width: 180px;
+  height: 24px;
+  margin: 40px 143px 20px;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+}
+.idBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.top .id {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.findPwResult {
+  width: 270px;
+  padding: 10px;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: rgba(217, 217, 217, 0.5);
+  color: gray;
+  display: flex;
+}
+
+.top .findPwResult {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.emailCheck {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.emailImg {
+  width: 15px;
+}
+.top .email {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.emailsubmit {
+  width: 60px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 0.2s;
+  background-color: #bf2c47;
+  border: 0px;
+}
+.emailsubmit:hover {
+  background-color: #791a2c;
+}
+.emailCheckBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.emailCheckImg {
+  width: 15px;
+}
+.top .emailCheckNum {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+.emailCheckSubmit {
+  width: 60px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 0.2s;
+  background-color: #bf2c47;
+  border: 0px;
+}
+.emailCheckSubmit:hover {
+  background-color: #791a2c;
+}
+.pwBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 0 0;
+  border: solid 1px #000;
+  border-bottom: 0;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+.top .pw {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}
+
+.pwCheckBox {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border-radius: 0 0 10px 10px;
+  border: solid 1px #000;
+  background-color: rgba(217, 217, 217, 0.5);
+  display: flex;
+}
+
+.top .pwCheck {
+  border: 0;
+  background-color: rgb(217 217 217 / 0%);
+  width: 100%;
+}

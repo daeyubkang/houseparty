@@ -13,6 +13,10 @@ const Model = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    amen_category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 };
 

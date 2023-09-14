@@ -4,9 +4,17 @@ const app = express();
 const PORT = 8000;
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const http = require("http");
+const SocketIO = require("socket.io");
+require("dotenv").config();
+
+//소켓
+const server = http.createServer(app);
+const io = SocketIO(server);
+const socketRouter = require("./routes/socket");
+socketRouter(io);
 
 app.use("/public", express.static(__dirname + "/public"));
-
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
@@ -44,26 +52,31 @@ app.use("/chat", chatRouter);
 const profileRouter = require("./routes/profile");
 app.use("/profile", profileRouter);
 
+const profile1Router = require("./routes/profile1");
+app.use("/profile1", profile1Router);
+
+const profile2Router = require("./routes/profile2");
+app.use("/profile2", profile2Router);
+
 const verifyRouter = require("./routes/verify");
 app.use("/verify", verifyRouter);
 
 const loginRouter = require("./routes/login");
 app.use("/login", loginRouter);
 
-//
-const signup1Router = require("./routes/signup1");
-app.use("/signup1", signup1Router);
-
-const signup2Router = require("./routes/signup2");
-app.use("/signup2", signup2Router);
+const signupHobbyRouter = require("./routes/signupHobby");
+app.use("/signupHobby", signupHobbyRouter);
 
 const partiesSearchRouter = require("./routes/paritesSearch");
 app.use("/partiesSearch", partiesSearchRouter);
 
+const findRouter = require("./routes/find");
+app.use("/find", findRouter);
+
 app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/", (req, res) => {
-  res.render("index");
+  res.render("main");
 });
 
 //오류처리
@@ -75,7 +88,7 @@ app.use("*", (req, res) => {
 //force:true 항상 테이블을 삭제 후 재생성
 //force:false(default) 테이블이 존재하면 패쓰, 없으면 생성
 db.sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
   });
 });

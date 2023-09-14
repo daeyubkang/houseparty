@@ -1,0 +1,114 @@
+.bottombar {
+  display: flex; /* 자식 요소들을 가로로 나란히 배치하기 위해 flex 사용 */
+  width: 360px; /* 부모 요소의 너비에 따라 자식 요소들을 가로로 나란히 정렬 */
+  justify-content: center;
+}
+
+.leftBottomBar,
+.rightBottomBar {
+  flex-grow: 1; /* 각 요소를 동일한 너비로 확장합니다. */
+  height: 55px;
+  backdrop-filter: blur(4px);
+  border: solid 1px #000;
+  background-color: #fff;
+  display: flex;
+  align-items: center; /* 내부 내용을 세로로 가운데 정렬합니다. */
+  justify-content: space-evenly;
+}
+
+.leftBottomBar {
+  border-radius: 0 45px 0 0;
+  width: 70px;
+}
+
+.rightBottomBar {
+  border-radius: 45px 0 0 0;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background-color: #bf2c47;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  border-color: #ffffff00;
+  color: white;
+}
+
+.a {
+  text-decoration: none;
+}
+.bottom {
+  font-size: 10px;
+}
+.select {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.selectimg {
+  width: 20px;
+  height: 20px;
+}
+span {
+  color: #000;
+}
+
+@media screen and (min-width: 800px) {
+  .bottombar {
+    display: flex;
+    width: 80%;
+    justify-content: center;
+  }
+
+  .leftBottomBar,
+  .rightBottomBar {
+    flex-grow: 1; /* 각 요소를 동일한 너비로 확장합니다. */
+    height: 55px;
+    backdrop-filter: blur(4px);
+    border: solid 1px #000;
+    background-color: #fff;
+    display: flex;
+    align-items: center; /* 내부 내용을 세로로 가운데 정렬합니다. */
+    justify-content: space-evenly;
+  }
+
+  .leftBottomBar {
+    border-radius: 0 45px 0 0;
+    width: 70px;
+  }
+
+  .rightBottomBar {
+    border-radius: 45px 0 0 0;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    background-color: #bf2c47;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    border-color: #ffffff00;
+    color: white;
+    font-size: 25px;
+  }
+  .a {
+    text-decoration: none;
+  }
+  .bottom {
+    font-size: 10px;
+  }
+  .select {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .selectimg {
+    width: 20px;
+    height: 20px;
+  }
+}

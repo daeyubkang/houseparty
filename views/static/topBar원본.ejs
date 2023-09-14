@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/static/topBar.css" />
+  </head>
+  <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginBar = document.querySelector(".topBar");
+        const loginCheck = sessionStorage.getItem("token");
+        if (loginCheck) {
+          const logoutButton = document.createElement("a");
+          logoutButton.href = "#"; //클릭시 logout함수 호출
+          logoutButton.textContent = "로그이웃";
+          logoutButton.classList.add("logout");
+          loginBar.appendChild(logoutButton);
+          logoutButton.addEventListener("click", logout);
+        } else {
+          const logintButton = document.createElement("a");
+          logintButton.href = "/signin";
+          logintButton.textContent = "로그인";
+          logintButton.classList.add("signin");
+          loginBar.appendChild(logintButton);
+        }
+        function logout() {
+          sessionStorage.removeItem("token");
+          window.location.href = "/main";
+        }
+      });
+    </script>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a>
+      <a href="/parties">파티목록</a>
+      <a href="/chat">채팅</a>
+      <a href="/mypage">마이페이지</a>
+    </div>
+  </body>
+</html>

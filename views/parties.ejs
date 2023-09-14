@@ -6,6 +6,7 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/public/css/parties.css" />
+
     <link
       rel="canonical"
       href="https://getbootstrap.com/docs/5.3/examples/album/"
@@ -19,17 +20,24 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
+    <div class="topBar">
+      <a class="howsParty" href="/main"> How's Party </a
+      ><a class="signin" href="/signin">login</a>
+    </div>
     <h1>Parties</h1>
     <button onclick="write1()">글쓰기</button>
     <ul>
       <% for (let i = 0; i < parties.length; i++) { %>
       <li>
         <b><%= parties[i].id %></b> -
-        <a><%= parties[i].title %></a>
+
+        <a href="/parties/<%=parties[i].party_num%><%= parties[i].title %>"></a>
+
         <p><%= parties[i].party_num %></p>
         <button
+          id="goChatRoom"
           onclick="chatRoom(this.value)"
-          value="<%= parties[i].party_num %>"
+          value="<%= parties[i].party_num %>,<%= parties[i].id %>"
         >
           채팅방 이동
         </button>
@@ -63,14 +71,14 @@
           </div>
         </form>
         <div class="tag">
-          <% for (let i = 0; i < parties.length; i++) { %>
+          <% for (let i = 0; i < allTags.length; i++){ %>
           <button
             class="tagButton"
             id="tagButton"
-            value="<%= parties[i].tag %>"
-            onclick="tagSearchFunc(`<%= parties[i].tag %>`)"
+            value="<%= allTags[i].tag_name %>"
+            onclick="tagSearchFunc(`<%= allTags[i].tag_name %>`)"
           >
-            #<%= parties[i].tag %>
+            <%= allTags[i].tag_name %>
           </button>
           <% } %>
         </div>
@@ -78,9 +86,16 @@
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
           style="margin-top: 10px"
         >
+          <div id="partyLength" data-value="<%=parties.length%>">
+            총 <%=parties.length%> 개 파티
+          </div>
           <% for (let i = 0; i < parties.length; i++) { %>
           <div class="col">
-            <div class="card shadow-sm hidden party-card">
+            <div
+              class="card shadow-sm hidden party-card"
+              id="<%=i+1%>"
+              data-value="<%=parties[i].party_num%>"
+            >
               <svg
                 class="bd-placeholder-img card-img-top"
                 width="100%"
@@ -138,6 +153,17 @@
         </div>
       </div>
     </div>
+    <div>
+      <button
+        type="button"
+        id="writeButton"
+        class="writeButton"
+        onclick="writeFunc()"
+      >
+        <span>파티 열기</span>
+      </button>
+    </div>
+
     <div class="bottombar">
       <div class="leftBottomBar">
         <a href="/parties" class="a">
@@ -172,6 +198,15 @@
       </div>
     </div>
     <script>
+      // //카드 마우스 효과 실행
+      // const cards = document.querySelectorAll(".card");
+      // cards.forEach((card) => {
+      //   card.addEventListener("mouseleave", () => {
+      //     card.style.transform = "scale(1)"; //원래 크기로 돌아감
+      //     card.style.boxShaow = "0 4px 8px rgba(0, 0, 0, 0.1)"; //원래 그림자로 돌아감
+      //   });
+      // });
+      localStorage.clear("searchItem");
       (function () {
         let result1 = "";
         const local = sessionStorage.getItem("token");
@@ -188,6 +223,15 @@
           }).then((result) => {
             result1 = result;
             console.log(result1.data.user.id);
+            sessionStorage.setItem("userId", result1.data.user.id);
+
+            const buttons = document.querySelectorAll("#goChatRoom");
+            buttons.forEach((element) => {
+              console.log(element.value.split(",")[1]);
+              if (result1.data.user.id == element.value.split(",")[1]) {
+                element.hidden = true;
+              }
+            });
           });
         } else {
           console.log("로그인 실패");
@@ -205,6 +249,7 @@
       async function searchFunc() {
         const searchValue = document.getElementById("searchInput").value;
         console.log(searchValue);
+        localStorage.setItem("searchItem", searchValue);
         try {
           const res = await axios({
             method: "get",
@@ -234,8 +279,19 @@
           console.log(err);
         }
       }
+      function writeFunc() {
+        location.href = `/parties/host`;
+      }
+
+      //파티카드 누르면 해당파티 상세페이지로 이동
+      const partyLength = document.getElementById("partyLength");
+      for (let i = 0; i < partyLength.dataset.value; i++) {
+        const cardLink = document.getElementById(`${i + 1}`);
+        cardLink.addEventListener("click", () => {
+          //console.log(cardLink.dataset.value);
+          window.location.href = `/parties/${cardLink.dataset.value}`;
+        });
+      }
     </script>
-    <!-- <script>
-    </script> -->
   </body>
 </html>

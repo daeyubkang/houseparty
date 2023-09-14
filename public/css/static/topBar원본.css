@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap");
+
+.topBar {
+  width: 360px;
+  margin-top: 30px;
+  background-color: #fff;
+  z-index: 1000;
+  top: 0;
+}
+.howsParty {
+  width: 85px;
+  height: 27px;
+  margin: 0 190px 12px 15px;
+  font-family: "Covered By Your Grace", cursive;
+  font-size: 30px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #bf2c47;
+  text-decoration: none;
+}
+.signin {
+  width: 85px;
+  height: 27px;
+  font-size: 30px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+.logout {
+  width: 85px;
+  height: 27px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+@media screen and (min-width: 800px) {
+  .topBar {
+    width: 80%;
+    margin-top: 30px;
+    background-color: #fff0;
+    z-index: 1000;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .howsParty {
+    margin: 0 15px 12px; /* 여백 조정 */
+    font-family: "Covered By Your Grace", cursive;
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #bf2c47;
+    text-decoration: none;
+  }
+  .signin {
+    width: 85px;
+    margin: 0 15px 12px; /* 여백 조정 */
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+  .logout {
+    width: 85px;
+    height: 27px;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+}
+
+/* a태그 초기화 */
+a {
+  color: black;
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  color: black;
+}

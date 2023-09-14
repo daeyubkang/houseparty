@@ -35,6 +35,12 @@ router.get("/", controller.index);
 
 router.post("/", controller.signupPost);
 
+router.post("/hobby", controller.signupHobby);
+
 router.post("/upload", imageUpload.single("image"), controllerImg.uploadImage);
+
+router.post("/EmailAuthentication", controller.EmailAuthentication);
+
+router.post("/checkId", controller.checkId);
 
 module.exports = router;

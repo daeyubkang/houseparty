@@ -1,3 +1,3 @@
 exports.index = (req, res) => {
-  res.render("signup2");
+  res.render("signupHobby");
 };

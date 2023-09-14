@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap");
+
+/* a태그 초기화 */
+a {
+  color: black;
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  width: 100%;
+  display: block;
+}
+
+.topBarBg {
+  width: 100%;
+  height: 80px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+}
+
+.topBar {
+  display: flex;
+  margin-left: 20px;
+
+  position: fixed;
+}
+
+.topBar > p {
+  width: 50%;
+  margin-top: 5px;
+}
+.topBar > .topBar-right {
+  width: 50%;
+  display: flex;
+}
+.topBar > .topBar-right > p {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topBar > .topBar-right > p > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topBar .topBar-right > p:last-child {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.topBar > .topBar-right img {
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+
+.howsParty {
+  color: #c94040;
+  font-family: "Covered By Your Grace", cursive;
+  font-size: 25px;
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .topBar-right b:nth-child(-n + 3) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .howsParty {
+    color: #c94040;
+    font-family: "Covered By Your Grace", cursive;
+    font-size: 20px;
+    margin-left: 20px;
+  }
+  .topBar > p {
+    width: 40%;
+    margin-top: 5px;
+  }
+}
