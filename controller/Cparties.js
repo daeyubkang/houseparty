@@ -125,9 +125,7 @@ exports.hostPartyPost = async (req, res) => {
       description,
       date,
       start_time,
-      end_time,
       head_count,
-      image,
       tags,
       party_location,
       amenities,
@@ -140,9 +138,7 @@ exports.hostPartyPost = async (req, res) => {
       description,
       date,
       start_time,
-      end_time,
       head_count,
-      image,
       party_location,
     });
 
@@ -205,7 +201,7 @@ exports.partyDetail = async (req, res) => {
 exports.editParty = async (req, res, next) => {
   try {
     const party_num = req.params.partyNum;
-
+    console.log("partynumdfm", party_num);
     const party = await Parties.findByPk(party_num, {
       include: [Amenities, Tags],
     });
@@ -233,12 +229,13 @@ exports.editPartyPost = async (req, res) => {
       description,
       date,
       start_time,
-      end_time,
+
       head_count,
-      image,
+
       tags,
       party_location,
       amenities,
+      imgURLs,
     } = req.body;
 
     await Parties.update(
@@ -248,15 +245,25 @@ exports.editPartyPost = async (req, res) => {
         description,
         date,
         start_time,
-        end_time,
+
         head_count,
-        image,
+
         party_location,
       },
       { where: { party_num } }
     );
 
     const updatedParty = await Parties.findByPk(party_num);
+
+    const deletePreviousImage = await Images.destroy({
+      where: { party_num },
+    });
+    const newImages = await Images.bulkCreate(
+      imgURLs.map((imgURL) => ({
+        img_URL: imgURL,
+        party_num: updatedParty.party_num,
+      }))
+    );
 
     await updatedParty.setTags([]);
     await updatedParty.setAmenities([]);

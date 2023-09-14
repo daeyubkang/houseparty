@@ -1,4 +1,4 @@
-const { Parties, Tags, Amenities } = require("../models");
+const { Parties, Tags, Amenities, Images } = require("../models");
 const { Op } = require("sequelize");
 
 exports.search = async (req, res) => {
@@ -18,11 +18,7 @@ exports.search = async (req, res) => {
       });
     }
     const parties = await Parties.findAll({
-      include: [Tags, Amenities],
-      where: {
-        // title 또는 tag에서 검색어를 포함하는 경우 가져옵니다.
-        [Op.or]: findWhere,
-      },
+      include: [Tags, Amenities, Images],
     });
     const allTags = await Tags.findAll({
       attributes: ["tag_num", "tag_name", "tag_category", "tag_category_num"],

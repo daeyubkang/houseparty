@@ -16,20 +16,19 @@ a:active {
 
 body {
   width: 100%;
-  display: block;
   font-family: "Gowun Dodum", sans-serif;
 }
 
 .topBarBg {
-  margin-top: 18px;
   width: 100%;
   height: 80px;
+  z-index: 1;
 }
 
 .topBar {
-  left: 0;
+  padding-top: 25px;
+  padding-left: 20px;
   display: flex;
-  margin-left: 20px;
   width: 100%;
   position: fixed;
 }

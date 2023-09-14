@@ -17,17 +17,11 @@
   <body>
     <!-- 부트스트랩 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <div class="topBar">
-      <a class="howsParty" href="/main"> How's Party </a
-      ><a class="signin" href="/signin">login</a>
-    </div>
-    <br />
-
-    <% if(isEdit){ %> <% const selectedTagNames = []; %> <%
-    party.tags.forEach((tag) => { %> <% selectedTagNames.push(tag.tag_name,
-    tag.tag_num); %> <% }); %> <% console.log("selectedTagNames",
-    selectedTagNames);%> <% const selectedAmenNames = []; %> <%
-    party.amenities.forEach((amen) => { %> <%
+    < <%- include('./static/topBar') %> <% if(isEdit){ %> <% const
+    selectedTagNames = []; %> <% party.tags.forEach((tag) => { %> <%
+    selectedTagNames.push(tag.tag_name, tag.tag_num); %> <% }); %> <%
+    console.log("selectedTagNames", selectedTagNames);%> <% const
+    selectedAmenNames = []; %> <% party.amenities.forEach((amen) => { %> <%
     selectedAmenNames.push(amen.amen_name, amen.amen_num); %> <% }); %> <%
     console.log("selectedAmenNames", selectedAmenNames);%>
     <div
@@ -43,254 +37,312 @@
     <div hidden id="partyHostId" data-value="<%= party.id %>"></div>
     <div hidden id="partyNum" data-value="<%= party.party_num %>"></div>
 
-    <h1>파티 수정하기</h1>
+    <div class="container">
+      <h1>파티 수정하기</h1>
 
-    <form class="row g-3 was-validated" novalidate onsubmit="editParty(event)">
-      <div class="col-md-4">
-        <label for="title" class="form-label">제목</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          placeholder="제목"
-          value="<%=party.title%>"
-          required
-        />
-        <div class="valid-feedback">좋은 제목이네요</div>
-        <div class="invalid-feedback">제목을 입력해주세요</div>
-      </div>
+      <form
+        class="row g-3 was-validated"
+        novalidate
+        onsubmit="editParty(event)"
+        enctype="multipart/form-data"
+      >
+        <div class="col-md-4">
+          <label for="title" class="form-label">제목</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="제목"
+            value="<%=party.title%>"
+            required
+          />
+          <div class="valid-feedback">좋은 제목이네요</div>
+          <div class="invalid-feedback">제목을 입력해주세요</div>
+        </div>
 
-      <div class="mb-3">
-        <label for="description" class="form-label">내용</label>
-        <textarea
-          class="form-control"
-          id="description"
-          placeholder="파티를 설명해주세요"
-          required
-        >
+        <div class="mb-3">
+          <label for="description" class="form-label">내용</label>
+          <textarea
+            class="form-control"
+            id="description"
+            placeholder="파티를 설명해주세요"
+            required
+          >
 <%=party.description%></textarea
+          >
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="col-md-4">
+          <label for="date" class="form-label">날짜</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            value="<%=party.date%>"
+            required
+          />
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="col-md-4">
+          <label for="startTime" class="form-label">시작시간</label>
+          <input
+            type="time"
+            class="form-control"
+            id="startTime"
+            value="<%=party.start_time%>"
+            required
+          />
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="col-md-4">
+          <label for="headCount" class="form-label">인원수 (나 포함)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="headCount"
+            value="<%=party.head_count%>"
+            required
+          />
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <label class="form-label"
+          >내 파티를 설명하는 태그를 골라주세요(필수)</label
         >
-        <div class="valid-feedback"></div>
-        <div class="invalid-feedback"></div>
-      </div>
+        <div class="container">
+          <div class="row">
+            <% for(let i = 0; i < allTags.length; i++){ %> <%
+            if(allTags[i].tag_category_num == 0 &&
+            selectedTagNames.includes(allTags[i].tag_name)){ %>
+            <div class="col-3 col-md-1 col-lg-1">
+              <button
+                name="tags"
+                class="btn btn-primary maintag selected-tags <%= allTags[i].tag_name.length > 3 ? 'small-font' : '' %>"
+                type="button"
+                data-bs-toggle="collapse"
+                href="#<%=allTags[i].tag_num%>"
+                aria-controls="<%=allTags[i].tag_num%>"
+                aria-expanded="true"
+                aria-checked="true"
+                id="<%= allTags[i].tag_name %>"
+                value="<%= allTags[i].tag_name %>"
+              >
+                <%= allTags[i].tag_name %>
+              </button>
+            </div>
+            <% }else if(allTags[i].tag_category_num == 0){ %>
+            <div class="col-3 col-md-1 col-lg-1">
+              <button
+                name="tags"
+                class="btn btn-primary maintag <%= allTags[i].tag_name.length > 3 ? 'small-font' : '' %>"
+                type="button"
+                data-bs-toggle="collapse"
+                href="#<%=allTags[i].tag_num%>"
+                aria-controls="<%=allTags[i].tag_num%>"
+                aria-expanded="false"
+                aria-checked="false"
+                id="<%= allTags[i].tag_name %>"
+                value="<%= allTags[i].tag_name %>"
+              >
+                <%= allTags[i].tag_name %>
+              </button>
+            </div>
+            <% }%><% } %>
+          </div>
+        </div>
 
-      <div class="col-md-4">
-        <label for="date" class="form-label">날짜</label>
-        <input
-          type="date"
-          class="form-control"
-          id="date"
-          value="<%=party.date%>"
-          required
-        />
-        <div class="valid-feedback"></div>
-        <div class="invalid-feedback"></div>
-      </div>
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="1">
+              <% for(let i = 0; i < allTags.length; i++){ %> <%
+              if(allTags[i].tag_category === "술"){ %>
+              <button
+                class="small tags"
+                type="button"
+                name="tags"
+                role="checkbox"
+                aria-checked="false"
+                value="<%= allTags[i].tag_name %>"
+              >
+                <%= allTags[i].tag_name %>
+              </button>
+              <%}%> <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="8">
+              <% for(let i = 0; i < allTags.length; i++){ %> <%
+              if(allTags[i].tag_category === "언어"){ %>
+              <button
+                class="small tags"
+                type="button"
+                name="tags"
+                role="checkbox"
+                aria-checked="false"
+                value="<%= allTags[i].tag_name %>"
+              >
+                <%= allTags[i].tag_name %>
+              </button>
+              <%}%> <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="14">
+              <% for(let i = 0; i < allTags.length; i++){ %> <%
+              if(allTags[i].tag_category === "문화생활"){ %>
+              <button
+                class="small tags"
+                type="button"
+                name="tags"
+                role="checkbox"
+                aria-checked="false"
+                value="<%= allTags[i].tag_name %>"
+              >
+                <%= allTags[i].tag_name %>
+              </button>
+              <%}%> <% } %>
+            </div>
+          </div>
+        </div>
 
-      <div class="col-md-4">
-        <label for="startTime" class="form-label">시작시간</label>
-        <input
-          type="time"
-          class="form-control"
-          id="startTime"
-          value="<%=party.start_time%>"
-          required
-        />
-        <div class="valid-feedback"></div>
-        <div class="invalid-feedback"></div>
-      </div>
-
-      <div class="col-md-4">
-        <label for="headCount" class="form-label">인원수 (나 포함)</label>
-        <input
-          type="number"
-          class="form-control"
-          id="headCount"
-          value="<%=party.head_count%>"
-          required
-        />
-        <div class="valid-feedback"></div>
-        <div class="invalid-feedback"></div>
-      </div>
-
-      <label class="form-label">내 파티를 설명하는 태그를 골라주세요</label>
-      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="23">
+              <% for(let i = 0; i < allTags.length; i++){ %> <%
+              if(allTags[i].tag_category === "게임"){ %>
+              <button
+                class="small tags"
+                type="button"
+                name="tags"
+                role="checkbox"
+                aria-checked="false"
+                value="<%= allTags[i].tag_name %>"
+              >
+                <%= allTags[i].tag_name %>
+              </button>
+              <%}%> <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="37">
+              <% for(let i = 0; i < allTags.length; i++){ %> <%
+              if(allTags[i].tag_category === "식사"){ %>
+              <button
+                class="small tags"
+                type="button"
+                name="tags"
+                role="checkbox"
+                aria-checked="false"
+                value="<%= allTags[i].tag_name %>"
+              >
+                <%= allTags[i].tag_name %>
+              </button>
+              <%}%> <% } %>
+            </div>
+          </div>
+        </div>
+        <label class="form-label">원하는 나이/성별이 있나요?(선택사항)</label>
         <div class="row">
           <% for(let i = 0; i < allTags.length; i++){ %> <%
-          if(allTags[i].tag_category_num == 0 &&
-          selectedTagNames.includes(allTags[i].tag_name)){ %>
-          <div class="col-3 col-md-1 col-lg-1">
-            <button
-              name="tags"
-              class="btn btn-primary maintag selected-tags <%= allTags[i].tag_name.length > 3 ? 'small-font' : '' %>"
-              type="button"
-              data-bs-toggle="collapse"
-              href="#<%=allTags[i].tag_num%>"
-              aria-controls="<%=allTags[i].tag_num%>"
-              aria-expanded="true"
-              aria-checked="true"
-              id="<%= allTags[i].tag_name %>"
-              value="<%= allTags[i].tag_name %>"
-            >
-              <%= allTags[i].tag_name %>
-            </button>
-          </div>
-          <% }else if(allTags[i].tag_category_num == 0){ %>
-          <div class="col-3 col-md-1 col-lg-1">
+          if(allTags[i].tag_category_num == 6){ %>
+          <div class="col-4 col-md-1 col-lg-1">
             <button
               name="tags"
               class="btn btn-primary maintag <%= allTags[i].tag_name.length > 3 ? 'small-font' : '' %>"
               type="button"
-              data-bs-toggle="collapse"
-              href="#<%=allTags[i].tag_num%>"
-              aria-controls="<%=allTags[i].tag_num%>"
-              aria-expanded="false"
-              aria-checked="false"
-              id="<%= allTags[i].tag_name %>"
               value="<%= allTags[i].tag_name %>"
+              aria-checked="false"
             >
               <%= allTags[i].tag_name %>
             </button>
           </div>
-          <% }%><% } %>
+          <% } %> <% } %>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col">
-          <div class="collapse multi-collapse" id="1">
-            <% for(let i = 0; i < allTags.length; i++){ %> <%
-            if(allTags[i].tag_category === "술"){ %>
-            <button
-              type="button"
-              name="tags"
-              role="checkbox"
-              aria-checked="false"
-              value="<%= allTags[i].tag_name %>"
-            >
-              <%= allTags[i].tag_name %>
-            </button>
-            <%}%> <% } %>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="collapse multi-collapse" id="8">
-            <% for(let i = 0; i < allTags.length; i++){ %> <%
-            if(allTags[i].tag_category === "언어"){ %>
-            <button
-              type="button"
-              name="tags"
-              role="checkbox"
-              aria-checked="false"
-              value="<%= allTags[i].tag_name %>"
-            >
-              <%= allTags[i].tag_name %>
-            </button>
-            <%}%> <% } %>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="collapse multi-collapse" id="14">
-            <% for(let i = 0; i < allTags.length; i++){ %> <%
-            if(allTags[i].tag_category === "문화생활"){ %>
-            <button
-              type="button"
-              name="tags"
-              role="checkbox"
-              aria-checked="false"
-              value="<%= allTags[i].tag_name %>"
-            >
-              <%= allTags[i].tag_name %>
-            </button>
-            <%}%> <% } %>
-          </div>
-        </div>
-      </div>
+        <label class="form-label">장소에 관련된 규칙을 선택해주세요:</label>
 
-      <div class="row">
-        <div class="col">
-          <div class="collapse multi-collapse" id="23">
-            <% for(let i = 0; i < allTags.length; i++){ %> <%
-            if(allTags[i].tag_category === "게임"){ %>
+        <div class="row">
+          <div class="col">
+            <% for(let i = 0; i < allAmens.length; i++){ %> <%
+            if(allAmens[i].amen_category === "규칙"){ %>
             <button
+              class="small amens"
               type="button"
-              name="tags"
+              name="amenities"
               role="checkbox"
               aria-checked="false"
-              value="<%= allTags[i].tag_name %>"
+              value="<%= allAmens[i].amen_name %>"
             >
-              <%= allTags[i].tag_name %>
+              <%= allAmens[i].amen_name %>
             </button>
             <%}%> <% } %>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="collapse multi-collapse" id="37">
-            <% for(let i = 0; i < allTags.length; i++){ %> <%
-            if(allTags[i].tag_category === "식사"){ %>
+
+        <label class="form-label">장소에 구비된 시설을 선택해주세요:</label>
+
+        <div class="row">
+          <div class="col">
+            <% for(let i = 0; i < allAmens.length; i++){ %> <%
+            if(allAmens[i].amen_category === "시설"){ %>
             <button
+              class="small amens"
               type="button"
-              name="tags"
+              name="amenities"
               role="checkbox"
               aria-checked="false"
-              value="<%= allTags[i].tag_name %>"
+              value="<%= allAmens[i].amen_name %>"
             >
-              <%= allTags[i].tag_name %>
+              <%= allAmens[i].amen_name %>
             </button>
             <%}%> <% } %>
           </div>
         </div>
-      </div>
+        <label for="">사진을 업로드해주세요:</label>
+        <div class="col-12 imageupload">
+          <!-- 이미지 업로드 -->
 
-      <label class="form-label">장소에 관련된 규칙을 선택해주세요:</label>
+          <div id="imagePreview"></div>
 
-      <div class="row">
-        <div class="col">
-          <% for(let i = 0; i < allAmens.length; i++){ %> <%
-          if(allAmens[i].amen_category === "규칙"){ %>
+          <input
+            type="file"
+            id="imageInput"
+            name="image"
+            accept="image/*"
+            style="display: none"
+            onchange="previewImage()"
+            multiple
+          />
+
           <button
             type="button"
-            name="amenities"
-            role="checkbox"
-            aria-checked="false"
-            value="<%= allAmens[i].amen_name %>"
+            class="ImgButton"
+            onclick="document.getElementById('imageInput').click()"
           >
-            <%= allAmens[i].amen_name %>
+            이미지 선택
           </button>
-          <%}%> <% } %>
         </div>
-      </div>
 
-      <label class="form-label">장소에 구비된 시설을 선택해주세요:</label>
-
-      <div class="row">
-        <div class="col">
-          <% for(let i = 0; i < allAmens.length; i++){ %> <%
-          if(allAmens[i].amen_category === "시설"){ %>
-          <button
-            type="button"
-            name="amenities"
-            role="checkbox"
-            aria-checked="false"
-            value="<%= allAmens[i].amen_name %>"
-          >
-            <%= allAmens[i].amen_name %>
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit" id="submit">
+            수정 완료
           </button>
-          <%}%> <% } %>
         </div>
-      </div>
-
-      <div class="col-12">
-        <button class="btn btn-primary" type="submit">수정 완료</button>
-      </div>
-    </form>
-
+      </form>
+    </div>
     <script>
       // const testButton = document.querySelector("#술");
       // const testTags = document.querySelector("#multiCollapseExample1");
@@ -552,29 +604,30 @@
         </div>
         <br />
         <br />
+        <label for="">사진을 업로드해주세요:</label>
+        <div class="col-12 imageupload">
+          <!-- 이미지 업로드 -->
 
-        <!-- 이미지 업로드 -->
-        <div id="imagePreview">
-          <img id="preview" src="" />
+          <div id="imagePreview"></div>
+
+          <input
+            type="file"
+            id="imageInput"
+            name="image"
+            accept="image/*"
+            style="display: none"
+            onchange="previewImage()"
+            multiple
+          />
+
+          <button
+            type="button"
+            class="ImgButton"
+            onclick="document.getElementById('imageInput').click()"
+          >
+            이미지 선택
+          </button>
         </div>
-
-        <input
-          type="file"
-          id="imageInput"
-          name="image"
-          accept="image/*"
-          style="display: none"
-          onchange="previewImage()"
-          multiple
-        />
-
-        <button
-          type="button"
-          class="ImgButton"
-          onclick="document.getElementById('imageInput').click()"
-        >
-          이미지 선택
-        </button>
 
         <div class="col-12">
           <button class="btn btn-primary" type="submit" id="submit">
@@ -679,9 +732,11 @@
             const reader = new FileReader();
             reader.onload = function (e) {
               var image = new Image();
+              image.width = 100;
               image.height = 100;
               image.title = file.name;
               image.src = this.result;
+              image.classList.add("images");
               imagePreview.appendChild(image);
             };
             reader.readAsDataURL(file);
@@ -741,8 +796,7 @@
             title: document.querySelector("#title").value,
             description: document.querySelector("#description").value,
             date: document.querySelector("#date").value,
-            startTime: document.querySelector("#startTime").value,
-            // endTime: document.querySelector("#endTime").value,
+            start_time: document.querySelector("#startTime").value,
             head_count: document.querySelector("#headCount").value,
             tags: [],
             amenities: [],
@@ -819,35 +873,37 @@
       //게시글 수정
       async function editParty(e) {
         e.preventDefault();
-        const partyNum = document.querySelector("#partyNum");
-        const data = {
-          party_num: partyNum.dataset.value,
-          id,
-          title: document.querySelector("#title").value,
-          description: document.querySelector("#description").value,
-          date: document.querySelector("#date").value,
-          startTime: document.querySelector("#startTime").value,
-          // endTime: document.querySelector("#endTime").value,
-          head_count: document.querySelector("#headCount").value,
-          tags: [],
-          amenities: [],
-        };
-
-        //선택된 태그를 Array에 Push
-        const selectedTags = document.querySelectorAll(".selected-tags");
-        selectedTags.forEach((select) => {
-          data.tags.push(select.value);
-        });
-
-        //선택된 어메니티를 Array에 Push
-        const selectedAmenities = document.querySelectorAll(
-          ".selected-amenities"
-        );
-        selectedAmenities.forEach((select) => {
-          data.amenities.push(select.value);
-        });
-
         try {
+          const imgURLs = await uploadImages();
+          console.log("imgURLs", imgURLs);
+          const partyNum = document.querySelector("#partyNum");
+          const data = {
+            party_num: partyNum.dataset.value,
+            id,
+            title: document.querySelector("#title").value,
+            description: document.querySelector("#description").value,
+            date: document.querySelector("#date").value,
+            start_time: document.querySelector("#startTime").value,
+            head_count: document.querySelector("#headCount").value,
+            tags: [],
+            amenities: [],
+            imgURLs,
+          };
+
+          //선택된 태그를 Array에 Push
+          const selectedTags = document.querySelectorAll(".selected-tags");
+          selectedTags.forEach((select) => {
+            data.tags.push(select.value);
+          });
+
+          //선택된 어메니티를 Array에 Push
+          const selectedAmenities = document.querySelectorAll(
+            ".selected-amenities"
+          );
+          selectedAmenities.forEach((select) => {
+            data.amenities.push(select.value);
+          });
+
           const result = await axios({
             method: "PUT",
             url: `/parties/host/${partyNum}`,
@@ -855,6 +911,7 @@
           });
 
           console.log("result:", result);
+          await uploadImages();
           if (result.data) {
             alert("수정 완료");
             document.location.href = "/parties";
