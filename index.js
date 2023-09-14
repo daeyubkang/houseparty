@@ -58,6 +58,9 @@ app.use("/profile1", profile1Router);
 const profile2Router = require("./routes/profile2");
 app.use("/profile2", profile2Router);
 
+const profile4Router = require("./routes/profile4");
+app.use("/profile4", profile4Router);
+
 const verifyRouter = require("./routes/verify");
 app.use("/verify", verifyRouter);
 

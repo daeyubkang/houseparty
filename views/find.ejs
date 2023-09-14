@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/public/css/find.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -11,164 +10,172 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <title>Document</title>
+    <link rel="stylesheet" href="/public/css/find.css" />
   </head>
   <body>
     <div class="container">
       <%- include('./static/topBar') %>
-      <span id="find_title_id">아이디 찾기</span>
-      <form name="findIdForm">
-        <div class="top">
-          <div class="nameBox">
-            <img src="/public/img/id.svg" />
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="name"
-              placeholder="이름"
-            />
-          </div>
-          <div class="birthBox">
-            <img src="/public/img/birth.svg" />
-            <input
-              type="date"
-              name="birth"
-              id="birth"
-              class="birth"
-              placeholder="생년월일"
-            />
-          </div>
-          <div class="phoneBox">
-            <img src="/public/img/phone.svg" />
-            <input
-              type="number"
-              name="phone_number"
-              id="phone_number"
-              class="phoneNumber"
-              placeholder="휴대전화 번호"
-            />
-          </div>
-          <br />
-          <button
-            type="button"
-            id="findId"
-            class="findId"
-            onclick="findIdFunc()"
-          >
-            찾기
-          </button>
-
-          <div id="findIdResult" class="findIdResult">
-            회원님 아이디는 ~~~입니다.
-          </div>
-        </div>
-      </form>
-      <span id="find_title_pw">비밀번호 재설정</span>
-      <form name="updataPwForm">
-        <div class="top">
-          <div class="nameBox">
-            <img src="/public/img/id.svg" />
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="name"
-              placeholder="이름"
-            />
-          </div>
-          <div class="idBox">
-            <img src="/public/img/id.svg" />
-            <input
-              type="text"
-              name="id"
-              id="id"
-              class="id"
-              placeholder="아이디"
-            />
-          </div>
-          <div class="birthBox">
-            <img src="/public/img/birth.svg" />
-            <input
-              type="date"
-              name="birth2"
-              id="birth2"
-              class="birth2"
-              placeholder="생년월일"
-            />
-          </div>
-          <div class="phoneBox2">
-            <img src="/public/img/phone.svg" />
-            <input
-              type="number"
-              name="phone_number"
-              id="phone_number"
-              class="phoneNumber2"
-              placeholder="휴대전화 번호"
-            />
-          </div>
-          <div class="emailCheck">
-            <img src="/public/img/email.svg" class="emailImg" />
-            <input type="email" id="email" class="email" placeholder="이메일" />
+      <div class="maxCss">
+        <form name="findIdForm" class="findIdForm">
+          <div class="top">
+            <span id="find_title_id">아이디 찾기</span>
+            <div class="nameBox">
+              <img src="/public/img/id.svg" />
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="name"
+                placeholder="이름"
+              />
+            </div>
+            <div class="birthBox">
+              <img src="/public/img/birth.svg" />
+              <input
+                type="date"
+                name="birth"
+                id="birth"
+                class="birth"
+                placeholder="생년월일"
+              />
+            </div>
+            <div class="phoneBox">
+              <img src="/public/img/phone.svg" />
+              <input
+                type="number"
+                name="phone_number"
+                id="phone_number"
+                class="phoneNumber"
+                placeholder="휴대전화 번호"
+              />
+            </div>
+            <br />
             <button
               type="button"
-              class="emailsubmit"
-              onclick="sendEmailVerification()"
+              id="findId"
+              class="findId"
+              onclick="findIdFunc()"
             >
-              전송
+              찾기
             </button>
+
+            <div id="findIdResult" class="findIdResult">
+              회원님 아이디는 ~~~입니다.
+            </div>
           </div>
-          <div class="emailCheckBox">
-            <img
-              src="/public/img/cancel.svg"
-              class="emailCheckImg"
-              id="emailCheckImg"
-            />
-            <input
-              type="number"
-              id="emailCheckNum"
-              class="emailCheckNum"
-              placeholder="인증번호"
-            />
+        </form>
+        <form name="updataPwForm" class="updataPwForm">
+          <div class="top">
+            <span id="find_title_pw">비밀번호 재설정</span>
+            <div class="nameBox">
+              <img src="/public/img/id.svg" />
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="name"
+                placeholder="이름"
+              />
+            </div>
+            <div class="idBox">
+              <img src="/public/img/id.svg" />
+              <input
+                type="text"
+                name="id"
+                id="id"
+                class="id"
+                placeholder="아이디"
+              />
+            </div>
+            <div class="birthBox">
+              <img src="/public/img/birth.svg" />
+              <input
+                type="date"
+                name="birth2"
+                id="birth2"
+                class="birth2"
+                placeholder="생년월일"
+              />
+            </div>
+            <div class="phoneBox2">
+              <img src="/public/img/phone.svg" />
+              <input
+                type="number"
+                name="phone_number"
+                id="phone_number"
+                class="phoneNumber2"
+                placeholder="휴대전화 번호"
+              />
+            </div>
+            <div class="emailCheck">
+              <img src="/public/img/email.svg" class="emailImg" />
+              <input
+                type="email"
+                id="email"
+                class="email"
+                placeholder="이메일"
+              />
+              <button
+                type="button"
+                class="emailsubmit"
+                onclick="sendEmailVerification()"
+              >
+                전송
+              </button>
+            </div>
+            <div class="emailCheckBox">
+              <img
+                src="/public/img/cancel.svg"
+                class="emailCheckImg"
+                id="emailCheckImg"
+              />
+              <input
+                type="number"
+                id="emailCheckNum"
+                class="emailCheckNum"
+                placeholder="인증번호"
+              />
+              <button
+                type="button"
+                class="emailCheckSubmit"
+                onclick="emailCheckSubmit()"
+              >
+                확인
+              </button>
+            </div>
+            <div class="pwBox">
+              <img src="/public/img/pw.svg" />
+              <input
+                type="password"
+                name="pw"
+                id="pw"
+                class="pw"
+                placeholder="비밀번호"
+              />
+            </div>
+            <div class="pwCheckBox">
+              <img src="/public/img/pw.svg" />
+              <input
+                type="password"
+                name="pwCheck"
+                id="pwCheck"
+                class="pwCheck"
+                placeholder="비밀번호 확인"
+              />
+            </div>
+            <br />
+
             <button
               type="button"
-              class="emailCheckSubmit"
-              onclick="emailCheckSubmit()"
+              id="findId"
+              class="findId"
+              onclick="updatePwFunc()"
             >
-              확인
+              재설정
             </button>
           </div>
-          <div class="pwBox">
-            <img src="/public/img/pw.svg" />
-            <input
-              type="password"
-              name="pw"
-              id="pw"
-              class="pw"
-              placeholder="비밀번호"
-            />
-          </div>
-          <div class="pwCheckBox">
-            <img src="/public/img/pw.svg" />
-            <input
-              type="password"
-              name="pwCheck"
-              id="pwCheck"
-              class="pwCheck"
-              placeholder="비밀번호 확인"
-            />
-          </div>
-          <br />
-
-          <button
-            type="button"
-            id="findId"
-            class="findId"
-            onclick="updatePwFunc()"
-          >
-            재설정
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </body>
   <script>
