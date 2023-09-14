@@ -282,6 +282,7 @@ body {
   }
   .maxCss {
     display: flex;
+    margin-top: 100px;
   }
   .maxCss > form {
     display: flex;
