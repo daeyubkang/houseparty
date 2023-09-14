@@ -29,10 +29,7 @@ const Model = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    image: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
-    },
+
     head_count: {
       type: DataTypes.STRING(50),
       allowNull: true,
@@ -47,13 +44,6 @@ const Model = (sequelize) => {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    image: {
-      type: DataTypes.STRING(50),
-
-
-      allowNull: true,
-    },
-    
   });
 };
 

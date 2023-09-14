@@ -2,7 +2,7 @@ const { STRING } = require("sequelize");
 const { Users, Parties, Chat, ChatMessage } = require("../models");
 
 exports.connection = (io, socket) => {
-  console.log("접속");
+  // console.log("접속");
 
   //채팅방 목록 보내기
   socket.on("roomList", async (userName, cb) => {
@@ -11,7 +11,7 @@ exports.connection = (io, socket) => {
       attributes: ["roomID", "party_num", "participant_id", "host_id"],
     });
     for (let i = 0; i < chatList.length; i++) {
-      console.log("chatLists", chatList[i]);
+      // console.log("chatLists", chatList[i]);
       const participant = chatList[i].dataValues.participant_id.split(",");
       for (let j = 0; j < participant.length; j++) {
         if (participant[j] == userName) {
@@ -21,16 +21,30 @@ exports.connection = (io, socket) => {
               otherId = element;
             }
           });
+          // console.log(otherId);
           const userImg = await Users.findOne({
             where: { id: otherId },
           });
-          roomList.push({
-            roomName: chatList[i].dataValues.roomID,
-            participant_num: participant.length,
-            participant: participant,
-            partiesId: chatList[i].dataValues.participant_id,
-            imgURL: userImg.imgURL,
-          });
+          // console.log(userImg);
+          if (!userImg) {
+            roomList.push({
+              roomID: chatList[i].dataValues.party_num,
+              roomName: chatList[i].dataValues.roomID,
+              participant_num: participant.length,
+              participant: participant,
+              partiesId: chatList[i].dataValues.participant_id,
+              imgURL: false,
+            });
+          } else {
+            roomList.push({
+              roomID: chatList[i].dataValues.party_num,
+              roomName: chatList[i].dataValues.roomID,
+              participant_num: participant.length,
+              participant: participant,
+              partiesId: chatList[i].dataValues.participant_id,
+              imgURL: userImg.imgURL,
+            });
+          }
         }
       }
     }
@@ -41,7 +55,7 @@ exports.connection = (io, socket) => {
   socket.on(
     "create",
     async (roomName, userName, partiesId, partiesDataId, cb) => {
-      console.log(roomName);
+      // console.log(roomName);
       let roomName1 = "";
       if (roomName.split(" ")[0] == "단톡") {
         roomName1 = userName;
@@ -52,7 +66,7 @@ exports.connection = (io, socket) => {
       const chatroomExist = await Chat.findOne({
         where: { roomID: roomName },
       });
-      console.log("chatroomExist", chatroomExist);
+      // console.log("chatroomExist", chatroomExist);
       if (!chatroomExist) {
         Chat.create({
           roomID: roomName,
@@ -81,13 +95,13 @@ exports.connection = (io, socket) => {
         const beforeChat = await ChatMessage.findAll({
           where: { chat_key: roomName },
         });
-        console.log("beforeChat", beforeChat);
+        // console.log("beforeChat", beforeChat);
         let send_before_chat = [];
         for (let i = 0; i < beforeChat.length; i++) {
           const imgURL = await Users.findOne({
             where: { id: beforeChat[i].dataValues.send_id },
           });
-          console.log("beforeChat", beforeChat[i].dataValues.send_message);
+          // console.log("beforeChat", beforeChat[i].dataValues.send_message);
           let send_time = beforeChat[i].dataValues.createdAt;
           send_time += 9;
           const inputDateString = send_time;
@@ -103,7 +117,7 @@ exports.connection = (io, socket) => {
           // "YY-MM-DD HH:mm" 형식으로 날짜와 시간을 조합
           const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-          console.log(formattedDate);
+          // console.log(formattedDate);
           send_before_chat.push({
             send_id: beforeChat[i].dataValues.send_id,
             send_message: beforeChat[i].dataValues.send_message,
@@ -153,9 +167,9 @@ exports.connection = (io, socket) => {
     // "YY-MM-DD HH:mm" 형식으로 날짜와 시간을 조합
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-    console.log(formattedDate);
-    console.log(message);
-    console.log(socket.room);
+    // console.log(formattedDate);
+    // console.log(message);
+    // console.log(socket.room);
     ChatMessage.create({
       chat_key: socket.room,
       send_id: message.nick,
@@ -194,9 +208,31 @@ exports.connection = (io, socket) => {
     }
   });
 
-  socket.on("disconnect", () => {
-    if (socket.room) {
-      socket.leave(socket.room);
+  socket.on("disconnect1", async (userId, roomname, cb) => {
+    try {
+      socket.leave(roomname);
+      let participant = await Chat.findOne({
+        where: { roomID: roomname },
+      });
+      console.log("111111", participant);
+      participant = participant.dataValues.participant_id.split(",");
+      console.log("222222", participant);
+      let participantID = [];
+      for (let i = 0; i < participant.length; i++) {
+        if (participant[i] != userId) {
+          participantID.push(participant[i]);
+        }
+      }
+      const edit_participant = participantID.toString();
+      console.log(edit_participant, "sddsdsdss", getUsersInRoom(socket.room));
+      await Chat.update(
+        { participant_id: edit_participant },
+        { where: { roomID: roomname } }
+      );
+      cb({ result: true });
+    } catch (error) {
+      console.error(error);
+      cb({ result: false });
     }
   });
 
@@ -204,7 +240,7 @@ exports.connection = (io, socket) => {
     const users = [];
     //채팅룸에 접속한 socket.id값을 찾아야함
     const clients = io.sockets.adapter.rooms.get(room);
-    //console.log(clients);
+    console.log(clients);
     if (clients) {
       clients.forEach((socketId) => {
         //io.sockets.sockets: socket.id가 할당한 변수들의 객체값

@@ -137,6 +137,7 @@
           }).then((result) => {
             result1 = result;
             console.log(result1.data.user.id);
+            sessionStorage.setItem("userId", result1.data.user.id);
           });
         } else {
           console.log("로그인 실패");

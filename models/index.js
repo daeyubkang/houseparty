@@ -21,6 +21,7 @@ db.ChatMessage = require("./ChatMessage")(sequelize);
 
 db.Amenities = require("./Amenities")(sequelize);
 db.Tags = require("./Tags")(sequelize);
+db.Images = require("./Images")(sequelize);
 
 // const model = require('./User');
 // const temp = model(sequelize);
@@ -35,6 +36,14 @@ db.Parties.belongsTo(db.Users);
 
 db.Chat.hasMany(db.ChatMessage);
 db.ChatMessage.belongsTo(db.Chat);
+
+db.Parties.hasMany(db.Images, {
+  foreignKey: "party_num",
+});
+db.Images.belongsTo(db.Parties, {
+  foreignKey: "party_num",
+  onDelete: "CASCADE",
+});
 
 //다대다
 

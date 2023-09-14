@@ -177,3 +177,16 @@ body {
 .was-validated .form-control:invalid {
   background-image: none;
 }
+
+.ags {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.tag {
+  border-radius: 10%;
+  background-color: #bf2c4750;
+  margin-right: 3px;
+}

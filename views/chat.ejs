@@ -6,7 +6,6 @@
     <title>Document</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/public/css/main.css" />
     <!-- 아이콘 링크 -->
     <script
       src="https://kit.fontawesome.com/3191b0c349.js"
@@ -22,6 +21,7 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/public/css/main.css" />
     <style>
       /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
       #msg::-webkit-scrollbar {
@@ -32,14 +32,19 @@
       }
       /* 스크롤바 생성 */
       #msg {
-        height: 91%;
+        margin-top: 5px;
+        height: 81%;
         overflow-y: scroll;
       }
+      #main {
+        height: 78vh;
+        width: 80%;
+      }
       #body {
-        margin-top: 20px;
-        width: 80vw;
+        margin-top: 5px;
+        width: 69vw;
         max-width: 800px;
-        height: 70vh;
+        height: 78vh;
         position: relative;
         background: #7d8d86;
         overflow-y: scroll;
@@ -106,10 +111,10 @@
       }
       #lists li {
         margin-top: 20px;
-        width: 60vw;
-        max-width: 800px;
         display: flex;
         align-items: center;
+        border-bottom: solid 1px black;
+        padding-bottom: 20px;
       }
       #lists button {
         width: 80px;
@@ -131,6 +136,7 @@
       }
       #chatProfile {
         width: 50px;
+        height: 50px;
         border-radius: 50%;
         background-color: beige;
         text-align: center;
@@ -146,62 +152,113 @@
         background-color: beige;
         text-align: center;
       }
+      #userTitle {
+        display: flex;
+      }
+      #participantNum {
+        border-radius: 40%;
+        opacity: 40%;
+      }
+      #full {
+        width: 80%;
+        justify-content: space-around;
+      }
+      @media screen and (max-width: 800px) {
+        #full {
+          flex-direction: column;
+          align-items: center;
+          width: 550px;
+        }
+        #partymain {
+          width: 60%;
+        }
+        #chatmain {
+          width: 70%;
+          margin-right: 10%;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+        }
+      }
+      @media screen and (min-width: 800px) {
+        #partymain {
+          height: 78vh;
+          width: 30%;
+        }
+        #chatmain {
+          width: 70%;
+        }
+        #userTitle {
+          display: flex;
+          padding-left: 2rem;
+        }
+      }
+      a:hover {
+        color: black;
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
     <%- include('./static/topBar') %>
     <br />
 
-    <div id="album" class="album py-5 bg-body-tertiary">
-      <div class="container">
-        <button
-          id="chatListButton"
-          hidden
-          onclick="chatList()"
-          class="btn btn-secondary"
-        >
-          채팅 목록 보기
-        </button>
-        <br />
+    <!-- <div id="album" class="album py-5 bg-body-tertiary"> -->
+    <!-- <div class="container"> -->
+    <div id="full" style="display: flex">
+      <div id="partymain">
+        <h2>
+          <h5
+            style="
+              margin-top: 15px;
+              font-size: medium;
+              margin-left: 5px;
+              font-weight: bold;
+            "
+          >
+            참여 파티
+          </h5>
+        </h2>
+        <ul id="myRoomTitle" class="list-group"></ul>
+      </div>
+      <div id="main" class="chatmain">
+        <h2 id="userTitle"></h2>
+        <ul id="lists"></ul>
+      </div>
 
-        <div id="main">
-          <h2 id="userTitle"></h2>
-          <ul id="lists"></ul>
-        </div>
-
-        <div id="body" hidden>
-          <div id="msg">
-            <div id="notice"></div>
-            <div id="messages"></div>
-            <!-- <div class="my-chat">
+      <div id="body" hidden>
+        <div
+          id="exitButton"
+          style="background-color: darkgray; display: flex"
+        ></div>
+        <div id="msg">
+          <div id="notice"></div>
+          <div id="messages"></div>
+          <!-- <div class="my-chat">
               <p>채팅테스트(나)</p>
           </div>
           <div class="other-chat">
               <p>채팅테스트(상대방)</p>
           </div> -->
-          </div>
-          <div id="chat">
-            <button
-              class="btn btn-danger"
-              id="invite"
-              onclick="invite()"
-              hidden
-            >
-              초대
-            </button>
-            <input
-              class="col-form-label"
-              type="text"
-              id="message"
-              placeholder="메세지 입력"
-            />
-            <button class="btn btn-warning" id="chatFormButton">
-              <i class="fa-solid fa-paper-plane"></i>
-            </button>
-          </div>
+        </div>
+        <div id="chat">
+          <button class="btn btn-danger" id="invite" onclick="invite()" hidden>
+            초대
+          </button>
+          <input
+            class="col-form-label"
+            type="text"
+            id="message"
+            placeholder="메세지 입력"
+          />
+          <button class="btn btn-warning" id="chatFormButton">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
         </div>
       </div>
     </div>
+    <!-- </div> -->
+    <!-- </div> -->
 
     <%- include('./static/bottomBar') %>
 
@@ -215,12 +272,13 @@
       const partiesDataId = partiesData.split(",")[1];
 
       (function () {
+        userId = sessionStorage.getItem("userId");
         console.log(partiesDataId);
         console.log(userId);
 
         document.querySelector(
           "#userTitle"
-        ).innerHTML = `${userId}님의 채팅목록`;
+        ).innerHTML = `<b>${userId}</b> <h5 style="margin-top: 15px;font-size: small; margin-left: 5px;">님의 채팅목록</h5>`;
         let result1 = "";
         const local = sessionStorage.getItem("token");
         console.log(local);
@@ -243,10 +301,11 @@
           alert("로그인 하세요");
           location.href = "/main";
         }
+        let myRoomList = [];
         //룸리스트
         userId = sessionStorage.getItem("userId");
         console.log(userId);
-        socket.emit("roomList", userId, (roomList) => {
+        socket.emit("roomList", userId, async (roomList) => {
           console.log("roomList", roomList);
           const lists = document.querySelector("#lists");
           lists.textContent = "";
@@ -262,26 +321,59 @@
             }
 
             console.log(roomList.participant.length);
+            console.log(roomList);
             const li = document.createElement("li");
             if (roomList.roomName[0] == "단") {
+              myRoomList.push(roomList.roomID);
               li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-                                <div class="fw-bold">${par}</div>
-                                  ${roomList.roomName}
-                                </div>
-                                <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
-                              `;
+                                  <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
+                                  <a id="a1" style="text-decoration: none;
+      color: darkgray;" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
+                                  </div>
+                                  <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+                                `;
+              let a1 = li.querySelector("a");
+              a1.addEventListener("mouseover", function () {
+                // hover 시 적용할 스타일을 여기에 정의하세요
+                a1.style.textDecoration = "underline";
+                a1.style.color = "black";
+                a1.style.fontWeight = "bold";
+              });
+              a1.addEventListener("mouseout", function () {
+                // hover 종료 시 원래 스타일로 돌아가게 하려면
+                a1.style.textDecoration = "none";
+                a1.style.color = "darkgray";
+              });
             } else {
               li.innerHTML = `<img src="${roomList.imgURL}" alt="${par}" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-        <div class="fw-bold">${par}</div>
-        ${roomList.roomName}
-      </div>
-      <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
-      `;
+          <div class="fw-bold">[1:1] ${par}</div>
+          <a style=" text-decoration: none;
+      color: darkgray;" href="/parties/${roomList.roomID}" class="card-link">게시글 바로가기</a>
+        </div>
+        <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+        `;
+              let a1 = li.querySelector("a");
+              a1.addEventListener("mouseover", function () {
+                // hover 시 적용할 스타일을 여기에 정의하세요
+                a1.style.textDecoration = "underline";
+                a1.style.color = "black";
+                a1.style.fontWeight = "bold";
+              });
+              a1.addEventListener("mouseout", function () {
+                // hover 종료 시 원래 스타일로 돌아가게 하려면
+                a1.style.textDecoration = "none";
+                a1.style.color = "darkgray";
+              });
             }
-
             // li.innerHTML = `roomName: ${roomList.roomName} 채팅상대: ${par} <button onclick="roomEnter('${roomList.roomName}')">채팅방입장</button>`;
             lists.appendChild(li);
           });
+
+          console.log("중복 제거 룸 리스트1", myRoomList);
+          const myRoomList2 = [...new Set(myRoomList)];
+          console.log(myRoomList2);
+
+          findTitle(myRoomList2);
         });
 
         // if (partiesDataId) {
@@ -316,6 +408,51 @@
         roomEnter(roomName1);
       }
 
+      //게시글 제목 조회 함수
+      function findTitle(room) {
+        console.log("게시글 제목 조회", room);
+        axios({
+          method: "post",
+          url: `/parties/findTitle`,
+          data: {
+            roomID: room,
+          },
+        }).then((result) => {
+          console.log(result.data.result);
+          const myRoomTitle = document.querySelector("#myRoomTitle");
+          for (let i of result.data.result) {
+            const targetDate = new Date(i.dDay);
+            // 현재 날짜를 구하기
+            const currentDate = new Date();
+            // 두 날짜 간의 시간 차이 계산 (밀리초 단위)
+            const timeDiff = targetDate - currentDate;
+            // 밀리초를 일로 변환
+            const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            console.log(`D-${daysRemaining}`);
+
+            const li = document.createElement("li");
+            li.className +=
+              "list-group-item d-flex justify-content-between align-items-center";
+            li.innerHTML = `<span style="font-weight: bold;">${i.title} </span><span style="margin-left: 10px;
+      margin-right: 10px;">D-${daysRemaining}</span><a href="/parties/${i.num}" style="text-decoration: none;
+      color: darkgray;"> 자세히</a>`;
+            let a1 = li.querySelector("a");
+            a1.addEventListener("mouseover", function () {
+              // hover 시 적용할 스타일을 여기에 정의하세요
+              a1.style.textDecoration = "underline";
+              a1.style.color = "black";
+              a1.style.fontWeight = "bold";
+            });
+            a1.addEventListener("mouseout", function () {
+              // hover 종료 시 원래 스타일로 돌아가게 하려면
+              a1.style.textDecoration = "none";
+              a1.style.color = "darkgray";
+            });
+            myRoomTitle.appendChild(li);
+          }
+        });
+      }
+
       function chatList() {
         // const main = document.querySelector("#main");
         // const body = document.querySelector("#body");
@@ -335,6 +472,16 @@
         console.log(name);
         const roomName = name;
         const userName = userId;
+        document.querySelector(
+          "#exitButton"
+        ).innerHTML = `<button style="width: 150px;opacity:60%;height: 34px;margin-left: 1%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px;"
+            id="chatListButton"
+            onclick="chatList()"
+            class="btn btn-secondary"
+          >
+            채팅 목록 보기
+          </button>
+          <button style="opacity:60%;width: 100px;height: 34px;margin-left: 59%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom(\'${name}\')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
         socket.emit(
           "create",
@@ -405,33 +552,23 @@
         }
         console.log("invite", otherID, partyNum);
         const ID = `단톡 게시글번호:${partyNum}`;
-        socket.emit(
-          "create",
-          ID,
-          userId,
-          partyNum,
-          `단톡 ${userId}`,
-          async () => {
-            console.log("방장 단톡 생성 완료");
-            await socket.emit(
-              "create",
-              ID,
-              otherID,
-              partyNum,
-              `단톡 ${userId}`,
-              () => {
-                console.log("초대 단톡 생성 완료");
-              }
-            );
-          }
-        );
+        socket.emit("create", ID, userId, partyNum, `단톡 ${userId}`, () => {
+          console.log("방장 단톡 생성 완료");
+          invite2(otherID);
+        });
+      }
 
-        const msg = {
-          nick: userId,
-          user: "all",
-          message: `${otherID} 단톡방 초대 완료! 채팅목록을 확인해주세요!`,
-        };
-        socket.emit("sendMessage", msg);
+      function invite2(otherID) {
+        const ID = `단톡 게시글번호:${partyNum}`;
+        socket.emit("create", ID, otherID, partyNum, `단톡 ${userId}`, () => {
+          console.log("초대 단톡 생성 완료");
+          const msg = {
+            nick: userId,
+            user: "all",
+            message: `${otherID} 단톡방 초대 완료! 채팅목록을 확인해주세요!`,
+          };
+          socket.emit("sendMessage", msg);
+        });
       }
 
       // let roomName1 = "";
@@ -493,7 +630,7 @@
           msg.appendChild(div);
         } else {
           div.classList.add("other-chat");
-          div.innerHTML = `<img src="${imgURL}" alt="${nick} id="chatProfile">`;
+          div.innerHTML = `<img src="${imgURL}" alt="${nick}" id="chatProfile">`;
           p.textContent = bool ? `(귓속말) ${nick} : ${message}` : `${message}`;
           div.appendChild(p);
           div.appendChild(span);
@@ -522,6 +659,47 @@
           prepareScroll();
         }
       });
+
+      // function exitChatRoom(roomname) {
+      //   const msg = {
+      //     nick: userId,
+      //     user: "all",
+      //     message: `${userId}님이 퇴장하였습니다.`,
+      //   };
+      //   socket.emit("sendMessage", msg)
+      //   socket.emit("disconnect1", userId, roomname, (res) => {
+      //     if (res) {
+      //       console.log("나가기 완료", res);
+      //       location.href = "/chat";
+      //     } else {
+      //       console.log("나가기 실패");
+      //     }
+      //   });
+      // }
+
+      async function exitChatRoom(roomname) {
+        try {
+          const msg = {
+            nick: userId,
+            user: "all",
+            message: `${userId}님이 퇴장하였습니다.`,
+          };
+          await socket.emit("sendMessage", msg);
+          const res = await new Promise((resolve) => {
+            socket.emit("disconnect1", userId, roomname, (result) => {
+              resolve(result);
+            });
+          });
+          if (res) {
+            console.log("나가기 완료", res);
+            location.href = "/chat";
+          } else {
+            console.log("나가기 실패");
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
       // 준비 함수, 약간의 시간을 두어 scroll 함수를 호출하기
       function prepareScroll() {
