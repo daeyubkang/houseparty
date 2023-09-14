@@ -42,7 +42,7 @@ body {
 .topBar {
   display: flex;
   margin-left: 20px;
-
+  width: 70%;
   position: fixed;
   z-index: 1000;
 }
