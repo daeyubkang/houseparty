@@ -6,16 +6,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/main.css" />
-    <!-- <link
-      rel="canonical"
-      href="https://getbootstrap.com/docs/5.3/examples/album/"
-    /> -->
-    <!-- <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-      crossorigin="anonymous"
-    /> -->
   </head>
   <body>
     <script>
@@ -27,14 +17,16 @@
           logoutButton.href = "#"; //클릭시 logout함수 호출
           logoutButton.textContent = "로그아웃";
           logoutButton.classList.add("logout");
+          logoutButton.style.color = "#ff0000"; // 로그아웃 버튼의 글자색을 변경
           loginBar.appendChild(logoutButton);
           logoutButton.addEventListener("click", logout);
         } else {
-          const logintButton = document.createElement("a");
-          logintButton.href = "/signin";
-          logintButton.textContent = "로그인";
-          logintButton.classList.add("signin");
-          loginBar.appendChild(logintButton);
+          const loginButton = document.createElement("a");
+          loginButton.href = "/signin";
+          loginButton.textContent = "로그인";
+          loginButton.classList.add("signin");
+          loginButton.style.color = "#ff0000";
+          loginBar.appendChild(loginButton);
         }
         function logout() {
           sessionStorage.removeItem("token");
@@ -49,17 +41,31 @@
         <div class="topBar-right">
           <p>
             <a href="/parties"
-              ><img src="/public/img/parties.svg" alt="" /><b>파티목록</b></a
+              ><img
+                src="/public/img/parties_white.png"
+                id="partiesImg"
+                width="20px"
+              /><b>파티목록</b></a
             >
           </p>
           <p>
             <a href="/chat"
-              ><img src="/public/img/chat.svg" alt="" /><b>채팅</b></a
+              ><img
+                src="/public/img/chat_white.png"
+                id="chatImg"
+                width="20px"
+                alt=""
+              /><b>채팅</b></a
             >
           </p>
           <p>
             <a href="/profile"
-              ><img src="/public/img/user.svg" alt="" /><b>마이페이지</b></a
+              ><img
+                src="/public/img/user_white.png"
+                id="userImg"
+                width="20px"
+                alt=""
+              /><b>마이페이지</b></a
             >
           </p>
           <p class="loginOrLogoutBtn"></p>
@@ -145,26 +151,42 @@
       })();
 
       // scroll event
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", () => {
         const navBarBg = document.querySelector(".topBarBg");
-        const topBarText = document.querySelectorAll(".topBarText");
         const howsPartyLink = document.querySelector(".howsParty");
+        const bTags = document.querySelectorAll(".topBar-right p a b");
+        const loginOrLogoutBtn = document.querySelector(".loginOrLogoutBtn");
+        const loginCheck = sessionStorage.getItem("token");
 
-        document.addEventListener("DOMContentLoaded", function () {
-          window.addEventListener("scroll", function () {
-            const navBarBg = document.querySelector(".topBarBg");
-            const howsPartyLink = document.querySelector(".howsParty");
+        // 이미지
+        const partiesImg = document.querySelector("#partiesImg");
+        const chatImg = document.querySelector("#chatImg");
+        const userImg = document.querySelector("#userImg");
 
-            if (window.scrollY > 0) {
-              navBarBg.style.backgroundColor = "#fff"; // 스크롤 내릴 때 배경색 변경
-              howsPartyLink.style.color = "#c94040"; // 스크롤 내릴 때 글자색 변경
-              topBarText.style.color = "#c94040"; // 스크롤 내릴 때 글자색 변경
-            } else {
-              navBarBg.style.backgroundColor = "transparent"; // 스크롤 올릴 때 배경색 원래대로
-              howsPartyLink.style.color = "#fff"; // 스크롤 올릴 때 글자색 원래대로
-              topBarText.style.color = "#fff"; // 스크롤 올릴 때 글자색 원래대로
-            }
-          });
+        window.addEventListener("scroll", function () {
+          if (window.scrollY > 0) {
+            // 스크롤을 아래로 내릴 때
+            navBarBg.style.backgroundColor = "#fff"; // 배경색을 흰색으로 변경
+            howsPartyLink.style.color = "#c94040"; // howsParty 글자색을 검정색으로 변경
+            bTags.forEach((bTag) => {
+              bTag.style.color = "#000"; // a 태그 안의 b 태그 글자색을 검정색으로 변경
+            });
+            loginOrLogoutBtn.style.color = "#000"; // loginOrLogoutBtn 글자색을 검정색으로 변경
+            partiesImg.src = "/public/img/parties.svg";
+            chatImg.src = "/public/img/chat.svg";
+            userImg.src = "/public/img/user.svg";
+          } else {
+            // 스크롤을 올릴 때
+            navBarBg.style.backgroundColor = "transparent"; // 배경색을 투명으로 변경
+            howsPartyLink.style.color = "#fff"; // howsParty 글자색을 원래 색으로 변경
+            bTags.forEach((bTag) => {
+              bTag.style.color = "#fff"; // a 태그 안의 b 태그 글자색을 원래 색으로 변경
+            });
+            loginOrLogoutBtn.style.color = "#fff"; // loginOrLogoutBtn 글자색을 원래 색으로 변경
+            partiesImg.src = "/public/img/parties_white.png";
+            chatImg.src = "/public/img/chat_white.png";
+            userImg.src = "/public/img/user_white.png";
+          }
         });
       });
 
