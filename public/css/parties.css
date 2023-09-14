@@ -282,8 +282,8 @@
 
 .writeButton {
   position: fixed; /* 화면 하단에 고정 */
-  bottom: calc(5% + 60px);
-  right: 17%;
+  bottom: calc(5% + 0px);
+  right: 5%;
   width: 130px;
   height: 40px;
   border: none;
