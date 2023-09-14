@@ -38,6 +38,7 @@
       }
       #main {
         height: 78vh;
+        width: 80%;
       }
       #body {
         margin-top: 5px;
@@ -110,8 +111,6 @@
       }
       #lists li {
         margin-top: 20px;
-        width: 60vw;
-        max-width: 800px;
         display: flex;
         align-items: center;
         border-bottom: solid 1px black;
@@ -160,6 +159,42 @@
         border-radius: 40%;
         opacity: 40%;
       }
+      #full {
+        width: 80%;
+        justify-content: space-around;
+      }
+      @media screen and (max-width: 800px) {
+        #full {
+          flex-direction: column;
+          align-items: center;
+          width: 550px;
+        }
+        #partymain {
+          width: 60%;
+          background: rgba(217, 217, 217, 0.3);
+        }
+        #chatmain {
+          width: 70%;
+          margin-right: 10%;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+        }
+      }
+      @media screen and (min-width: 800px) {
+        #partymain {
+          height: 78vh;
+          width: 30%;
+          background: rgba(217, 217, 217, 0.3);
+        }
+        #chatmain {
+          width: 70%;
+        }
+        #userTitle {
+          display: flex;
+          padding-left: 2rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -169,7 +204,7 @@
     <!-- <div id="album" class="album py-5 bg-body-tertiary"> -->
     <!-- <div class="container"> -->
     <div id="full" style="display: flex">
-      <div id="main">
+      <div id="partymain">
         <ul>
           <li>1</li>
           <li>2</li>
@@ -181,7 +216,7 @@
           <li>2</li>
         </ul>
       </div>
-      <div id="main">
+      <div id="chatmain" class="chatmain">
         <h2 id="userTitle"></h2>
         <ul id="lists"></ul>
       </div>
