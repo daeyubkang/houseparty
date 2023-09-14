@@ -4,14 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/public/css/signupHobby.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="../public/css/profile4.css" />
   </head>
   <body>
-    <div class="topBar">
-      <a class="howsParty" href="/main"> How's Party </a>
-    </div>
-
     <div class="container">
       <div class="select travel" id="travelSelect">
         <div class="icon travel">
@@ -77,13 +74,63 @@
       type="button"
       id="nextButton"
       class="nextButton"
-      onclick="postHobby()"
+      onclick="editHobby()"
     >
-      다음
+      수정하기
     </button>
 
     <script>
-      const token_signup = sessionStorage.getItem("token_signup");
+      let user;
+      // get
+      const token = sessionStorage.getItem("token");
+      console.log("token", token);
+      if (!token) {
+        alert("로그인을 먼저 하세요.");
+        window.location.href = "/signin";
+      } else {
+        window.onload = function getUser() {
+          axios({
+            method: "GET",
+            params: { token: token },
+            url: "profile4/info",
+          })
+            .then((res) => {
+              console.log("res");
+              user = res.data.user;
+              console.log("user", user);
+
+              pushProfile();
+            })
+            .catch((err) => {
+              console.error("Error", err);
+            });
+        };
+      }
+
+      // -------- input 태그에 정보 넣기 -------------
+      async function pushProfile() {
+        // user 데이터가 존재하는지 확인
+        if (user) {
+          // 사용자 데이터에서 필요한 정보 추출
+          const { hobby } = user;
+          // hobby가 문자열인 경우 쉼표로 분리하여 배열로 변환
+          const hobbyArray =
+            typeof hobby === "string"
+              ? hobby.split(",").map((item) => item.trim())
+              : hobby;
+          // 모든 select 요소에 대한 이벤트 리스너를 추가.
+          const selectElements = document.querySelectorAll(".select");
+
+          selectElements.forEach((select) => {
+            const button = select.querySelector(".choose");
+            if (button && hobbyArray.includes(button.value)) {
+              select.classList.add("active");
+            }
+          });
+        }
+      }
+
+      const token_signup = sessionStorage.getItem("token");
       console.log(token_signup);
 
       // 모든 select 요소에 대한 이벤트 리스너를 추가.
@@ -107,20 +154,20 @@
             .map((select) => select.querySelector(".choose").value);
 
           if (selectedValues.length > 0) {
-            postHobby(selectedValues);
+            editHobby(selectedValues);
           } else {
             alert("하나 이상의 취미를 선택하세요.");
           }
         });
 
-      async function postHobby(selectedHobbies) {
+      async function editHobby(selectedHobbies) {
         try {
           console.log("postHobby 실행", selectedHobbies);
           const hobbiesString = selectedHobbies.join(", ");
           console.log(hobbiesString);
           const res = await axios({
             method: "POST",
-            url: "/signup/hobby",
+            url: "/profile4/hobby",
             data: {
               hobby: hobbiesString,
               token: token_signup,
@@ -128,8 +175,8 @@
           });
           console.log(res);
           if (res.data) {
-            alert("회원가입을 축하드립니다");
-            // document.location.href = "/signin";
+            alert("수정이 완료되었습니다.");
+            document.location.href = "/profile";
           }
         } catch (err) {
           console.log(err);

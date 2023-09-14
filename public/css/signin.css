@@ -3,133 +3,303 @@ body {
   flex-direction: column;
   align-items: center; /* 수직 가운데 정렬 */
   justify-content: center; /* 수평 가운데 정렬 */
-  background-color: #ffffff; /* 배경색을 추가하거나 필요에 따라 변경하세요. */
+  background-color: rgba(
+    217,
+    217,
+    217,
+    0.3
+  ); /* 배경색을 추가하거나 필요에 따라 변경하세요. */
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.container > form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 500px;
-}
-
 @media screen and (max-width: 800px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    background-color: rgba(255, 255, 255);
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container > form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 450px;
+    border-radius: 10px;
+    background-color: rgba(217, 217, 217, 0.3);
+  }
+
+  @media screen and (max-width: 800px) {
+    .top {
+      width: 270px;
+    }
+  }
+  .logo {
+    width: 212px;
+    height: 40px;
+    margin: 65px 74px 18px;
+    font-family: "Covered By Your Grace", cursive;
+    font-size: 45px;
+    color: #bf2c47;
+    text-align: center;
+  }
   .top {
-    width: 270px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  @media screen and (max-width: 800px) {
+    .top {
+      width: 270px;
+    }
+  }
+  .idBox {
+    width: 70%;
+    padding: 15px 15px 15px 15px;
+    border-radius: 10px 10px 0 0;
+
+    border-bottom: 0;
+    background-color: rgba(217, 217, 217, 0.5);
+    display: flex;
+  }
+
+  .top .id {
+    border: 0;
+    background-color: rgb(217 217 217 / 0%);
+    width: 100%;
+  }
+  .pwBox {
+    width: 70%;
+    padding: 15px 15px 15px 15px;
+
+    background-color: rgba(217, 217, 217, 0.5);
+    display: flex;
+    border-radius: 0 0 10px 10px;
+  }
+  .top .pw {
+    border: 0;
+    background-color: rgb(217 217 217 / 0%);
+    width: 100%;
+  }
+
+  @media screen and (max-width: 800px) {
+    .id {
+      width: 270px;
+    }
+    .pw {
+      width: 270px;
+    }
+  }
+  .loginButton {
+    width: 50%;
+    flex-grow: 0;
+    margin: 35px 39px 10px 48px;
+    padding: 15px 15px 15px 15px;
+    border-radius: 10px;
+    border: solid 1px #fff;
+    background-color: #bf2c47;
+    color: white;
+  }
+  .loginButton:hover {
+    background-color: #791a2c;
+  }
+  .signup {
+    width: 70px;
+    height: 16px;
+    margin: 20px 275px 0 37px;
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+  .signup:hover {
+    font-weight: bold;
+  }
+  .find {
+    margin: 10px 203px 0 37px;
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+  @media screen and (max-width: 800px) {
+    .signup {
+      margin: 20px 235px 0 77px;
+    }
+    .find {
+      margin: 10px 163px 0 77px;
+    }
+  }
+  .find:hover {
+    font-weight: bold;
+  }
+  .loginButton:hover {
+    cursor: pointer;
   }
 }
-.logo {
-  width: 212px;
-  height: 40px;
-  margin: 65px 74px 18px;
-  font-family: "Covered By Your Grace", cursive;
-  font-size: 45px;
-  color: #bf2c47;
-  text-align: center;
-}
-.top {
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 30px;
-  width: 100%;
-}
-@media screen and (max-width: 800px) {
+
+@media screen and (min-width: 800px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container > form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 450px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+  }
+
+  @media screen and (max-width: 800px) {
+    .top {
+      width: 270px;
+    }
+  }
+  .logo {
+    width: 212px;
+    height: 40px;
+    margin: 65px 74px 18px;
+    font-family: "Covered By Your Grace", cursive;
+    font-size: 45px;
+    color: #bf2c47;
+    text-align: center;
+  }
   .top {
-    width: 270px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
   }
-}
-.idBox {
-  width: 100%;
-  padding: 15px 15px 15px 15px;
-  border-radius: 10px 10px 0 0;
-  border: solid 1px #000;
-  border-bottom: 0;
-  background-color: rgba(217, 217, 217, 0.5);
-  display: flex;
-}
+  @media screen and (max-width: 800px) {
+    .top {
+      width: 270px;
+    }
+  }
+  .idBox {
+    width: 70%;
+    padding: 15px 15px 15px 15px;
+    border-radius: 10px 10px 0 0;
 
-.top .id {
-  border: 0;
-  background-color: rgb(217 217 217 / 0%);
-  width: 100%;
-}
-.pwBox {
-  width: 100%;
-  padding: 15px 15px 15px 15px;
-  border: solid 1px #000;
-  background-color: rgba(217, 217, 217, 0.5);
-  display: flex;
-  border-radius: 0 0 10px 10px;
-}
-.top .pw {
-  border: 0;
-  background-color: rgb(217 217 217 / 0%);
-  width: 100%;
-}
+    border-bottom: 0;
+    background-color: rgba(217, 217, 217, 0.5);
+    display: flex;
+  }
 
-@media screen and (max-width: 800px) {
-  .id {
-    width: 270px;
+  .top .id {
+    border: 0;
+    background-color: rgb(217 217 217 / 0%);
+    width: 100%;
   }
-  .pw {
-    width: 270px;
+  .pwBox {
+    width: 70%;
+    padding: 15px 15px 15px 15px;
+
+    background-color: rgba(217, 217, 217, 0.5);
+    display: flex;
+    border-radius: 0 0 10px 10px;
+  }
+  .top .pw {
+    border: 0;
+    background-color: rgb(217 217 217 / 0%);
+    width: 100%;
+  }
+
+  @media screen and (max-width: 800px) {
+    .id {
+      width: 270px;
+    }
+    .pw {
+      width: 270px;
+    }
+  }
+  .loginButton {
+    width: 50%;
+    flex-grow: 0;
+    margin: 35px 39px 10px 48px;
+    padding: 15px 15px 15px 15px;
+    border-radius: 10px;
+    border: solid 1px #fff;
+    background-color: #bf2c47;
+    color: white;
+  }
+  .loginButton:hover {
+    background-color: #791a2c;
+  }
+  .signup {
+    width: 70px;
+    height: 16px;
+    margin: 20px 275px 0 37px;
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+  .signup:hover {
+    font-weight: bold;
+  }
+  .find {
+    margin: 10px 203px 0 37px;
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+  }
+  @media screen and (max-width: 800px) {
+    .signup {
+      margin: 20px 235px 0 77px;
+    }
+    .find {
+      margin: 10px 163px 0 77px;
+    }
+  }
+  .find:hover {
+    font-weight: bold;
+  }
+  .loginButton:hover {
+    cursor: pointer;
   }
 }
-.loginButton {
-  width: 270px;
-  flex-grow: 0;
-  margin: 35px 39px 10px 48px;
-  padding: 15px 15px 15px 15px;
-  border-radius: 10px;
-  border: solid 1px #fff;
-  background-color: #bf2c47;
-  color: white;
-}
-.loginButton:hover {
-  background-color: #791a2c;
-}
-.signup {
-  width: 70px;
-  height: 16px;
-  margin: 34px 262px 0 50px;
-  font-family: Inter;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-  text-decoration: none;
-}
-.signup:hover {
-  font-weight: bold;
-}
-.find {
-  margin: 10px 190px 0 50px;
-  font-family: Inter;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #000;
-  text-decoration: none;
-}
-.find:hover {
-  font-weight: bold;
-}
-.loginButton:hover {
-  cursor: pointer;
+img {
+  margin-right: 15px;
 }
