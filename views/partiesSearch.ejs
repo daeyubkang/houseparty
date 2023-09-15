@@ -171,7 +171,7 @@
       // URL에서 'tag' 파라미터 값을 읽어옴
       const tagParam = getParameterByName("q");
 
-      sessionStorage.clear();
+      sessionStorage.removeItem("selectedTags");
       //태그 파라미터를 쉽표로 나누어 배열로 변환
       let selectedTags = tagParam ? tagParam.split(",") : [];
 

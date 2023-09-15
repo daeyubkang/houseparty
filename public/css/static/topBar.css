@@ -31,10 +31,8 @@ body {
   padding-left: 20px;
 
   background-color: #fff;
-  position: unset;
+  position: fixed;
   margin-bottom: 80px;
-
-
 
   display: flex;
   width: 100%;
