@@ -318,6 +318,7 @@ exports.findTitle = async (req, res) => {
       title: partyname.title,
       num: partyname.party_num,
       dDay: partyname.date,
+      host: partyname.id,
     });
   }
   res.send({ result: array });
