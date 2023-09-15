@@ -20,7 +20,7 @@ exports.search = async (req, res) => {
     const parties = await Parties.findAll({
       include: [Tags, Amenities, Images],
       where: {
-        [Op.and]: findWhere,
+        [Op.or]: findWhere,
       },
     });
     const allTags = await Tags.findAll({
