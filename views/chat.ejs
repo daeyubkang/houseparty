@@ -292,9 +292,9 @@
         console.log(userId);
 
         document.querySelector("#userTitle").innerHTML = `<b style="
-    font-size: x-large;
-    font-weight: bold;
-">${userId}</b> <h5 style="margin-top: 15px;font-size: small; margin-left: 5px;">님의 채팅목록</h5>`;
+          font-size: x-large;
+          font-weight: bold;
+      ">${userId}</b> <h5 style="margin-top: 15px;font-size: small; margin-left: 5px;">님의 채팅목록</h5>`;
         let result1 = "";
         const local = sessionStorage.getItem("token");
         console.log(local);
@@ -342,12 +342,12 @@
             if (roomList.roomName[0] == "단") {
               myRoomList.push(roomList.roomID);
               li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-                                  <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
-                                  <a id="a1" style="text-decoration: none;
-      color: darkgray;" href="/parties/${roomList.roomID}/" class="card-link">게시글 바로가기</a>
-                                  </div>
-                                  <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
-                                `;
+                                        <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
+                                        <a id="a1" style="text-decoration: none;
+            color: darkgray;" href="/parties/${roomList.roomID}/" class="card-link">게시글 바로가기</a>
+                                        </div>
+                                        <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+                                      `;
               let a1 = li.querySelector("a");
               a1.addEventListener("mouseover", function () {
                 // hover 시 적용할 스타일을 여기에 정의하세요
@@ -362,12 +362,12 @@
               });
             } else {
               li.innerHTML = `<img src="${roomList.imgURL}" alt="${par}" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
-          <div class="fw-bold">[1:1] ${par}</div>
-          <a style=" text-decoration: none;
-      color: darkgray; margin-top: 5px;" href="/parties/${roomList.roomID}/${roomList.participant[1]}" class="card-link">게시글 바로가기</a>
-        </div>
-        <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
-        `;
+                <div class="fw-bold">[1:1] ${par}</div>
+                <a style=" text-decoration: none;
+            color: darkgray; margin-top: 5px;" href="/parties/${roomList.roomID}/${roomList.participant[1]}" class="card-link">게시글 바로가기</a>
+              </div>
+              <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
+              `;
               let a1 = li.querySelector("a");
               a1.addEventListener("mouseover", function () {
                 // hover 시 적용할 스타일을 여기에 정의하세요
@@ -452,7 +452,7 @@
             li.className +=
               "list-group-item d-flex justify-content-between align-items-center";
             li.innerHTML = `<span style="font-weight: bold;">${i.title} </span><span>D-${daysRemaining}</span><a href="/parties/${i.num}/${i.host}" style="text-decoration: none;
-      color: darkgray;"> 자세히</a>`;
+            color: darkgray;"> 자세히</a>`;
             let a1 = li.querySelector("a");
             a1.addEventListener("mouseover", function () {
               // hover 시 적용할 스타일을 여기에 정의하세요
@@ -493,13 +493,13 @@
         document.querySelector(
           "#exitButton"
         ).innerHTML = `<button style="width: 150px;opacity:60%;height: 34px;margin-left: 1%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px;"
-            id="chatListButton"
-            onclick="chatList()"
-            class="btn btn-secondary"
-          >
-            채팅 목록
-          </button>
-          <button style="opacity:60%;width: 100px;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom(\'${name}\')" class="btn btn-danger">나가기</button>`;
+                  id="chatListButton"
+                  onclick="chatList()"
+                  class="btn btn-secondary"
+                >
+                  채팅 목록
+                </button>
+                <button style="opacity:60%;width: 100px;height: 34px;margin-left: 66%;margin-top: 4px;padding: 4px 4px;margin-bottom: 5px"; onclick="exitChatRoom(\'${name}\')" class="btn btn-danger">나가기</button>`;
         console.log(roomName, userName);
         socket.emit(
           "create",
@@ -614,10 +614,13 @@
               () => {
                 console.log("방장 단톡 생성 완료");
                 resolve();
+                // invite2(otherID);
+                setTimeout(function () {
+                  invite2(otherID);
+                }, 100);
               }
             );
           });
-          await invite2(otherID);
         } catch (error) {
           console.error("Error in invite:", error);
         }
