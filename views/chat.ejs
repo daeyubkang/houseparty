@@ -344,7 +344,7 @@
               li.innerHTML = `<img src="/public/img/chat.png" alt="단체톡" id="chatListProfile"><div id="chatListdiv" class="ms-2 me-auto">
                                         <div class="fw-bold">[단톡] ${par} <span class="border border-secondary" id="participantNum">${roomList.participant_num}</span></div>
                                         <a id="a1" style="text-decoration: none;
-            color: darkgray;" href="/parties/${roomList.roomID}/" class="card-link">게시글 바로가기</a>
+            color: darkgray;" href="/parties/${roomList.roomID}/${roomList.participant[1]}" class="card-link">게시글 바로가기</a>
                                         </div>
                                         <button type="button" class="btn btn-danger" onclick="roomEnter('${roomList.roomName}')">입장</button>
                                       `;
