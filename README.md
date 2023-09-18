@@ -12,12 +12,15 @@
 > 팀원 : 강동호
 >
   > https://github.com/DongHo-Kang
+> 
 > 팀원 : 강대엽
 >
   > https://github.com/daeyubkang
+> 
 > 팀원 : 전예인
 >
   > https://github.com/chiligaji
+> 
 ## 프로젝트 소개
 하우스 파티를 하고 싶은 사람들을 위한 플랫폼
 
