@@ -56,13 +56,12 @@ Development
 API
 
 ![카카오 로고](https://img.shields.io/badge/kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=white)
-![Naver 로고](https://img.shields.io/badge/naver-%2303C75A?style=for-the-badge&logo=naver&logoColor=white)
 
 Communication
 
 ![Slack 로고](https://img.shields.io/badge/slack-%234A154B?style=for-the-badge&logo=slack&logoColor=white)
 
-##화면 구성
+## 화면 구성
 
 ![슬라이드8](https://github.com/DongHo-Kang/houseparty/assets/90906531/05884031-a0d3-469f-89bb-38655cac048e)
 
