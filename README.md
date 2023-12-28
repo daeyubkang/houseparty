@@ -90,7 +90,3 @@ Communication
 - 카카오 API를 활용한 주소 찾기
 - MVC 패턴 적용
 - 비밀번호 암호화(JWT)
-
-## 개발 일지 및 Notion
-- [개발 일지](https://dongho-kang.tistory.com/76)
-- [노션 정리](https://www.notion.so/How-s-Party-7d685372404c4b3c93fe147f19f853a7?pvs=4)
