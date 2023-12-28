@@ -3,7 +3,7 @@
 ## [포스코x코딩온] 두번째 프로젝트
 - 개발 기간: 23.08.31 ~ 23.09.15
 ## 배포 주소
-- http://54.227.251.13/123
+- [http://54.227.251.13/123](https://port-0-houseparty-deploy-32updzt2alpt74j9c.sel4.cloudtype.app/)
 ## 팀원
 > 팀장 : 진가영
 >
